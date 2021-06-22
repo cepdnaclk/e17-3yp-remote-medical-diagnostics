@@ -1,26 +1,27 @@
 {
     "team": [
         {
-            "name": "Team Member Name 1",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx",
-            "github_profile":"#",
-            "linkedin_profile":"#",
+            "name": "Kavindu Jayasooriya",
+            "email": "e17134@eng.pdn.ac.lk",
+            "eNumber": "E/17/134",
+            "github_profile":"https://github.com/KavinduJayas/",
+            "linkedin_profile":"https://www.linkedin.com/in/kavindu-jayasooriya
+",
             "website": "#"
         },
         {
-            "name": "Team Member Name 2",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx",
-            "github_profile":"#",
-            "linkedin_profile":"#",
+            "name": "Udith Senanayake",
+            "email": "e17318@eng.pdn.ac.lk",
+            "eNumber": "E/17/318",
+            "github_profile":"https://github.com/uaudith",
+            "linkedin_profile":"https://www.linkedin.com/in/uaudith/",
             "website": "#"
         },
         {
-            "name": "Team Member Name 3",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx",
-            "github_profile":"#",
+            "name": "Pasindu Marasinghe",
+            "email": "e17207@eng.pdn.ac.lk",
+            "eNumber": "E/17/207",
+            "github_profile":"https://github.com/pasindumarasinghe",
             "linkedin_profile":"#",
             "website": "#"
         }
