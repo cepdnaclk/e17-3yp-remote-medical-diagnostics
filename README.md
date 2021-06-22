@@ -1,5 +1,5 @@
 ___
-# DELETE THIS INSTRUCTIONS AND ADD AN INTRODUCTION ABOUT YOUR PROJECT
+# Remote Meidcal Diagnostics
 ___
 
 # eYY-3yp-project-template
