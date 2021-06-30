@@ -3,20 +3,20 @@ layout: home
 permalink: index.html
 
 # Please update this with your repository name and title
-repository-name: eYY-3yp-project-template
-title:
+repository-name: eYY-3yp-remote-medical-diagnostics
+title:  
 ---
 
 [comment]: # "This is the standard layout for the project, but you can clean this and use your own template"
-
-# Project Title
+  
+# Remote Medical Diagnostics System
 
 ---
 
 ## Team
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
--  eNumber, Name, [email](mailto:name@email.com)
+-  E/17/134, Kavindu Jayasooriya, [email](mailto:e17134@eng.pdn.ac.lk)
+-  E/17/318, Udith Senanayake, [email](mailto:e17318@eng.pdn.ac.lk)
+-  E/17/207, Pasindu Marasinghe, [email](mailto:e17207@eng.pdn.ac.lk)
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -39,6 +39,8 @@ This is a sample image, to show how to add images to your page. To learn more op
 
 
 ## Solution Architecture
+
+![high level diagram](./images/high-level-diagram.svg)
 
 High level diagram + description
 
