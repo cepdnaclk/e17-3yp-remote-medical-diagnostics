@@ -3,7 +3,7 @@ layout: home
 permalink: index.html
 
 repository-name: e17-3yp-remote-medical-diagnostics
-title:  
+title: 
 ---
 
 # Remote Medical Diagnostics System
@@ -36,8 +36,8 @@ What's available in the system:
 * Making appointments online 
 * Video Consultation.
 * Diagnostics device that reads commonly needed measurements
-    -Heartbeat sensing (clear audio with little to no background  noise)
-    -Temperature  sensing ( 5&deg;C tolerance)
+    - Heartbeat sensing (clear audio with little to no background  noise)
+    - Temperature  sensing ( 5&deg;C tolerance)
 * Ability to handle the device via software and hardware
 * Real-Time  measurements.   
 * Getting valid prescriptions from the doctor	    
