@@ -11,9 +11,9 @@ title:
 ---
 
 ## Team
--  E/17/134, Kavindu Jayasooriya, [email](mailto:e17134@eng.pdn.ac.lk)
--  E/17/318, Udith Senanayake, [email](mailto:e17318@eng.pdn.ac.lk)
--  E/17/207, Pasindu Marasinghe, [email](mailto:e17207@eng.pdn.ac.lk)
+-  E/17/134, Kavindu Jayasooriya, [e17134@eng.pdn.ac.lk](mailto:e17134@eng.pdn.ac.lk)
+-  E/17/318, Udith Senanayake, [e17318@eng.pdn.ac.lk](mailto:e17318@eng.pdn.ac.lk)
+-  E/17/207, Pasindu Marasinghe, [e17207@eng.pdn.ac.lk](mailto:e17207@eng.pdn.ac.lk)
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -37,7 +37,7 @@ What's available in the system:
 * Video Consultation.
 * Diagnostics device that reads commonly needed measurements
     - Heartbeat sensing (clear audio with little to no background  noise)
-    - Temperature  sensing ( 5&deg;C tolerance)
+    - Temperature  sensing ( 0.5&deg;C tolerance)
 * Ability to handle the device via software and hardware
 * Real-Time  measurements.   
 * Getting valid prescriptions from the doctor	    
@@ -51,7 +51,7 @@ What's available in the system:
 ![high level diagram](./images/high-level-diagram.png)
 
 ## Hardware and Software Designs
-
+![device breakdown](./images/device-breakdown.png)
 Detailed designs with many sub-sections
 
 ## Testing
@@ -62,10 +62,15 @@ Testing done on hardware and software, detailed + summarized results
 
 All items and costs
 
-| Item          | Quantity  | Unit Cost  | Total  |
+| Item          | Quantity  | Unit Cost (Rs.)  | Total (Rs.) |
 | ------------- |:---------:|:----------:|-------:|
-| ATmega328P | 1         | 600 LKR     | 600 LKR |
+|ESP32 |1|1500|1500|
 | LM35 Temperature Sensor   | 1         | 110 LKR     | 110 LKR |
+| Pre-amplifier MAX4466 |1|500|500|
+|Condenser mic |CA0106|1|20|20|
+|Stethoscope|1|840|840|
+| Others|1|1500|1500|
+|||TOTAL|4470|
 
 ## Conclusion
 
@@ -81,5 +86,6 @@ Commercialization plans:
 
 - [Project Repository](https://github.com/cepdnaclk/{{ page.repository-name }}){:target="_blank"}
 - [Project Page](https://cepdnaclk.github.io/{{ page.repository-name}}){:target="_blank"}
+- [Survey Results](https://docs.google.com/forms/d/1sDb781OPwRVMzDbYPuDZniuY1GsKrwd6tm7-NLvUVZU/viewanalytics)
 - [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
 - [University of Peradeniya](https://eng.pdn.ac.lk/)
