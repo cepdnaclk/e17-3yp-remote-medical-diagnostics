@@ -1,5 +1,7 @@
 # Remote Meidcal Diagnostics
 
+![buiild test workflow](../../actions/workflows/build_test_react.yml/badge.svg)
+
 ---
 
 ### Introduction
