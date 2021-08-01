@@ -3,17 +3,48 @@ import logo from "./logo.svg";
 
 export interface LoginProps {}
 
-export interface LoginState {}
+export interface LoginState {
+  email: string;
+  pass: string;
+}
 
 class Login extends React.Component<LoginProps, LoginState> {
-  state = {};
+  state = {
+    email: "",
+    pass: "Password",
+  };
+  onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ email: event.currentTarget.value });
+    // console.log("email changed", event.currentTarget.value);
+  };
+  onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ pass: event.currentTarget.value });
+    // console.log("email changed", event.currentTarget.value);
+  };
+
+  isEmailCorrect = () => {
+    let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(this.state.email);
+  };
+  handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = (e) => {
+    e.preventDefault();
+    // console.log("form state", this.state);
+
+    window.alert(`Email = ${this.state.email}\n Password = ${this.state.pass}`);
+  };
   render() {
     return (
       <main className="container  text-center">
         <div className="row justify-content-md-center align-items-center login-form">
           <div className="col col-lg-4 col-md-6 col-12">
-            <form>
-              <img className="mb-4" src={logo} alt="" width="72" height="57" />
+            <form onSubmit={this.handleSubmit}>
+              <img
+                className="mb-4"
+                src={logo}
+                alt="our logo"
+                width="100"
+                height="100"
+              />
               <h1 className="h3 mb-3 fw-normal">Sign in to MedGenie</h1>
 
               <div className="form-floating">
@@ -21,7 +52,8 @@ class Login extends React.Component<LoginProps, LoginState> {
                   type="email"
                   className="form-control"
                   id="floatingInput"
-                  placeholder="name@example.com"
+                  placeholder={this.state.email}
+                  onChange={this.onEmailChange}
                 />
                 <label htmlFor="floatingInput">Email address</label>
               </div>
@@ -30,7 +62,8 @@ class Login extends React.Component<LoginProps, LoginState> {
                   type="password"
                   className="form-control"
                   id="floatingPassword"
-                  placeholder="Password"
+                  placeholder={this.state.pass}
+                  onChange={this.onPasswordChange}
                 />
                 <label htmlFor="floatingPassword">Password</label>
               </div>
@@ -41,7 +74,11 @@ class Login extends React.Component<LoginProps, LoginState> {
                   <input className="m-2" type="checkbox" value="remember-me" />
                 </label>
               </div>
-              <button className="w-100 btn btn-lg btn-primary" type="submit">
+              <button
+                className="w-100 btn btn-lg btn-primary"
+                type="submit"
+                disabled={!this.isEmailCorrect()}
+              >
                 Sign in
               </button>
             </form>
