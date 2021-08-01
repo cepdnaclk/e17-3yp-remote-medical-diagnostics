@@ -1,6 +1,7 @@
 # Remote Meidcal Diagnostics
 
-![buiild test workflow](../../actions/workflows/build_test_react.yml/badge.svg)
+![buiild test frontend](../../actions/workflows/build_test_react.yml/badge.svg)&nbsp;
+![buiild test backend](../../actions/workflows/build_test_node.js.yml/badge.svg)
 
 ---
 
