@@ -164,6 +164,10 @@ All items and costs according to the current plan: (might change in the future)
 | Others|1|1500|1500|
 |||TOTAL|4470|
 
+## Project Timeline
+
+![timeline](./images/gaant_chart.png)
+
 ## Conclusion
 
 <!-- 
