@@ -1,4 +1,4 @@
-name: Build & test react app
+name: Build & test Front-end
 
 # Controls when the workflow will run
 on:
