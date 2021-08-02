@@ -1,7 +1,8 @@
 import * as React from "react";
+import { RouteComponentProps } from "react-router-dom";
 import logo from "./logo.svg";
 
-export interface LoginProps {}
+export interface LoginProps extends RouteComponentProps {}
 
 export interface LoginState {
   email: string;
@@ -28,6 +29,7 @@ class Login extends React.Component<LoginProps, LoginState> {
   };
   handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = (e) => {
     e.preventDefault();
+    this.props.history.push("/home");
     // console.log("form state", this.state);
 
     window.alert(`Email = ${this.state.email}\n Password = ${this.state.pass}`);
