@@ -17,4 +17,5 @@ app.listen(port, host, () => {
     log.info(`server listening at port ${port} of host ${host}`);
 
     connect();
+    routes(app);
 });
