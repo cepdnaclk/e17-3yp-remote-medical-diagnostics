@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { RootState } from "./Store";
+import { RootState } from "../Store";
 
 export interface PatientHomeProps {}
 export interface PatientHomeState {}

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
-import Login from "./Login";
+import Login from "../components/Login";
 import { Provider } from "react-redux";
-import Store from "./Store";
+import Store from "../Store";
 import { MemoryRouter, Route } from "react-router-dom";
 
 test("renders sign in component", () => {

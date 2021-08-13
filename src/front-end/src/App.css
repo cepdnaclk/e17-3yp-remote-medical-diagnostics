@@ -40,3 +40,16 @@
 .login-form {
   height: 90vh;
 }
+
+/* sidebar related */
+.sidebar {
+  position: absolute;
+  left: -180px;
+  height: 100%;
+  width: 280px;
+  transition: left 0.3s ease-in-out;
+  background-color: white;
+}
+.sidebar.open {
+  left: 0;
+}
