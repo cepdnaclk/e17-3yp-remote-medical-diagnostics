@@ -12,7 +12,7 @@ function App() {
     <Provider store={Store}>
       <MemoryRouter
         initialEntries={["/login", "/home", "/test"]}
-        initialIndex={2}
+        initialIndex={1}
       >
         <div>
           <Route path="/login" component={Login} />
