@@ -1,33 +1,34 @@
 import * as React from "react";
+import { connect, ConnectedProps } from "react-redux";
 import "../App.css";
+import { toggle } from "../globalStates/SidebarState";
 import logo from "../logo.svg";
-import SidebarItem from "./sidebarItem";
-export interface SidebarProps {}
+import { RootState } from "../Store";
 
-export interface SidebarState {
-  isExpanded: boolean;
+export interface SidebarProps {
+  children: React.ReactElement[];
 }
+type props = SidebarProps & PropsFromRedux;
+export interface SidebarState {}
 
-class Sidebar extends React.Component<SidebarProps, SidebarState> {
-  state = {
-    isExpanded: true,
-  };
+class Sidebar extends React.Component<props, SidebarState> {
+  state = {};
   expandStatus = (): string => {
-    const { isExpanded } = this.state;
-    let expansion = isExpanded ? "sidebar open" : "sidebar";
-    return expansion + " d-flex flex-column flex-shrink-0 p-3 text-white";
+    let expansion = this.props.isExpanded ? "sidebar open" : "sidebar";
+    return (
+      expansion +
+      " d-flex flex-column flex-shrink-0 p-3 text-black bg-light shadow-lg"
+    );
   };
   handleToggle: React.MouseEventHandler<HTMLButtonElement> = () => {
-    this.setState({
-      isExpanded: !this.state.isExpanded,
-    });
+    this.props.dispatch(toggle());
   };
   render() {
     return (
       <div className={this.expandStatus()}>
         <a
           href="/"
-          className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none row ms-2 "
+          className="d-flex align-items-center mb-3 mb-md-0 me-md-auto  text-decoration-none row ms-2 "
         >
           <span className="fs-3 col">MedGenie</span>
           <img
@@ -50,4 +51,12 @@ class Sidebar extends React.Component<SidebarProps, SidebarState> {
   }
 }
 
-export default Sidebar;
+function mapStateToProps(state: RootState) {
+  return {
+    isExpanded: !state.sidebar.isCollapsed,
+  };
+}
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(Sidebar);

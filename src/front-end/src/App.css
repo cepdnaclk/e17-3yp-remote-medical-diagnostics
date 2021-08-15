@@ -48,7 +48,7 @@
   height: 100%;
   width: 280px;
   transition: left 0.4s ease-out;
-  background-color: #4285f4;
+  /* background-color: #ffffff; */
 }
 .sidebar.open {
   left: 0;

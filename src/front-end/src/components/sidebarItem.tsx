@@ -10,12 +10,18 @@ class SidebarItem extends React.Component<SidebarItemProps, SidebarItemState> {
     return (
       <li className="nav-item mb-2">
         <a
-          href="#"
+          href="/"
           className="nav-link active d-flex  align-items-center"
           aria-current="page"
         >
           <span>Home</span>
-          <img className="d-inline ms-auto" width="36" height="36" src={logo} />
+          <img
+            className="d-inline ms-auto"
+            width="36"
+            height="36"
+            src={logo}
+            alt="icon"
+          />
         </a>
       </li>
     );
