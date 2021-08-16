@@ -1,6 +1,8 @@
 import * as React from "react";
-import logo from "../logo.svg";
-export interface SidebarItemProps {}
+export interface SidebarItemProps {
+  name: string;
+  icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+}
 
 export interface SidebarItemState {}
 
@@ -11,16 +13,15 @@ class SidebarItem extends React.Component<SidebarItemProps, SidebarItemState> {
       <li className="nav-item mb-2">
         <a
           href="/"
-          className="nav-link active d-flex  align-items-center"
+          className="nav-link active d-flex  align-items-center  "
           aria-current="page"
         >
-          <span>Home</span>
-          <img
+          <span>{this.props.name}</span>
+          <this.props.icon
             className="d-inline ms-auto"
-            width="36"
-            height="36"
-            src={logo}
-            alt="icon"
+            fill="white"
+            width="16px"
+            height="16px"
           />
         </a>
       </li>

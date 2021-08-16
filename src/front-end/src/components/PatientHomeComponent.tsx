@@ -3,6 +3,10 @@ import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../Store";
 import Sidebar from "./sidebar";
 import SidebarItem from "./sidebarItem";
+import { ReactComponent as Home } from "../icons/home.svg";
+import { ReactComponent as Appointment } from "../icons/appointment.svg";
+import { ReactComponent as Doctor } from "../icons/doctor.svg";
+import { ReactComponent as CreditCard } from "../icons/creditCard.svg";
 
 export interface PatientHomeProps {}
 export interface PatientHomeState {}
@@ -13,10 +17,20 @@ class PatientHome extends React.Component<props, PatientHomeState> {
   render() {
     return (
       // <h2>Good Morning {this.props.firstName} </h2>
-      <Sidebar>
-        <SidebarItem />
-        <SidebarItem />
-      </Sidebar>
+      <div className="d-flex">
+        <div className="d-flex flex-column flex-shrink-0 text-white">
+          <Sidebar>
+            <SidebarItem name="Home" icon={Home} />
+            <SidebarItem name="Appointments" icon={Appointment} />
+            <SidebarItem name="Doctors" icon={Doctor} />
+            <SidebarItem name="Payments" icon={CreditCard} />
+          </Sidebar>
+        </div>
+        <div className="flex-column">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur,
+          facilis.
+        </div>
+      </div>
     );
   }
 }

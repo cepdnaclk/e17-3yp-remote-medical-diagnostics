@@ -43,13 +43,20 @@
 
 /* sidebar related */
 .sidebar {
-  position: absolute;
-  left: -180px;
-  height: 100%;
+  /* position: absolute;
+  left: -180px; */
+  /* display: flex; */
+  height: 100vh;
   width: 280px;
-  transition: left 0.4s ease-out;
+  transition: width 0.4s ease-out;
+
   /* background-color: #ffffff; */
 }
-.sidebar.open {
-  left: 0;
+.closed {
+  width: 4.5rem;
+}
+
+.sidebar.closed span {
+  display: none;
+  /* transition: display 5s ease; */
 }
