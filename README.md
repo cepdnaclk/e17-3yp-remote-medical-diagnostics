@@ -11,7 +11,7 @@ People have to face a lot of challenges when they want to see a doctor, from hav
 
 ### Quick Navigation
 
-- [Front-end Source](src/front-end/README.md)
+- [Front-end Source](src/front-end/)
 - [Back-end Source](src/back-end/)
 
 ### More Information
