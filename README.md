@@ -1,4 +1,4 @@
-# Remote Meidcal Diagnostics
+# Remote Medical Diagnostics
 
 ![buiild test frontend](../../actions/workflows/build_test_react.yml/badge.svg)&nbsp;
 ![buiild test backend](../../actions/workflows/build_test_node.js.yml/badge.svg)
@@ -11,8 +11,8 @@ People have to face a lot of challenges when they want to see a doctor, from hav
 
 ### Quick Navigation
 
-- [Front-end Source](src/front-end/README.md)
-- [Back-end Source](#)
+- [Front-end Source](src/front-end/)
+- [Back-end Source](src/back-end/)
 
 ### More Information
 

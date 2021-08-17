@@ -17,15 +17,26 @@ title:
 
 ## Table of Contents
 1. [Introduction](#introduction)
+
 2. [Solution Architecture](#solution-architecture )
+
 3. [Hardware & Software Designs](#hardware-and-software-designs)
-4. [UI Designs](#ui-designs)
-5. [Testing](#testing)
-6. [Detailed budget (tentative)](#detailed-budget)
-7. [Project Timeline](#project-timeline)
-8. [Conclusion (will be available after testing)](#conclusion)
-9. [Supervisors](#supervisors)
-10. [Links](#links)
+    - [Hardware Components](#hardware-components)
+    - [Circuit Designs](#circuit-designs)
+    - [Software Tools](#software-tools)
+    - [UI Designs](#ui-designs)
+
+4. [Testing](#testing)
+
+5. [Detailed budget (tentative)](#detailed-budget)
+
+6. [Project Timeline](#project-timeline)
+
+7. [Conclusion (will be available after testing)](#conclusion)
+
+8. [Supervisors](#supervisors)
+
+9. [Links](#links)
 
 ---
 
@@ -52,13 +63,12 @@ What's available in the system:
 * User experiences and reviews for a doctor
 
 ### Who is it for?
-<!-- non-breaking space ASCII character (to insert a newline)-->
-&nbsp;
 
 As an individual patient one simply have to sign up and log on to our system to meet verified doctors with audio conferencing; for a more accurate diagnosis, our medical device can be used. Hospitals can use our system to manage doctor-patient communication remotely by getting the platform set up along with their existing systems. Individual doctors can use our system by going through a verification process that assesses the validity of their license to practice medicine ( Doctors, patients who are associated with a hospital that uses our system can directly use this platform ) 
 
 ## Solution Architecture (Proposed)
 &nbsp;
+<!-- non-breaking space ASCII character (to insert a newline)-->
 
 ![high level diagram](./images/high-level-diagram.png)
 
@@ -124,9 +134,33 @@ An on/off switch is available to power down the device
     - 4V - 30V (operating voltage)
 
 * __Amplifier__
-    - To increase signal-to-noise ratio and also as an unity gain buffer
+    - To increase signal-to-noise ratio and also as a unity gain buffer
     - Features excellent power supply rejection ratio (112 dB)
     - Excellent common-mode rejection ratio (126 dB)
+
+### Circuit Designs
+
+The following diagrams show the proposed designs for the prototype device: 
+
+* __Schematic Diagram__
+ ![circuit-schematic](../Designs/Models/circuit-schematic-diagram.png)
+ LM53: temprature sensor
+&nbsp;  
+    CAO106: electret condenser microphone
+&nbsp;  
+    NJM5532: low noise operational amplifier
+&nbsp;
+* __PCB Layout__
+ ![pcb-layout](../Designs/Models/circuit-PCB-layout.png)
+
+* __3D Model__
+ ![circuit-3d-model](../Designs/Models/circuit-3D-model.png)
+
+* __Design Decisions__
+    + I2C interface is utilized to allow connectivity for most of the common sphygmomanometers (blood pressure monitors)
+    + The built-in capacitive touch sensor capability is used to trigger the temperature sensor
+    + A bandpass filter is used to filter out the unwanted frequencies
+    + The low pass filter is set to lower frequencies than usual to better suit internal body sounds
 
 ### Software Tools and Technologies
 
