@@ -58,5 +58,5 @@
 
 .sidebar.closed span {
   display: none;
-  /* transition: display 5s ease; */
+  transition: display 0.4s ease-out;
 }

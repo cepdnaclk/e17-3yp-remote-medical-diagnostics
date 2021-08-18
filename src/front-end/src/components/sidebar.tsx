@@ -15,9 +15,7 @@ class Sidebar extends React.Component<props, SidebarState> {
   state = {};
   expandStatus = (): string => {
     let expansion = this.props.isExpanded ? "sidebar" : "sidebar closed";
-    return (
-      expansion + " d-flex flex-column p-3 text-black bg-light shadow-lg  "
-    );
+    return expansion + " flex-column  p-3 text-black bg-light shadow-lg  ";
   };
   handleToggle: React.MouseEventHandler<HTMLButtonElement> = () => {
     this.props.dispatch(toggle());
@@ -27,11 +25,11 @@ class Sidebar extends React.Component<props, SidebarState> {
       <div className={this.expandStatus()}>
         <a
           href="/"
-          className="d-flex align-items-center mb-3 mb-md-0 me-md-auto  text-decoration-none  ms-2 "
+          className="d-flex align-items-center mb-3 mb-md-0 me-md-auto  text-decoration-none "
         >
-          <span className="fs-3 col">MedGenie</span>
+          <span className="fs-3 ms-3 ">MedGenie</span>
           <img
-            className="d-inline ms-auto me-5"
+            className="d-inline "
             width="50"
             height="50"
             src={logo}
@@ -39,10 +37,10 @@ class Sidebar extends React.Component<props, SidebarState> {
           />
         </a>
         <hr />
-        <ul className="nav nav-pills flex-column mb-auto ">
+        <ul className="nav nav-pills flex-column mb-3 ">
           {this.props.children}
         </ul>
-        <button className="" onClick={this.handleToggle}>
+        <button className="mt-auto" onClick={this.handleToggle}>
           toggle
         </button>
       </div>

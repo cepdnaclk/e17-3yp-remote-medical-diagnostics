@@ -4,7 +4,7 @@ import Login from "./components/Login";
 import { MemoryRouter } from "react-router";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
-import PatientHome from "./components/PatientHomeComponent";
+import PatientMeta from "./components/PatientMetaComponent";
 import Sidebar from "./components/sidebar";
 
 function App() {
@@ -12,11 +12,11 @@ function App() {
     <Provider store={Store}>
       <MemoryRouter
         initialEntries={["/login", "/home", "/test"]}
-        initialIndex={1}
+        initialIndex={0}
       >
         <div>
           <Route path="/login" component={Login} />
-          <Route path="/home" component={PatientHome} />
+          <Route path="/home" component={PatientMeta} />
           <Route path="/test" component={Sidebar} />
         </div>
       </MemoryRouter>
