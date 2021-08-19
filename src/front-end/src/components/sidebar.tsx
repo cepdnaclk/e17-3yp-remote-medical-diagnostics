@@ -2,29 +2,28 @@ import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import "../App.css";
 import { toggle } from "../globalStates/SidebarState";
-import logo from "../logo.svg";
 import { RootState } from "../Store";
 import DropdownMenu from "./dropdownMenu";
+import { ReactComponent as ExpandIcon } from "../icons/expandIcon.svg";
 
 export interface SidebarProps {
   children: React.ReactElement[];
   username: string;
 }
 type props = SidebarProps & PropsFromRedux;
-export interface SidebarState {
-  dropdownExpanded: boolean;
-}
+export interface SidebarState {}
 
 class Sidebar extends React.Component<props, SidebarState> {
   state = {
-    dropdownExpanded: false,
+    sidebarExpanded: false,
   };
   expandStatus = (): string => {
     let expansion = "d-flex flex-column p-3 text-black bg-light shadow-lg ";
     return expansion + (this.props.isExpanded ? "sidebar" : "sidebar closed");
   };
-  handleToggle: React.MouseEventHandler<HTMLButtonElement> = () => {
+  handleToggle: React.MouseEventHandler = (e) => {
     this.props.dispatch(toggle());
+    e.preventDefault();
   };
 
   render() {
@@ -35,12 +34,11 @@ class Sidebar extends React.Component<props, SidebarState> {
           className="d-flex align-items-center justify-content-between mb-3 mb-md-0   text-decoration-none "
         >
           <span className="fs-3 ms-3 ">MedGenie</span>
-          <img
-            className="d-inline "
+          <ExpandIcon
+            className="d-inline bi"
             width="50"
             height="50"
-            src={logo}
-            alt="logo"
+            onClick={this.handleToggle}
           />
         </a>
         <hr />
@@ -48,11 +46,10 @@ class Sidebar extends React.Component<props, SidebarState> {
           {this.props.children}
         </ul>
         <hr />
-        <DropdownMenu username={this.props.username} />
-
-        <button className="mt-1" onClick={this.handleToggle}>
-          toggle
-        </button>
+        <DropdownMenu
+          username={this.props.username}
+          sidebarExpanded={this.props.isExpanded}
+        />
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from "react";
 
 export interface DropdownMenuProps {
   username: string;
+  sidebarExpanded: boolean;
 }
 
 export interface DropdownMenuState {
@@ -58,7 +59,9 @@ class DropdownMenu extends React.Component<
             width="32"
             height="32"
           />
-          <strong>{this.props.username}</strong>
+          {this.props.sidebarExpanded ? (
+            <strong>{this.props.username}</strong>
+          ) : null}
         </a>
 
         <ul
