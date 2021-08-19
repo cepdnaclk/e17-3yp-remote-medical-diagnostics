@@ -36,8 +36,8 @@ class Sidebar extends React.Component<props, SidebarState> {
           <span className="fs-3 ms-3 ">MedGenie</span>
           <ExpandIcon
             className="d-inline bi"
-            width="50"
-            height="50"
+            width="40"
+            height="40"
             onClick={this.handleToggle}
           />
         </a>

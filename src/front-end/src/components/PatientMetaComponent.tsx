@@ -8,10 +8,10 @@ import { ReactComponent as Home } from "../icons/home.svg";
 import { ReactComponent as Appointment } from "../icons/appointment.svg";
 import { ReactComponent as Doctor } from "../icons/doctor.svg";
 import { ReactComponent as CreditCard } from "../icons/creditCard.svg";
-import PatientHome from "./PatientHome";
-import PatientAppointments from "./PatientAppointments";
-import PatientDoctors from "./PatientDoctors";
-import PatientPayments from "./PatientPayments";
+import PatientHome from "./patient/PatientHome";
+import PatientAppointments from "./patient/PatientAppointments";
+import PatientDoctors from "./patient/PatientDoctors";
+import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
 
 export interface PatientHomeProps {}
