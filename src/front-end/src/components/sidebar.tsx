@@ -4,28 +4,35 @@ import "../App.css";
 import { toggle } from "../globalStates/SidebarState";
 import logo from "../logo.svg";
 import { RootState } from "../Store";
+import DropdownMenu from "./dropdownMenu";
 
 export interface SidebarProps {
   children: React.ReactElement[];
+  username: string;
 }
 type props = SidebarProps & PropsFromRedux;
-export interface SidebarState {}
+export interface SidebarState {
+  dropdownExpanded: boolean;
+}
 
 class Sidebar extends React.Component<props, SidebarState> {
-  state = {};
+  state = {
+    dropdownExpanded: false,
+  };
   expandStatus = (): string => {
-    let expansion = this.props.isExpanded ? "sidebar" : "sidebar closed";
-    return expansion + " flex-column  p-3 text-black bg-light shadow-lg  ";
+    let expansion = "d-flex flex-column p-3 text-black bg-light shadow-lg ";
+    return expansion + (this.props.isExpanded ? "sidebar" : "sidebar closed");
   };
   handleToggle: React.MouseEventHandler<HTMLButtonElement> = () => {
     this.props.dispatch(toggle());
   };
+
   render() {
     return (
       <div className={this.expandStatus()}>
         <a
           href="/"
-          className="d-flex align-items-center mb-3 mb-md-0 me-md-auto  text-decoration-none "
+          className="d-flex align-items-center justify-content-between mb-3 mb-md-0   text-decoration-none "
         >
           <span className="fs-3 ms-3 ">MedGenie</span>
           <img
@@ -37,10 +44,13 @@ class Sidebar extends React.Component<props, SidebarState> {
           />
         </a>
         <hr />
-        <ul className="nav nav-pills flex-column mb-3 ">
+        <ul className="nav nav-pills flex-column mb-auto ">
           {this.props.children}
         </ul>
-        <button className="mt-auto" onClick={this.handleToggle}>
+        <hr />
+        <DropdownMenu username={this.props.username} />
+
+        <button className="mt-1" onClick={this.handleToggle}>
           toggle
         </button>
       </div>

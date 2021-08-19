@@ -22,11 +22,10 @@ class PatientMeta extends React.Component<props, PatientHomeState> {
   state = {};
   render() {
     return (
-      // <h2>Good Morning {this.props.firstName} </h2>
       <Router>
         <div className="d-flex">
-          <div className="d-flex flex-column align-items-stretch text-white me-3">
-            <Sidebar>
+          <div className="d-flex flex-column flex-shrink-0 me-3">
+            <Sidebar username={this.props.firstName}>
               <SidebarItem name="Home" icon={Home} link="/" />
               <SidebarItem
                 name="Appointments"
