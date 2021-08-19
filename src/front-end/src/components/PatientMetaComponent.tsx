@@ -39,7 +39,7 @@ class PatientMeta extends React.Component<props, PatientHomeState> {
           </div>
           <div className="flex-column">
             <Switch>
-              <Route path="/">
+              <Route exact path="/">
                 <PatientHome />
               </Route>
               <Route path="/appointments">
