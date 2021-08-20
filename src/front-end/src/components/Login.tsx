@@ -48,6 +48,12 @@ class Login extends React.Component<props, LoginState> {
 
     // console.log("form state", this.state);
   };
+  componentDidMount = () => {
+    document.body.style.backgroundColor = "white";
+  };
+  componentWillUnmount = () => {
+    document.body.style.removeProperty("background-color");
+  };
   render() {
     return (
       <main className="container  text-center">
