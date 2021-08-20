@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { setName } from "./globalStates/LoggedUser";
-import logo from "./logo.svg";
+import { setName } from "../globalStates/LoggedUser";
+import logo from "../logo.svg";
 
 export interface LoginProps extends RouteComponentProps {}
 type props = PropsFromRedux & LoginProps;
@@ -43,9 +43,16 @@ class Login extends React.Component<props, LoginState> {
     } else {
       window.alert(`Email = ${this.state.email}\nPassword = ${this.state.pass}
       \nDoesn't match ! Try again`);
+      this.setState({ formDisabled: false });
     }
-    this.setState({ formDisabled: false });
+
     // console.log("form state", this.state);
+  };
+  componentDidMount = () => {
+    document.body.style.backgroundColor = "white";
+  };
+  componentWillUnmount = () => {
+    document.body.style.removeProperty("background-color");
   };
   render() {
     return (
