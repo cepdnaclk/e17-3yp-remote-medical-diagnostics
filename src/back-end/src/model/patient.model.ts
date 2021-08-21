@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import config from "config";
+import Config from "../config/default";
 import bcrypt from "bcrypt";
 //bcrypt uses a symmetric-key block cipher called Blowfish for hashing passwords 
 import { ObjectId } from "bson";
@@ -55,7 +55,7 @@ PatientSchema.pre("save", async function (next: mongoose.HookNextFunction) {
     if (!patient.isModified("password")) return next();
 
     //a random string to make the hash unpredictable 
-    const salt = await bcrypt.genSalt(config.get("saltWorkFactor"));
+    const salt = await bcrypt.genSalt(Config.saltWorkFactor);
     const hash = await bcrypt.hashSync(patient.password, salt);
 
     patient.password = hash;

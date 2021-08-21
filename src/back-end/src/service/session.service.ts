@@ -2,7 +2,7 @@ import { LeanDocument } from "mongoose";
 import Session, { SessionDocument } from "../model/session.model";
 import { PatientDocument } from "../model/patient.model";
 import { DoctorDocument } from "../model/doctor.model";
-import config from 'config';
+import Config from "../config/default";
 import { sign } from '../utils/jwt.util';
 
 export async function createSession(userId: string, userAgent: string) {
@@ -25,7 +25,7 @@ export function createAccessToken({
 }) {
     const accessToken = sign(
         { ...user, session: session._id },
-        { expiresIn: config.get("accesstokenTtl") }
+        { expiresIn: Config.accessTokenTtl }
     );
     return accessToken;
 }

@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import log from '../logger';
-import config from 'config';
+import Config from '../config/default';
 
 export default function connect() {
-    const dbUri = config.get("dbUri") as string;
+    const dbUri = Config.dbUri as string;
 
     mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
         .then(() => {

@@ -2,7 +2,7 @@ import { validatePassword } from "../service/doctor.service";
 import { Response, Request } from "express";
 import { createAccessToken, createSession } from "../service/session.service";
 import { DoctorDocument } from "../model/doctor.model";
-import config from "config";
+import Config from "../config/default";
 import { sign } from "../utils/jwt.util";
 
 
@@ -21,7 +21,7 @@ export async function createDoctorSessionHandler(req: Request, res: Response) {
     const accessToken = createAccessToken({ user, session });
 
     const refreshToken = sign(session, {
-        expiresIn: config.get("refreshTokenTtl")
+        expiresIn: Config.refreshTokenTtl
     });
 
     return res.send({ accessToken, refreshToken });
