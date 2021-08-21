@@ -13,17 +13,22 @@ function findPatient(query: FilterQuery<PatientDocument>) {
     return Patient.findOne(query).lean();
 }
 
+/** get the user from email and password
+    @param email email of the user
+    @param password password to verify
+    @returns patient
+ */
 export async function validatePassword({ email, password }: { email: PatientDocument["email"]; password: string }) {
     const patient = await Patient.findOne({ email });
 
     if (!patient) {
-        return false;
+        return null;
     };
 
     const isValid = await patient.comparePassword(password);
 
     if (!isValid) {
-        return false;
+        return null;
     }
 
     return omit(patient.toJSON, "password")

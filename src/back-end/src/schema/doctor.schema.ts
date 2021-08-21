@@ -13,10 +13,10 @@ export const createDoctorSchema = object({
             .email("Must be a valid email")
             .required("Email required"),
         isAvailable: string().notRequired(),//
-        license: string().required("license delatils are needed"),
+        license: string().required("license details are needed"),
         age: string().matches(/^[0-9]/, "must be a number").max(3, "invalid age").required(),
         gender: string()
-            .matches(/M|F/, "Sould be either 'M' or 'F'")
+            .matches(/M|F/, "Should be either 'M' or 'F'")
             .required("gender required"),
         mobileNo: string()
             .matches(/^[0-9]+/, "must be a number")

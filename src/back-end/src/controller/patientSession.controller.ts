@@ -10,7 +10,7 @@ export async function createPatientSessionHandler(req: Request, res: Response) {
     //email and password validation
     const user = await validatePassword(req.body) as PatientDocument;
 
-    if (!user) {
+    if (user===null) {
         return res.status(401).send("invalid email or password");
     }
 

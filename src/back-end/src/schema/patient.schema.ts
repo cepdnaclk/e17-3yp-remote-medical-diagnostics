@@ -17,14 +17,14 @@ export const createPatientSchema = object({
             .matches(/^[0-9]/, "must be a number")
             .min(3, "invalid age").required(),
         gender: string()
-            .matches(/M|F/, "Sould be either 'M' or 'F'")
+            .matches(/M|F/, "Should be either 'M' or 'F'")
             .required("gender required"),
         mobileNo: string()
             .matches(/^[0-9]+/, "must be a number")
             .min(10, "invalid mobile number")
             .max(10, "invalid mobile number")
             .required(),
-        // TODO : valide not required fields if enterred
+        // TODO : validate not required fields if entered
         homeAddress: string().notRequired(),
         weight: string().notRequired(),
         height: string().notRequired(),
