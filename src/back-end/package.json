@@ -44,6 +44,6 @@
     "@types/nanoid": "^3.0.0",
     "@types/node": "^16.4.13",
     "@types/pino": "^6.3.11",
-    "@types/yup": "^0.29.13",
+    "@types/yup": "^0.29.13"
   }
 }
