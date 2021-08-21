@@ -2,15 +2,14 @@ import mongoose from 'mongoose';
 import log from '../logger';
 import Config from '../config/default';
 
-export default function connect() {
+export default async function connect() {
     const dbUri = Config.dbUri as string;
-
-    mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
-        .then(() => {
-            log.info("connected to database");
-        })
-        .catch((error) => {
-            log.error("database error", error);
+    log.info("Connecting to database ...")
+    try {
+        await mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
+        log.info("connected to database");
+    } catch (error) {
+        log.error("database error", error);
             process.exit(1);
-        });
+    }
 }
