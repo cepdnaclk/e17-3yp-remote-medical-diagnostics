@@ -2,8 +2,8 @@ import { Express, Request, Response } from 'express';
 import { createPatientHandler } from './controller/patient.controller';
 import { createDoctorHandler } from './controller/doctor.controller';
 import validateRequest from './middleware/validateRequests';
-import { createPatientSchema, createPatientSessionSchema } from '../schema/patient.schema';
-import { createDoctorSchema, createDoctorSessionSchema } from '../schema/doctor.schema';
+import { createPatientSchema, createPatientSessionSchema } from './schema/patient.schema';
+import { createDoctorSchema, createDoctorSessionSchema } from './schema/doctor.schema';
 import { createPatientSessionHandler } from './controller/patientSession.controller';
 import { createDoctorSessionHandler } from './controller/doctorSession.controller';
 
