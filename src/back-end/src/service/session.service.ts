@@ -1,31 +1,37 @@
-import { LeanDocument } from "mongoose";
 import Session, { SessionDocument } from "../model/session.model";
-import { PatientDocument } from "../model/patient.model";
-import { DoctorDocument } from "../model/doctor.model";
 import Config from "../config/default";
-import { sign } from '../utils/jwt.util';
+import { sign } from 'jsonwebtoken';
+
+type userIdentifier = {email: string}
 
 export async function createSession(userId: string, userAgent: string) {
     const session = await Session.create({ user: userId, userAgent });
     return session.toJSON();
 }
 
-export function createAccessToken({
-    user,
-    session
-}: {
-    user:
-    | Omit<PatientDocument, "password">
-    | Omit<DoctorDocument, "password">
-    | LeanDocument<Omit<PatientDocument, "password">>
-    | LeanDocument<Omit<DoctorDocument, "password">>;
-    session:
-    | Omit<SessionDocument, "password">
-    | LeanDocument<Omit<SessionDocument, "password">>;
-}) {
+/**
+ * create an access token
+ * @param param0 payload to be signed
+ * @returns access token which is valid for accessTokenTtl
+ */
+export function createAccessToken({email}: userIdentifier) {
     const accessToken = sign(
-        { ...user, session: session._id },
-        { expiresIn: Config.accessTokenTtl }
+        {email},
+        Config.publicKey,
+        {expiresIn: Config.accessTokenTtl}
     );
     return accessToken;
+}
+
+/**
+ * refresh token should be stored in the database. It should be removed on
+ * log out event
+ * @param param0 payload to be signed
+ * @returns the refresh token
+ */
+export function createRefreshToken({email}:userIdentifier){
+    return sign(
+        {email},
+        Config.privateKey
+    )
 }

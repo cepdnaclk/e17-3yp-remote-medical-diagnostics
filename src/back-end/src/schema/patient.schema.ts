@@ -1,5 +1,4 @@
-import { stringify } from "querystring";
-import { object, string, ref } from "yup";// for validating objects
+import { object, string, ref ,number} from "yup";// for validating objects
 
 export const createPatientSchema = object({
     body: object({
@@ -13,8 +12,8 @@ export const createPatientSchema = object({
             .email("Must be a valid email")
             .required("Email required"),
 
-        age: string()
-            .matches(/^[0-9]/, "must be a number")
+        age: number()
+            .max(100, "too old")
             .min(3, "invalid age").required(),
         gender: string()
             .matches(/M|F/, "Should be either 'M' or 'F'")
@@ -35,19 +34,5 @@ export const createPatientSchema = object({
     }),
 });
 
-export const createPatientSessionSchema = object({
-    body: object({
 
-        email: string()
-            .email("Must be a valid email")
-            .required("Email required")
-
-        , password: string()
-            .required("Password is required")
-            .min(8, "password must be at least 8 characters")
-            .matches(/^[a-z0-9A-Z_.-]*$/, "only latin characters are allowed"),
-
-
-    }),
-});
 

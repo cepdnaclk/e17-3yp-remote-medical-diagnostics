@@ -17,13 +17,13 @@ export async function validatePassword({ email, password }: { email: DoctorDocum
     const doctor = await Doctor.findOne({ email });
 
     if (!doctor) {
-        return false;
+        return null;
     };
 
     const isValid = await doctor.comparePassword(password);
 
     if (!isValid) {
-        return false;
+        return null;
     }
 
     return omit(doctor.toJSON, "password")
