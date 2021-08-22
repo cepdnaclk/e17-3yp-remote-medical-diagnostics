@@ -1,13 +1,7 @@
-import Session, { SessionDocument } from "../model/session.model";
 import Config from "../config/default";
 import { sign } from 'jsonwebtoken';
 
 type userIdentifier = {email: string}
-
-export async function createSession(userId: string, userAgent: string) {
-    const session = await Session.create({ user: userId, userAgent });
-    return session.toJSON();
-}
 
 /**
  * create an access token

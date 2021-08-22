@@ -1,6 +1,6 @@
 import { validatePassword } from "../service/doctor.service";
 import { Response, Request } from "express";
-import { createAccessToken, createRefreshToken, createSession } from "../service/session.service";
+import { createAccessToken, createRefreshToken} from "../service/session.service";
 import { DoctorDocument } from "../model/doctor.model";
 
 

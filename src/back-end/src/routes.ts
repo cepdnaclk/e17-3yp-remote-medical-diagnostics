@@ -16,5 +16,5 @@ export default function (app: Express) {
     app.post("/api/doctor", validateRequest(createDoctorSchema), createDoctorHandler);
 
     // get password and email from the client and send access, refresh tokens 
-    app.use('/api/login',loginHandler)
+    app.use('/api/login',loginHandler())
 }
