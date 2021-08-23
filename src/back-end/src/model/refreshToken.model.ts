@@ -8,8 +8,18 @@ export interface refreshTokenDocument extends mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
 }
+
 interface refreshTokenModel extends mongoose.Model<refreshTokenDocument>{
+    /**
+     * Invalidate the refresh token 
+     * @param refreshToken This refresh token will be marked as invalid
+     */
     invalidate(refreshToken: String): Promise<void>;
+    /**
+     * Add a new refresh token to the database
+     * @param refreshToken newly created refresh token
+     * @param userAgent user agent (just for statistical purposes)
+     */
     addNewToken(refreshToken: String, userAgent:String): Promise<void>;
 }
 
@@ -24,8 +34,8 @@ const refreshTokenSchema = new mongoose.Schema<refreshTokenDocument,refreshToken
 
 refreshTokenSchema.statics.invalidate = async function (refreshToken: String) {
     const a =  await this.updateOne({refreshToken: refreshToken},{valid: false}).exec()
-    if (a.ok !== 1)
-        log.error("Schema invalidation failed")
+    if (a.nModified !== 1)
+        log.info("token invalidation failed (token doesn't exist or already invalidated)")
 }
 
 refreshTokenSchema.statics.addNewToken = async function(refreshToken: String, userAgent: String) { 

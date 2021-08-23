@@ -13,5 +13,7 @@ export async function patientLoginHandler(req: Request, res: Response) {
     const accessToken = createAccessToken({ email:user.email });
     const refreshToken = createRefreshToken({ email:user.email });
     refreshTokenModel.addNewToken(refreshToken, req.get('User-Agent')||"Unknown")
+    log.info(`User ${user.email} logged in`)
     return res.send({ accessToken, refreshToken });
 }
+

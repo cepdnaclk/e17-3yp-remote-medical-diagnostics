@@ -6,10 +6,12 @@ import { createPatientSchema } from '../schema/patient.schema';
 import { createDoctorSchema } from '../schema/doctor.schema';
 import loginHandler from './loginRoutes'
 import authRouter from './authorizedRoutes';
+import cors from 'cors';
 
 
 export default function (app: Express) {
     app.use(express.json())
+    app.use(cors())
     app.get('/isUp', (req: Request, res: Response) => res.sendStatus(200));
 
     // create new account
@@ -20,5 +22,9 @@ export default function (app: Express) {
     app.use('/api/login',loginHandler)
 
     // Routes which need authentication
+    /*  /me
+     *  /logout
+     * 
+     */
     app.use('/api',authRouter)
 }
