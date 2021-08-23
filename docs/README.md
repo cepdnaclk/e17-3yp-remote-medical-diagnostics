@@ -155,7 +155,7 @@ An on/off switch is available to power down the device
 The following diagrams show the proposed designs for the prototype device:
 
 - **Schematic Diagram**
-  ![circuit-schematic](../Designs/Models/circuit-schematic-diagram.png)
+  ![circuit-schematic](./images/schematic-diagram.svg)
   LM53: temprature sensor
   &nbsp;  
    CAO106: electret condenser microphone
@@ -163,10 +163,10 @@ The following diagrams show the proposed designs for the prototype device:
    NJM5532: low noise operational amplifier
   &nbsp;
 - **PCB Layout**
-  ![pcb-layout](../Designs/Models/circuit-PCB-layout.png)
+  ![pcb-layout](./images/pcb-design.svg)
 
-- **3D Model**
-  ![circuit-3d-model](../Designs/Models/circuit-3D-model.png)
+- **3D Circuit Model**
+  ![circuit-3d-model](./images/3D-model.png)
 
 - **Design Decisions**
   - I2C interface is utilized to allow connectivity for most of the common sphygmomanometers (blood pressure monitors)
