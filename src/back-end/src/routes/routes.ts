@@ -5,6 +5,7 @@ import validateRequest from '../middleware/validateRequests';
 import { createPatientSchema } from '../schema/patient.schema';
 import { createDoctorSchema } from '../schema/doctor.schema';
 import loginHandler from './loginRoutes'
+import authRouter from './authorizedRoutes';
 
 
 export default function (app: Express) {
@@ -16,5 +17,8 @@ export default function (app: Express) {
     app.post("/api/doctor", validateRequest(createDoctorSchema), createDoctorHandler);
 
     // get password and email from the client and send access, refresh tokens 
-    app.use('/api/login',loginHandler())
+    app.use('/api/login',loginHandler)
+
+    // Routes which need authentication
+    app.use('/api',authRouter)
 }

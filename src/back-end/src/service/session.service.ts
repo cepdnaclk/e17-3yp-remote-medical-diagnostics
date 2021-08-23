@@ -1,5 +1,5 @@
 import Config from "../config/default";
-import { sign } from 'jsonwebtoken';
+import { sign, verify } from 'jsonwebtoken';
 
 type userIdentifier = {email: string}
 
@@ -28,4 +28,19 @@ export function createRefreshToken({email}:userIdentifier){
         {email},
         Config.privateKey
     )
+}
+
+/**
+ * 
+ * @param token token which is from the user to be verified
+ * @returns a user identifier
+ * @throws error if not verified
+ */
+export function verifyAccessToken(token:string): userIdentifier {
+    try {
+        let identifier = verify(token,Config.publicKey)
+        return identifier as userIdentifier
+    } catch (error) {
+        throw error;
+    }
 }

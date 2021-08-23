@@ -8,7 +8,7 @@ import log from "../logger";
 export async function patientLoginHandler(req: Request, res: Response) {
     //email and password validation
     const user = await validatePassword(req.body) as PatientDocument;
-    if (user===null)
+    if (user==null)
         return res.status(401).send("invalid email or password");
     const accessToken = createAccessToken({ email:user.email });
     const refreshToken = createRefreshToken({ email:user.email });

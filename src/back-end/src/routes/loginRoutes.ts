@@ -8,7 +8,7 @@ import { patientLoginHandler } from "../controller/patientLogin.controller";
  * Handles requests coming to /login endpoint
  * @returns a modular router for user Logins 
  */
-export default function(){
+function getLoginRouter(){
     let loginRouter = Router()
     
     // validate the login request's schema
@@ -18,3 +18,4 @@ export default function(){
     loginRouter.post('/patient',patientLoginHandler)
     return loginRouter
 }
+export default getLoginRouter()

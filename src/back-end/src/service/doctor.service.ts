@@ -26,5 +26,5 @@ export async function validatePassword({ email, password }: { email: DoctorDocum
         return null;
     }
 
-    return omit(doctor.toJSON, "password")
+    return omit(doctor.toJSON(), "password")
 };

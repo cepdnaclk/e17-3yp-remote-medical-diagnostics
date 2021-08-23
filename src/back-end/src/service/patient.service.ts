@@ -1,6 +1,7 @@
 import { DocumentDefinition, FilterQuery } from "mongoose";
 import Patient, { PatientDocument } from "../model/patient.model";
 import { omit } from "lodash";
+import log from "../logger";
 
 export async function createPatient(input: DocumentDefinition<PatientDocument>) {
     try {
@@ -19,9 +20,9 @@ function findPatient(query: FilterQuery<PatientDocument>) {
     @returns patient
  */
 export async function validatePassword({ email, password }: { email: PatientDocument["email"]; password: string }) {
-    const patient = await Patient.findOne({ email });
+    const patient = await Patient.findOne({ email }).exec();
 
-    if (!patient) {
+    if (patient==null) {
         return null;
     };
 
@@ -30,6 +31,5 @@ export async function validatePassword({ email, password }: { email: PatientDocu
     if (!isValid) {
         return null;
     }
-
-    return omit(patient.toJSON, "password")
+    return omit(patient.toJSON(), "password")
 };
