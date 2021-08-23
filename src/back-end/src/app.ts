@@ -2,7 +2,7 @@ import express from 'express';
 import Config from "./config/default"
 import log from './logger';
 import connect from './db/connect';
-import routes from './routes';
+import routes from './routes/routes';
 
 const {port, host} = Config
 

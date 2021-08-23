@@ -1,8 +1,8 @@
 import { Router } from "express";
 import validateRequest from '../middleware/validateRequests';
 import { LoginSchema } from "../schema/login.schema";
-import { doctorLoginHandler } from "./doctorLogin.controller";
-import { patientLoginHandler } from "./patientLogin.controller";
+import { doctorLoginHandler } from "../controller/doctorLogin.controller";
+import { patientLoginHandler } from "../controller/patientLogin.controller";
 
 /**
  * Handles requests coming to /login endpoint
