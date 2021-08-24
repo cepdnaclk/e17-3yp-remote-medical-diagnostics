@@ -31,7 +31,7 @@ export function createRefreshToken({email}:userIdentifier){
 }
 
 /**
- * 
+ * Verifies the access token
  * @param token token which is from the user to be verified
  * @returns a user identifier
  * @throws error if not verified
@@ -44,3 +44,19 @@ export function verifyAccessToken(token:string): userIdentifier {
         throw error;
     }
 }
+
+/**
+ * Verifies the refresh token
+ * @param token token which is from the user to be verified
+ * @returns a user identifier
+ * @throws error if not verified
+ */
+ export function verifyRefreshToken(token:string): userIdentifier {
+    try {
+        let identifier = verify(token,Config.privateKey)
+        return identifier as userIdentifier
+    } catch (error) {
+        throw error;
+    }
+}
+

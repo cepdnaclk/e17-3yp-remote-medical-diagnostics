@@ -7,6 +7,8 @@ import { createDoctorSchema } from '../schema/doctor.schema';
 import loginHandler from './loginRoutes'
 import authRouter from './authorizedRoutes';
 import cors from 'cors';
+import renewAccessTokenHandler from '../controller/tokenRenew.controller';
+import { refreshTokenSchema } from '../schema/refreshToken.schema';
 
 
 export default function (app: Express) {
@@ -21,6 +23,9 @@ export default function (app: Express) {
     // get password and email from the client and send access, refresh tokens 
     app.use('/api/login',loginHandler)
 
+    // generate new access token from refresh token
+    app.post('/api/token',validateRequest(refreshTokenSchema),renewAccessTokenHandler)
+
     // Routes which need authentication
     /*  /me
      *  /logout
@@ -28,3 +33,4 @@ export default function (app: Express) {
      */
     app.use('/api',authRouter)
 }
+

@@ -1,6 +1,6 @@
 import yup,{ object, string } from "yup";
 
-export const LogoutSchema = object({
+export const refreshTokenSchema = object({
     body: object({
 
         refreshToken: string()

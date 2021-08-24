@@ -1,20 +1,20 @@
 import { NextFunction, Request, Response, Router } from "express";
 import commonLogoutHandler from "../controller/commonLogout.controller";
-import authenticateToken from "../middleware/authenticateToken";
+import authenticateToken, { authResponse } from "../middleware/authenticateToken";
 import validateRequest from '../middleware/validateRequests';
-import { LogoutSchema } from "../schema/logout.schema";
+import { refreshTokenSchema } from "../schema/refreshToken.schema";
 
 const authRouter = Router()
 authRouter.use(authenticateToken)
 
 
-authRouter.get('/me',(req: Request, res: Response)=>{
+authRouter.get('/me',(req: Request, res: authResponse)=>{
     const user = res.locals.user
     res.json(user)
 })
 
 
-authRouter.post('/logout',validateRequest(LogoutSchema),commonLogoutHandler)
+authRouter.post('/logout',validateRequest(refreshTokenSchema),commonLogoutHandler)
 export default authRouter
 
 

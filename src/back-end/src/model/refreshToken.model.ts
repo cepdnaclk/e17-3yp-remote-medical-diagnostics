@@ -20,7 +20,13 @@ interface refreshTokenModel extends mongoose.Model<refreshTokenDocument>{
      * @param refreshToken newly created refresh token
      * @param userAgent user agent (just for statistical purposes)
      */
-    addNewToken(refreshToken: String, userAgent:String): Promise<void>;
+    addNewToken(refreshToken: string, userAgent:String): Promise<void>;
+    /**
+     * Test the validity of a given refresh token
+     * @param refreshToken token to test
+     * @returns true if valid as a promise
+     */
+    isRefreshTokenValid(refreshToken: string): Promise<boolean>
 }
 
 const refreshTokenSchema = new mongoose.Schema<refreshTokenDocument,refreshTokenModel>(
@@ -45,6 +51,16 @@ refreshTokenSchema.statics.addNewToken = async function(refreshToken: String, us
             log.error("Database: add new token failed")
         }
            
+}
+refreshTokenSchema.statics.isRefreshTokenValid = async function( refreshToken: string){
+    try {
+        const document = await this.findOne({refreshToken,valid:true}).exec()
+        if (document == null) return false
+        return true
+    } catch (error) {
+        log.error(error,"Database: isRefreshTokenValid error")
+        throw error
+    }
 }
 const model= mongoose.model<refreshTokenDocument,refreshTokenModel>("refreshToken", refreshTokenSchema);
 

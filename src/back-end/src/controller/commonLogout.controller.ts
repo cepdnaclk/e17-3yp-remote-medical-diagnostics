@@ -2,7 +2,7 @@ import log from "../logger"
 import { authResponse } from "../middleware/authenticateToken"
 import refreshTokenModel from "../model/refreshToken.model"
 import {Request} from "express"
-import { LogoutSchema } from "../schema/logout.schema";
+import { refreshTokenSchema } from "../schema/refreshToken.schema";
 
 
 async function logoutHandler(req: Request, res: authResponse) {
