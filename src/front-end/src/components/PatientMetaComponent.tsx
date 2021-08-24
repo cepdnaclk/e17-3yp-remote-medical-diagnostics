@@ -14,8 +14,8 @@ import PatientDoctors from "./patient/PatientDoctors";
 import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
 
-export interface PatientHomeProps {}
-export interface PatientHomeState {}
+export interface PatientHomeProps { }
+export interface PatientHomeState { }
 type props = PropsFromRedux & PatientHomeProps;
 
 class PatientMeta extends React.Component<props, PatientHomeState> {
@@ -36,6 +36,7 @@ class PatientMeta extends React.Component<props, PatientHomeState> {
               <SidebarItem name="Payments" icon={CreditCard} link="/payments" />
             </Sidebar>
           </div>
+
           <div className="flex-column">
             <Switch>
               <Route exact path="/">

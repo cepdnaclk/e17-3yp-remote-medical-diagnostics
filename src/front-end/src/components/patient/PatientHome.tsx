@@ -1,13 +1,16 @@
 import React from "react";
+import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 
-export interface PatientHomeProps {}
+export interface PatientHomeProps { }
 
-export interface PatientHomeState {}
+export interface PatientHomeState { }
 
 class PatientHome extends React.Component<PatientHomeProps, PatientHomeState> {
   state = {};
   render() {
-    return <h1>This is patient home component</h1>;
+    return (
+      <PatientHomeSearchDoctor />
+    );
   }
 }
 

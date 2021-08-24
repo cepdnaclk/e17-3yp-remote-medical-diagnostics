@@ -60,3 +60,37 @@
   display: none;
   transition: display 0.4s ease-out;
 }
+
+/*Search Box Related*/
+.find-a-doctor {
+  font-size:x-large;
+  font-family: "roboto";
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  margin: 0 auto;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 10px;
+  
+}
+
+.find-a-doctor-input {
+  font-size:large;
+  border: 1px solid;
+  border-radius : 4px;
+  border-color: #4285F4;
+  margin: 2px 0;
+}
+
+.find-a-doctor-button {
+  border: 1px solid;
+  font-size:large;
+  height: 36px;
+  margin: 3px 0;
+  border-radius : 6px;
+  color: white;
+  background-color: #4285F4;
+}
