@@ -198,6 +198,8 @@ The following diagrams show the proposed designs for the prototype device:
 
 ## UI Designs
 
+Click [here](./ui_designs.md) to see all UIs.
+
 ![ui](./images/UI_designs.svg)
 
 ## 3D Prototype
