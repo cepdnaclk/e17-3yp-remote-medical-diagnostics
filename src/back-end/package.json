@@ -6,7 +6,7 @@
   "private": "true",
   "scripts": {
     "start": "node build/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "nodemon src/app.ts",
     "build": "tsc -p ."
   },
@@ -38,6 +38,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.1",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/lodash": "^4.14.172",
     "@types/mongoose": "^5.11.97",
@@ -46,6 +47,8 @@
     "@types/pino": "^6.3.11",
     "@types/uuid": "^8.3.1",
     "@types/yup": "^0.29.13",
-    "nodemon": "^2.0.12"
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "ts-jest": "^27.0.5"
   }
 }

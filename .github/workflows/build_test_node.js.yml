@@ -8,6 +8,11 @@ on:
 
 jobs:
   build:
+    env:
+      ACCESS_TOKEN_TTL: 20m
+      PRIVATE_KEY: "samplePrivateKeyForTesting"
+      PUBLIC_KEY: "samplePublicKeyForTesting"
+      REFRESH_TOKEN_TTL: 1y
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,6 +21,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
@@ -24,3 +30,4 @@ jobs:
           cd src/back-end/
           npm ci
           npm run build --if-present
+          npm test
