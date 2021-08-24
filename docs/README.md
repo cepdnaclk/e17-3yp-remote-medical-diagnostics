@@ -204,7 +204,6 @@ The following diagrams show the proposed designs for the prototype device:
 
 [![see video](./images/video-play-button.png)](https://user-images.githubusercontent.com/59658804/129740111-13518ce4-72f2-4187-9892-a81d828f9e65.mp4)
 
-   <video width="320" height="240" controls><source type="video/mp4" src="https://user-images.githubusercontent.com/59658804/129740111-13518ce4-72f2-4187-9892-a81d828f9e65.mp4"></video>
 ## Algorithms
 
 - When a patient adds an appointment
