@@ -1,16 +1,19 @@
 import Config from "../config/default";
 import { sign, verify } from 'jsonwebtoken';
 
-type userIdentifier = {email: string}
+type userIdentifier = {
+    email: string
+    type: string
+}
 
 /**
  * create an access token
  * @param param0 payload to be signed
  * @returns access token which is valid for accessTokenTtl
  */
-export function createAccessToken({email}: userIdentifier) {
+export function createAccessToken({email, type}: userIdentifier) {
     const accessToken = sign(
-        {email},
+        {email,type},
         Config.publicKey,
         {expiresIn: Config.accessTokenTtl}
     );
@@ -23,9 +26,9 @@ export function createAccessToken({email}: userIdentifier) {
  * @param param0 payload to be signed
  * @returns the refresh token
  */
-export function createRefreshToken({email}:userIdentifier){
+export function createRefreshToken({email,type}:userIdentifier){
     return sign(
-        {email},
+        {email,type},
         Config.privateKey
     )
 }

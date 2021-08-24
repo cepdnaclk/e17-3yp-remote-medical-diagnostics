@@ -12,10 +12,10 @@ async function renewAccessTokenHandler(req: Request, res: Response) {
 
         // get the payload from the token
         const userIdentifier = verifyRefreshToken(refreshToken)
-        const {email} = userIdentifier
+        const {email, type} = userIdentifier
 
         // create new access token
-        const newAccessToken = createAccessToken({email})
+        const newAccessToken = createAccessToken({email,type})
         res.json({accessToken: newAccessToken})
     } catch (error) {
         return res.sendStatus(403)

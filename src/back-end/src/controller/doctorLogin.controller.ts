@@ -11,7 +11,7 @@ export async function doctorLoginHandler(req: Request, res: Response) {
     if (user===null) {
         return res.status(401).send("invalid email or password");
     }
-    const accessToken = createAccessToken({ email:user.email});
-    const refreshToken = createRefreshToken({email: user.email})
+    const accessToken = createAccessToken({ email:user.email, type:'doctor'});
+    const refreshToken = createRefreshToken({email: user.email,type:'doctor'})
     return res.send({ accessToken, refreshToken });
 }

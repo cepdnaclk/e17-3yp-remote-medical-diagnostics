@@ -1,6 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import { createPatientHandler } from '../controller/patient.controller';
 import { createDoctorHandler } from '../controller/doctor.controller';
+import logoutHandler from '../controller/commonLogout.controller';
 import validateRequest from '../middleware/validateRequests';
 import { createPatientSchema } from '../schema/patient.schema';
 import { createDoctorSchema } from '../schema/doctor.schema';
@@ -21,14 +22,16 @@ export default function (app: Express) {
     app.post("/api/doctor", validateRequest(createDoctorSchema), createDoctorHandler);
 
     // get password and email from the client and send access, refresh tokens 
+    // Login has two endpoints for doctor and patient
     app.use('/api/login',loginHandler)
+    // Logout use one endpoint for both users
+    app.post('/api/logout',validateRequest(refreshTokenSchema),logoutHandler)
 
     // generate new access token from refresh token
     app.post('/api/token',validateRequest(refreshTokenSchema),renewAccessTokenHandler)
 
     // Routes which need authentication
-    /*  /me
-     *  /logout
+    /*  /api/me
      * 
      */
     app.use('/api',authRouter)
