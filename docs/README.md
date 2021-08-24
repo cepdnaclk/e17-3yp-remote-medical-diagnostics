@@ -202,7 +202,7 @@ The following diagrams show the proposed designs for the prototype device:
 
 ## 3D Prototype
 
-[![video](./images/video-play-button.png)](https://user-images.githubusercontent.com/59658804/129740111-13518ce4-72f2-4187-9892-a81d828f9e65.mp4)
+![video](https://user-images.githubusercontent.com/59658804/129740111-13518ce4-72f2-4187-9892-a81d828f9e65.mp4)
 
 ## Algorithms
 
