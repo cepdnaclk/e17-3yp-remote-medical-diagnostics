@@ -3,7 +3,7 @@ import express from 'express'
 import config from 'config';
 import http from 'http';
 import { Server } from 'socket.io'
-import { uuidV4 } from 'uuid'; // uuid ; A universally unique identifier (for each room)
+import { v4 as uuidV4 } from 'uuid'; // uuid ; A universally unique identifier (for each room)
 
 const app = express()
 const server = http.createServer(app);
