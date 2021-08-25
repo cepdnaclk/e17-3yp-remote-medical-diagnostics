@@ -13,7 +13,22 @@ jobs:
       PRIVATE_KEY: "samplePrivateKeyForTesting"
       PUBLIC_KEY: "samplePublicKeyForTesting"
       REFRESH_TOKEN_TTL: 1y
+      DB_URI: mongodb://root:example@localhost:27017
     runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
 
     strategy:
       matrix:
