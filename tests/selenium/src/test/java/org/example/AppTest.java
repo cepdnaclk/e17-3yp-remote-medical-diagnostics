@@ -11,14 +11,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-{
+public class AppTest {
     /**
      * Rigorous Test :-)
      */
     @Test
-    public void shouldAnswerWithTrue()
-    {
+    public void shouldAnswerWithTrue() {
         CharSequence email = "user@email.com";
         CharSequence password = "password";
 
@@ -26,7 +24,7 @@ public class AppTest
 
         WebDriver driver = new ChromeDriver();
 
-        driver.get("https://sidebar.d16gxcp2w80zzy.amplifyapp.com/");
+        driver.get("https://main.d16gxcp2w80zzy.amplifyapp.com");
         driver.findElement(By.id("floatingInput")).sendKeys(email);
         driver.findElement(By.id("floatingPassword")).sendKeys(password);
         driver.findElement(By.xpath("//*[@class=\"w-100 btn btn-lg btn-primary\"]")).click();
@@ -40,7 +38,6 @@ public class AppTest
         String displayedEmail = driver.findElement(By.xpath("//*[@id=\"dropdownUser2\"]/strong")).getText();
 
         Assert.assertEquals(email, displayedEmail);
-
 
     }
 }
