@@ -1,21 +1,28 @@
 import express from 'express';
-import config from 'config';
-import { urlencoded } from 'body-parser';
+import Config from "./config/default"
 import log from './logger';
 import connect from './db/connect';
-import routes from './routes';
+import routes from './routes/routes';
 
-const port = config.get("port") as number;
-const host = config.get("host") as string;
+const {port, host} = Config
 
-const app = express();
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-app.listen(port, host, () => {
-    log.info(`server listening at port ${port} of host ${host}`);
-
-    connect();
+async function main() {
+    const app = express();
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: false }));
+    // connect to the database before starting the webserver
+    await connect()
     routes(app);
-});
+    return app
+}
+
+// Used to stop listening to a port when tests are running
+if (require.main === module) {
+    main().then(app =>{
+    app.listen(port, host)
+    log.info(`server listening at port ${port} of host ${host}`)
+})}
+
+
+
+export default main

@@ -1,31 +1,65 @@
-import { LeanDocument } from "mongoose";
-import Session, { SessionDocument } from "../model/session.model";
-import { PatientDocument } from "../model/patient.model";
-import { DoctorDocument } from "../model/doctor.model";
-import config from 'config';
-import { sign } from '../utils/jwt.util';
+import Config from "../config/default";
+import { sign, verify } from 'jsonwebtoken';
 
-export async function createSession(userId: string, userAgent: string) {
-    const session = await Session.create({ user: userId, userAgent });
-    return session.toJSON();
+type userIdentifier = {
+    email: string
+    type: string
 }
 
-export function createAccessToken({
-    user,
-    session
-}: {
-    user:
-    | Omit<PatientDocument, "password">
-    | Omit<DoctorDocument, "password">
-    | LeanDocument<Omit<PatientDocument, "password">>
-    | LeanDocument<Omit<DoctorDocument, "password">>;
-    session:
-    | Omit<SessionDocument, "password">
-    | LeanDocument<Omit<SessionDocument, "password">>;
-}) {
+/**
+ * create an access token
+ * @param param0 payload to be signed
+ * @returns access token which is valid for accessTokenTtl
+ */
+export function createAccessToken({email, type}: userIdentifier) {
     const accessToken = sign(
-        { ...user, session: session._id },
-        { expiresIn: config.get("accesstokenTtl") }
+        {email,type},
+        Config.publicKey,
+        {expiresIn: Config.accessTokenTtl}
     );
     return accessToken;
 }
+
+/**
+ * refresh token should be stored in the database. It should be removed on
+ * log out event
+ * @param param0 payload to be signed
+ * @returns the refresh token
+ */
+export function createRefreshToken({email,type}:userIdentifier){
+    return sign(
+        {email,type},
+        Config.privateKey
+    )
+}
+
+/**
+ * Verifies the access token
+ * @param token token which is from the user to be verified
+ * @returns a user identifier
+ * @throws error if not verified
+ */
+export function verifyAccessToken(token:string): userIdentifier {
+    try {
+        let identifier = verify(token,Config.publicKey)
+        return identifier as userIdentifier
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
+ * Verifies the refresh token
+ * @param token token which is from the user to be verified
+ * @returns a user identifier
+ * @throws error if not verified
+ */
+ export function verifyRefreshToken(token:string): userIdentifier {
+    try {
+        let identifier = verify(token,Config.privateKey)
+        return identifier as userIdentifier
+    } catch (error) {
+        throw error;
+    }
+}
+
