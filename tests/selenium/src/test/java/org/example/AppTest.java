@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import seleniumConsulting.ch.selenium.framework.driver.WebDriverManager;
+
 /**
  * Unit test for simple App.
  */
@@ -20,7 +22,7 @@ public class AppTest {
         CharSequence email = "user@email.com";
         CharSequence password = "password";
 
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\kavin\\Downloads\\Compressed\\chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
 
         WebDriver driver = new ChromeDriver();
 
