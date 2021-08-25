@@ -6,7 +6,7 @@
   "private": "true",
   "scripts": {
     "start": "node build/app.js",
-    "test": "jest",
+    "test": "jest --verbose",
     "dev": "nodemon src/app.ts",
     "build": "tsc -p ."
   },
@@ -45,10 +45,12 @@
     "@types/nanoid": "^3.0.0",
     "@types/node": "^16.4.13",
     "@types/pino": "^6.3.11",
+    "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.1",
     "@types/yup": "^0.29.13",
     "jest": "^27.0.6",
     "nodemon": "^2.0.12",
+    "supertest": "^6.1.6",
     "ts-jest": "^27.0.5"
   }
 }

@@ -13,3 +13,7 @@ export default async function connect() {
             process.exit(1);
     }
 }
+
+export async function disconnect() {
+    await mongoose.connection.close()
+}

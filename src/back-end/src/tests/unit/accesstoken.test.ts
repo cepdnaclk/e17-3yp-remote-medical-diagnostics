@@ -1,4 +1,4 @@
-import { createAccessToken, verifyAccessToken } from "../service/session.service"
+import { createAccessToken, verifyAccessToken } from "../../service/session.service"
 
 test("AccessToken: content should be equal", () => {
 
