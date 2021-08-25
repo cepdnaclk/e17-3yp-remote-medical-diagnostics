@@ -3,7 +3,7 @@ layout: home
 permalink: index.html
 
 repository-name: e17-3yp-remote-medical-diagnostics
-title: 
+title:
 ---
 
 # Remote Medical Diagnostics System
@@ -11,32 +11,38 @@ title:
 ---
 
 ## Team
--  E/17/134, Kavindu Jayasooriya, [e17134@eng.pdn.ac.lk](mailto:e17134@eng.pdn.ac.lk)
--  E/17/318, Udith Senanayake, [e17318@eng.pdn.ac.lk](mailto:e17318@eng.pdn.ac.lk)
--  E/17/207, Pasindu Marasinghe, [e17207@eng.pdn.ac.lk](mailto:e17207@eng.pdn.ac.lk)
+
+- E/17/134, Kavindu Jayasooriya, [e17134@eng.pdn.ac.lk](mailto:e17134@eng.pdn.ac.lk)
+- E/17/318, Udith Senanayake, [e17318@eng.pdn.ac.lk](mailto:e17318@eng.pdn.ac.lk)
+- E/17/207, Pasindu Marasinghe, [e17207@eng.pdn.ac.lk](mailto:e17207@eng.pdn.ac.lk)
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
 
-2. [Solution Architecture](#solution-architecture )
+2. [Solution Architecture](#solution-architecture)
 
 3. [Hardware & Software Designs](#hardware-and-software-designs)
-    - [Hardware Components](#hardware-components)
-    - [Circuit Designs](#circuit-designs)
-    - [Software Tools](#software-tools)
-    - [UI Designs](#ui-designs)
 
-4. [Testing](#testing)
+   - [Hardware Components](#hardware-components)
+   - [Circuit Designs](#circuit-designs)
+   - [Software Tools](#software-tools)
+   - [UI Designs](#ui-designs)
+   - [3D Prototypes](#3d-prototype)
 
-5. [Detailed budget (tentative)](#detailed-budget)
+4. [Algorithms](#algorithms)
 
-6. [Project Timeline](#project-timeline)
+5. [Testing](#testing)
 
-7. [Conclusion (will be available after testing)](#conclusion)
+6. [Detailed budget (tentative)](#detailed-budget)
 
-8. [Supervisors](#supervisors)
+7. [Project Timeline](#project-timeline)
 
-9. [Links](#links)
+8. [Conclusion (will be available after testing)](#conclusion)
+
+9. [Supervisors](#supervisors)
+
+10. [Links](#links)
 
 ---
 
@@ -47,27 +53,30 @@ People have to face a lot of challenges when they want to see a doctor, from hav
 While there are some solutions already available in the market trying to solve some of these problems like E-channeling, audio and video conferencing they don't provide a good way for the doctor to monitor the patient's condition easily. We aim to design a cheap yet convenient and effective tool to make everybody's life easier by taking patient’s measurements in real-time.
 
 What's available in the system:
-* Making appointments online 
-* Video Consultation.
-* Diagnostics device that reads commonly needed measurements
-    - Heartbeat sensing (clear audio with little to no background noise)
-    - Temperature  sensing ( 0.5&deg;C tolerance)
-    - Glucose levels in the blood
-    - Blood pressure
-* Ability to handle the device via software and hardware
-* Real-Time measurements.   
-* Getting valid prescriptions from the doctor       
-* Verified authenticity of the doctor
-* Privacy and Confidentiality
-* Patient history and other analytics
-* User experiences and reviews for a doctor
+
+- Making appointments online
+- Video Consultation.
+- Diagnostics device that reads commonly needed measurements
+  - Heartbeat sensing (clear audio with little to no background noise)
+  - Temperature sensing ( 0.5&deg;C tolerance)
+  - Glucose levels in the blood
+  - Blood pressure
+- Ability to handle the device via software and hardware
+- Real-Time measurements.
+- Getting valid prescriptions from the doctor
+- Verified authenticity of the doctor
+- Privacy and Confidentiality
+- Patient history and other analytics
+- User experiences and reviews for a doctor
 
 ### Who is it for?
 
-As an individual patient one simply have to sign up and log on to our system to meet verified doctors with audio conferencing; for a more accurate diagnosis, our medical device can be used. Hospitals can use our system to manage doctor-patient communication remotely by getting the platform set up along with their existing systems. Individual doctors can use our system by going through a verification process that assesses the validity of their license to practice medicine ( Doctors, patients who are associated with a hospital that uses our system can directly use this platform ) 
+As an individual patient one simply have to sign up and log on to our system to meet verified doctors with audio conferencing; for a more accurate diagnosis, our medical device can be used. Hospitals can use our system to manage doctor-patient communication remotely by getting the platform set up along with their existing systems. Individual doctors can use our system by going through a verification process that assesses the validity of their license to practice medicine ( Doctors, patients who are associated with a hospital that uses our system can directly use this platform )
 
 ## Solution Architecture (Proposed)
+
 &nbsp;
+
 <!-- non-breaking space ASCII character (to insert a newline)-->
 
 ![high level diagram](./images/high-level-diagram.png)
@@ -77,21 +86,22 @@ The device that assists the diagnostics takes two main measurements; heart/lung 
 
 The online platform provides userfriendly interfaces that include the following functionality for each user type:
 
-* For a doctor:
-    - Schedule Sessions
-    - Interact with the Patient
-    - See Patient’s Medical History
-    - Make Notes
-    - Write the Prescription
-    - Control the Device
+- For a doctor:
 
-* For a patient:
-    - Make Appointments
-    - Interact with the Doctor
-    - Make Payments
-    - Obtain the Prescription
-    - Get Notified About the Appointments
-    - Rate and Give Feedback to the Doctor
+  - Schedule Sessions
+  - Interact with the Patient
+  - See Patient’s Medical History
+  - Make Notes
+  - Write the Prescription
+  - Control the Device
+
+- For a patient:
+  - Make Appointments
+  - Interact with the Doctor
+  - Make Payments
+  - Obtain the Prescription
+  - Get Notified About the Appointments
+  - Rate and Give Feedback to the Doctor
 
 Information about patients like their medical history, NCDs (non-communicable diseases: heart disease, stroke, cancer, diabetes, and chronic lung disease), allergies to medication (Penicillin and related antibiotics, Antibiotics containing sulfonamides (sulfa drugs), Anticonvulsants, Aspirin, ibuprofen and other nonsteroidal anti-inflammatory drugs (NSAIDs), Chemotherapy drugs) or food and lifestyle are going to be stored and made available to the doctor who treats that particular patient; this can be useful for the diagnostician and is not usually accommodated in the conventional way of seeing a doctor.  
 &nbsp;
@@ -101,8 +111,8 @@ About the doctors, information about their medical license, specialty, and avail
 Apart from the information about the users, scheduling times, metadata, and statistics will be stored.
 &nbsp;
 
-
 ## Hardware and Software Designs (Proposed)
+
 &nbsp;
 ![device breakdown](./images/device-breakdown.png)
 
@@ -118,79 +128,90 @@ The temperature sensor is activated when pressed against the skin. (continuous m
 An on/off switch is available to power down the device
 &nbsp;
 
-### Hardware Components  
+### Hardware Components
 
-* __esp32__
-    - Relatively high sampling rate
-    - 12 bit ADC bit depth
-    - Wifi capabilities 
+- **esp32**
 
-* __LM35 Temperature Sensor__
-    - 0.5°C typical accuracy
-    - Low-Cost 
-    - Linear scale  
-    - Calibrated Directly in Celsius
-    - Less Than 60-μA Current Drain
-    - 4V - 30V (operating voltage)
+  - Relatively high sampling rate
+  - 12 bit ADC bit depth
+  - Wifi capabilities
 
-* __Amplifier__
-    - To increase signal-to-noise ratio and also as a unity gain buffer
-    - Features excellent power supply rejection ratio (112 dB)
-    - Excellent common-mode rejection ratio (126 dB)
+- **LM35 Temperature Sensor**
+
+  - 0.5°C typical accuracy
+  - Low-Cost
+  - Linear scale
+  - Calibrated Directly in Celsius
+  - Less Than 60-μA Current Drain
+  - 4V - 30V (operating voltage)
+
+- **Amplifier**
+  - To increase signal-to-noise ratio and also as a unity gain buffer
+  - Features excellent power supply rejection ratio (112 dB)
+  - Excellent common-mode rejection ratio (126 dB)
 
 ### Circuit Designs
 
-The following diagrams show the proposed designs for the prototype device: 
+The following diagrams show the proposed designs for the prototype device:
 
-* __Schematic Diagram__
- ![circuit-schematic](../Designs/Models/circuit-schematic-diagram.png)
- LM53: temprature sensor
-&nbsp;  
-    CAO106: electret condenser microphone
-&nbsp;  
-    NJM5532: low noise operational amplifier
-&nbsp;
-* __PCB Layout__
- ![pcb-layout](../Designs/Models/circuit-PCB-layout.png)
+- **Schematic Diagram**
+  ![circuit-schematic](./images/schematic-diagram.svg)
+  LM53: temprature sensor
+  &nbsp;  
+   CAO106: electret condenser microphone
+  &nbsp;  
+   NJM5532: low noise operational amplifier
+  &nbsp;
+- **PCB Layout**
 
-* __3D Model__
- ![circuit-3d-model](../Designs/Models/circuit-3D-model.png)
+  ![pcb-layout](./images/pcb-design.svg)
 
-* __Design Decisions__
-    + I2C interface is utilized to allow connectivity for most of the common sphygmomanometers (blood pressure monitors)
-    + The built-in capacitive touch sensor capability is used to trigger the temperature sensor
-    + A bandpass filter is used to filter out the unwanted frequencies
-    + The low pass filter is set to lower frequencies than usual to better suit internal body sounds
+- **3D Circuit Model**
+  ![circuit-3d-model](./images/3D-model.png)
+
+- **Design Decisions**
+  - I2C interface is utilized to allow connectivity for most of the common sphygmomanometers (blood pressure monitors)
+  - The built-in capacitive touch sensor capability is used to trigger the temperature sensor
+  - A bandpass filter is used to filter out the unwanted frequencies
+  - The low pass filter is set to lower frequencies than usual to better suit internal body sounds
 
 ### Software Tools and Technologies
 
-* __React__
-    - Virtual DOM feature that allows rendering only the changed UI components (avoiding simple changes at the top level from causing huge ripples to the user interface)
-    - Provide high performance making complex apps run extremely fast
-* __Node.js__
-    -  Load balancing and the capability to handle a huge number of concurrent connections
-    - Possible to create a separate microservice for any functionality
-    - Data is divided into small chunks that are sent to the front end piece by piece (Good for video conferencing)
+- **React**
+  - Virtual DOM feature that allows rendering only the changed UI components (avoiding simple changes at the top level from causing huge ripples to the user interface)
+  - Provide high performance making complex apps run extremely fast
+- **Node.js**
 
-* __AWS__
-    - Highly scalable
-    - Flexible in choosing OS, programming languages, database, and other services
-    - The pay-as-you-go pricing (pay only for the exact amount of resources used)
-    
-* __MongoDB__
-    - A non-relational database that is favorable to the data in the system. 
-    - It is a natural form to store data (human-readable)
-    - Structured and unstructured information can be stored in the same document
-    - Dynamic schema; adding fields or leaving a field out is possible
+  - Load balancing and the capability to handle a huge number of concurrent connections
+  - Possible to create a separate microservice for any functionality
+  - Data is divided into small chunks that are sent to the front end piece by piece (Good for video conferencing)
+
+- **AWS**
+  - Highly scalable
+  - Flexible in choosing OS, programming languages, database, and other services
+  - The pay-as-you-go pricing (pay only for the exact amount of resources used)
+- **MongoDB**
+  - A non-relational database that is favorable to the data in the system.
+  - It is a natural form to store data (human-readable)
+  - Structured and unstructured information can be stored in the same document
+  - Dynamic schema; adding fields or leaving a field out is possible
 
 ## UI Designs
+
+Click [here](./ui_designs.md) to see all UIs.
 
 ![ui](./images/UI_designs.svg)
 
 ## 3D Prototype
 
-https://user-images.githubusercontent.com/59658804/129740111-13518ce4-72f2-4187-9892-a81d828f9e65.mp4
+[![download](./images/video-play-button.png)](https://user-images.githubusercontent.com/59658804/129740111-13518ce4-72f2-4187-9892-a81d828f9e65.mp4)
 
+## Algorithms
+
+- When a patient adds an appointment
+  ![add_appointment](./images/add_apointment.svg)
+- When patients join a session
+  ![join_session](./images/Join_session.svg)
 
 ## Testing
 
@@ -200,27 +221,28 @@ Prototypes with different hardware implementations are planned to be used to tes
 
 All items and costs according to the current plan: (might change in the future)
 
-| Item          | Quantity  | Unit Cost (Rs.)  | Total (Rs.) |
-| ------------- |:---------:|:----------:|-------:|
-|ESP32 |1|1500|1500|
-| LM35 Temperature Sensor   | 1         | 110| 110|
-| Pre-amplifier MAX4466 |1|500|500|
-|Condenser mic CA0106|1|20|20|
-|Stethoscope|1|840|840|
-| Others|1|1500|1500|
-|||TOTAL|4470|
+| Item                    | Quantity | Unit Cost (Rs.) | Total (Rs.) |
+| ----------------------- | :------: | :-------------: | ----------: |
+| ESP32                   |    1     |      1500       |        1500 |
+| LM35 Temperature Sensor |    1     |       110       |         110 |
+| Pre-amplifier MAX4466   |    1     |       500       |         500 |
+| Condenser mic CA0106    |    1     |       20        |          20 |
+| Stethoscope             |    1     |       840       |         840 |
+| Others                  |    1     |      1500       |        1500 |
+|                         |          |      TOTAL      |        4470 |
 
 ## Project Timeline
 
 ![timeline](./images/gaant_chart.png)
 
 ## Supervisors
+
 - Dr.Isuru Nawinne [web page](http://www.ce.pdn.ac.lk/academic-staff/isuru-nawinne/)
 - Dr.Mahanama Wickramasinghe [web page](http://www.ce.pdn.ac.lk/2021/05/02/dr-mahanama-wickramasinghe/)
 
 ## Conclusion
 
-<!-- 
+<!--
 What was achieved:
 
 Future developments:
