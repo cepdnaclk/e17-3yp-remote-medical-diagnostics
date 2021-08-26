@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import config from "config";
+import Config from "../config/default";
 import bcrypt from "bcrypt";
 //bcrypt uses a symmetric-key block cipher called Blowfish for hashing passwords 
 import { ObjectId } from "bson";
@@ -19,7 +19,7 @@ export interface PatientDocument extends mongoose.Document {
     treatmentHistory?: { docId: ObjectId, date: Date, prescription: string },// details of previous sessions
     createdAt: Date,
     updatedAt: Date,
-    comparePassword(enterdPassword: string): Promise<boolean>;
+    comparePassword(enteredPassword: string): Promise<boolean>;
 }
 
 const PatientSchema = new mongoose.Schema({
@@ -39,11 +39,11 @@ const PatientSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
-PatientSchema.methods.comparePassword = async function (enterdPassword: string) {
+PatientSchema.methods.comparePassword = async function (enteredPassword: string) {
     const patient = this as PatientDocument;
 
-    //enterd password is plaintext; patient.password is a hash
-    return bcrypt.compare(enterdPassword, patient.password).catch((e) => false);
+    //entered password is plaintext; patient.password is a hash
+    return bcrypt.compare(enteredPassword, patient.password).catch((e) => false);
 }
 
 //Pre middleware functions are executed one after another, when each middleware calls next
@@ -55,12 +55,13 @@ PatientSchema.pre("save", async function (next: mongoose.HookNextFunction) {
     if (!patient.isModified("password")) return next();
 
     //a random string to make the hash unpredictable 
-    const salt = await bcrypt.genSalt(config.get("saltWorkFactor"));
-    const hash = await bcrypt.hashSync(patient.password, salt);
+    const salt = await bcrypt.genSalt(Config.saltWorkFactor);
+    const hash = await bcrypt.hash(patient.password, salt);
 
     patient.password = hash;
 });
 
 const Patient = mongoose.model<PatientDocument>("Patient", PatientSchema);
+
 
 export default Patient;
