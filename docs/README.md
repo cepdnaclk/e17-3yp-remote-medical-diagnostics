@@ -51,7 +51,9 @@ title:
 
 ## Introduction
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ErDjIRsoetE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/ErDjIRsoetE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+</div>
   
   
   
@@ -211,7 +213,9 @@ Click [here](./ui_designs.md) to see all UIs.
 
 ## 3D Prototype
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jyXymetAgQc?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/jyXymetAgQc?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+</div>
 
 ## Algorithms
 
