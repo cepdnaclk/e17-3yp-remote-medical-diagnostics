@@ -1,13 +1,8 @@
 # Tests
 
-## Navigation
+This directory contains end-to-end tests for the project
 
-### Frontend Tests
+### Navigation to other tests
 
-[tests](src/front-end/src/tests/)
-
-### Backend Tests
-
-[unit tests](src/back-end/src/tests/unit/)&nbsp;
-
-[integrated tests](src/back-end/src/tests/integrated/)
+- [Front-end tests](../src/front-end/src/tests)
+- [Back-end tests](../src/back-end/src/tests)
