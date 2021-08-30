@@ -88,9 +88,9 @@ As an individual patient one simply have to sign up and log on to our system to 
 
 <!-- non-breaking space ASCII character (to insert a newline)-->
 
-![high level diagram](./images/high-level-diagram.png)
+![high level diagram](./images/high-level-diagram.svg)
 
-The device that assists the diagnostics takes two main measurements; heart/lung sounds and temperature. Support for additional peripherals that are used to measure glucose levels in the blood, blood pressure is available. These are the information a doctor usually takes to diagnose a patient initially, most of the medical centers do not have complex and expensive machinery with them unless it is a fully-fledged hospital that treats inpatients. This is because they are not needed for most of the common sicknesses that patients take medicine every day. Our device takes these common measurements, therefore, saves the vast majority of hospital trips people need to take. There is some portion of diseases that require laboratory test results and inner body images which our device does not support.
+This diagram shows how components in our system connect with each other. The device that assists the diagnostics takes two main measurements; heart/lung sounds and temperature. Support for additional peripherals that are used to measure glucose levels in the blood, blood pressure is available. These are the information a doctor usually takes to diagnose a patient initially, most of the medical centers do not have complex and expensive machinery with them unless it is a fully-fledged hospital that treats inpatients. This is because they are not needed for most of the common sicknesses that patients take medicine every day. Our device takes these common measurements, therefore, saves the vast majority of hospital trips people need to take. There is some portion of diseases that require laboratory test results and inner body images which our device does not support. But for reviewing those lab results and blood works this system can be used easily. 
 &nbsp;
 
 The online platform provides userfriendly interfaces that include the following functionality for each user type:
@@ -214,7 +214,7 @@ Click [here](./ui_designs.md) to see all UIs.
 ## 3D Prototype
 
 <div class="embed-responsive embed-responsive-16by9">
-<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/jyXymetAgQc?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/-WBMsB9ggEM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
 </div>
 
 ## Algorithms
