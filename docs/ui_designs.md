@@ -1,6 +1,11 @@
 # User Interfaces
 ## Patient's UIs
 
+<img src = "images/ui/ui0.png" width="600px" height="400px"/>
+
+This is the landing page of the web application.
+
+---
 <img src = "images/ui/ui1.png" width="600px" height="400px"/>
 
 This is the login page of the web application. The patient can either log in from here or sign up by clicking on 'Create Account'
@@ -13,7 +18,12 @@ A patient can create an account here by filling out the form or can directly sig
 ---
 <img src = "images/ui/ui3.png" width="600px" height="400px"/>
 
-This is the home page of the user profile. The patient can search for a doctor and make an appointment using the search box. The sidebar can be used to nagivate to Appointments, Doctors and Payments. Also the user can access the User Profile page by clicking on the username.
+This is the home page of the user profile. The patient can search for a doctor and make an appointment using the search box. The sidebar can be used to nagivate to Appointments, Doctors and Payments. The user can access the User Profile page by clicking on the username. Also, a countdown timer notifies the patien't about the next appointment.
+
+---
+<img src = "images/ui/ui2-1.png" width="600px" height="400px"/>
+
+If a patient hasn't configured the medical device yet, a pop-up will appear allowing the device to be configured.
 
 ---
 <img src = "images/ui/ui4.png" width="600px" height="400px"/>
