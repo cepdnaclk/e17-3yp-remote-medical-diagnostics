@@ -88,7 +88,7 @@ As an individual patient one simply have to sign up and log on to our system to 
 
 <!-- non-breaking space ASCII character (to insert a newline)-->
 
-![high level diagram](./images/high-level-diagram.svg)
+![high level diagram](./images/high-level-diagram.png)
 
 This diagram shows how components in our system connect with each other. The device that assists the diagnostics takes two main measurements; heart/lung sounds and temperature. Support for additional peripherals that are used to measure glucose levels in the blood, blood pressure is available. These are the information a doctor usually takes to diagnose a patient initially, most of the medical centers do not have complex and expensive machinery with them unless it is a fully-fledged hospital that treats inpatients. This is because they are not needed for most of the common sicknesses that patients take medicine every day. Our device takes these common measurements, therefore, saves the vast majority of hospital trips people need to take. There is some portion of diseases that require laboratory test results and inner body images which our device does not support. But for reviewing those lab results and blood works this system can be used easily. 
 &nbsp;
@@ -122,11 +122,11 @@ Apart from the information about the users, scheduling times, metadata, and stat
 
 ## Hardware and Software Designs
 
-&nbsp;
-![device_port](./images/med_device/medical_device_port.jpg)
-![device_temp_sensor](./images/med_device/medical_device_temperature_sensor.jpg)
-![device_temp_diaphragm](./images/med_device/medical_device_diaphram.jpg)
-![device_temp_dustcap](./images/med_device/medical_device_dustcap.jpg)
+## 3D Prototype
+
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/-WBMsB9ggEM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+</div>
 
 
 The device is completely wireless, WiFi is used to do data communication (can connect with a smartphone/computer without manual configuration).&nbsp;
@@ -217,19 +217,14 @@ Click [here](./ui_designs.md) to see all UIs.
 
 #### Patient's UIs
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FloRkV7q0OmFPF1GQE8CiwB%2FMedGenie_Prototypes-patient%3Fnode-id%3D866%253A13%26scaling%3Dcontain%26page-id%3D1%253A2%26starting-point-node-id%3D866%253A13" allowfullscreen></iframe>
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FloRkV7q0OmFPF1GQE8CiwB%2FMedGenie_Prototypes-patient%3Fnode-id%3D866%253A13%26scaling%3Dcontain%26page-id%3D1%253A2%26starting-point-node-id%3D866%253A13" title="figma mockup" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+</div>
 
 #### Doctor's UIs
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FczeRaUU8YfMwATRqlCa1lW%2FMedGenie-Copy%3Fnode-id%3D507%253A15%26scaling%3Dcontain%26page-id%3D1%253A2%26starting-point-node-id%3D507%253A15" allowfullscreen></iframe></body>
-
-
-
-
-## 3D Prototype
-
 <div class="embed-responsive embed-responsive-16by9">
-<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/-WBMsB9ggEM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+<iframe class="embed-responsive-item" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FczeRaUU8YfMwATRqlCa1lW%2FMedGenie-Copy%3Fnode-id%3D507%253A15%26scaling%3Dcontain%26page-id%3D1%253A2%26starting-point-node-id%3D507%253A15" title="figma mockup" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
 </div>
 
 ## Algorithms
