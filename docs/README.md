@@ -82,7 +82,7 @@ What's available in the system:
 
 As an individual patient one simply have to sign up and log on to our system to meet verified doctors with audio conferencing; for a more accurate diagnosis, our medical device can be used. Hospitals can use our system to manage doctor-patient communication remotely by getting the platform set up along with their existing systems. Individual doctors can use our system by going through a verification process that assesses the validity of their license to practice medicine ( Doctors, patients who are associated with a hospital that uses our system can directly use this platform )
 
-## Solution Architecture (Proposed)
+## Solution Architecture
 
 &nbsp;
 
@@ -120,10 +120,14 @@ About the doctors, information about their medical license, specialty, and avail
 Apart from the information about the users, scheduling times, metadata, and statistics will be stored.
 &nbsp;
 
-## Hardware and Software Designs (Proposed)
+## Hardware and Software Designs
 
 &nbsp;
-![device breakdown](./images/device-breakdown.png)
+![device_port](./images/med_device/medical_device_port.jpg)
+![device_temp_sensor](./images/med_device/medical_device_temperature_sensor.jpg)
+![device_temp_diaphragm](./images/med_device/medical_device_diaphram.jpg)
+![device_temp_dustcap](./images/med_device/medical_device_dustcap.jpg)
+
 
 The device is completely wireless, WiFi is used to do data communication (can connect with a smartphone/computer without manual configuration).&nbsp;
 
@@ -209,7 +213,18 @@ The following diagrams show the proposed designs for the prototype device:
 
 Click [here](./ui_designs.md) to see all UIs.
 
-![ui](./images/UI_designs.svg)
+### UI Prototypes
+
+#### Patient's UIs
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FloRkV7q0OmFPF1GQE8CiwB%2FMedGenie_Prototypes-patient%3Fnode-id%3D866%253A13%26scaling%3Dcontain%26page-id%3D1%253A2%26starting-point-node-id%3D866%253A13" allowfullscreen></iframe>
+
+#### Doctor's UIs
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FczeRaUU8YfMwATRqlCa1lW%2FMedGenie-Copy%3Fnode-id%3D507%253A15%26scaling%3Dcontain%26page-id%3D1%253A2%26starting-point-node-id%3D507%253A15" allowfullscreen></iframe></body>
+
+
+
 
 ## 3D Prototype
 
