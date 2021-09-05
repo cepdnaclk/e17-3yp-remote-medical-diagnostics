@@ -146,6 +146,7 @@
   right: 0;
   bottom: 0;
   position: fixed;
+  transition: ease-out
 }
 
 .overlay {
