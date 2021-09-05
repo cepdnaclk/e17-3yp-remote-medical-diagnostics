@@ -9,7 +9,9 @@ class PatientHome extends React.Component<PatientHomeProps, PatientHomeState> {
   state = {};
   render() {
     return (
-      <PatientHomeSearchDoctor />
+    	<div className= "find-a-doc-box">
+    		<PatientHomeSearchDoctor />
+    	</div>
     );
   }
 }
