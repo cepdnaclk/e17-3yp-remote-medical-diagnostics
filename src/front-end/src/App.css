@@ -63,53 +63,47 @@
 
 /*Search Box Related*/
 .find-a-doctor {
-  position: relative;
-  top: 150px;
-  left: 400px;
-  font-size:x-large;
+  font-size: x-large;
   font-family: "roboto";
   background-color: white;
   display: flex;
   flex-direction: column;
-  width: 20rem;
   margin: 0 auto;
   text-align: center;
   font-weight: bold;
-  padding: 10px;
+  padding: 15px;
   border-radius: 10px;
-  
 }
 
 .find-a-doctor-input {
-  font-size:16px;
+  font-size: 16px;
   border: 2px solid;
-  border-radius : 4px;
+  border-radius: 4px;
   border-color: #ffffff;
   margin: 2px 0;
   width: 15rem;
   color: grey;
 }
-.find-a-doctor-input:focus{
+.find-a-doctor-input:focus {
   outline: none;
 }
-.find-a-doctor-input-field{
+.find-a-doctor-input-field {
   border: 1px solid;
-  border-radius : 8px;
-  border-color: #4285F4;
+  border-radius: 8px;
+  border-color: #4285f4;
   margin: 2px 0;
-  width : 18rem;
+  width: 18rem;
   height: 38px;
 }
 
 .find-a-doctor-button {
   border: 1px solid;
-  font-size:large;
+  font-size: large;
   height: 36px;
-  margin: 3px 0;
-  border-radius : 6px;
+  margin-top: 20px;
+  border-radius: 6px;
   color: white;
-  background-color: #4285F4;
-  width : 292px;
-  height : 38px
+  background-color: #4285f4;
+  width: 292px;
+  height: 38px;
 }
-
