@@ -46,7 +46,7 @@ class Login extends React.Component<props, LoginState> {
       this.setState({ formDisabled: false });
     }
 
-    // console.log("form state", this.state);
+    console.log("form state", process.env);
   };
   componentDidMount = () => {
     document.body.style.backgroundColor = "white";
