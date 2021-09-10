@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
 import { setName } from "../globalStates/LoggedUser";
 import logo from "../logo.svg";
+import client from "../httpClient";
 
 export interface LoginProps extends RouteComponentProps {}
 type props = PropsFromRedux & LoginProps;
@@ -38,6 +39,7 @@ class Login extends React.Component<props, LoginState> {
     e.preventDefault();
     this.setState({ formDisabled: true });
     if (await this.loginDetailsAreCorrect()) {
+      client.get("/login/patient");
       this.props.dispatch(setName(`${this.state.email}`)); // Todo: use firstname instead of email
       this.props.history.push("/home");
     } else {
