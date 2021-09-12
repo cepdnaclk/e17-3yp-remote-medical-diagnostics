@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
 import { ReactComponent as SearchIcon } from "../../icons/search.svg";
@@ -6,6 +7,7 @@ import { ReactComponent as Calendar } from "../../icons/calendar.svg";
 import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Specialization } from "../../icons/specialization.svg";
 import { ReactComponent as Person } from "../../icons/person.svg";
+
 
 class PatientHomeSearchDoctor extends React.Component<RouteComponentProps> {
   handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (
@@ -18,9 +20,9 @@ class PatientHomeSearchDoctor extends React.Component<RouteComponentProps> {
 
   render() {
     return (
-      <div className="find-a-doctor">
-        Find a Doctor
-        <form onSubmit={this.handleSubmit}>
+      <div className="find-a-doctor shadow-sm">
+        <div className="mb-3">Find a Doctor</div>
+        <form onSubmit={this.handleSubmit} className="d-flex flex-column">
           <label className="find-a-doctor-input-field">
             &nbsp;&nbsp;
             <Person />
@@ -64,7 +66,6 @@ class PatientHomeSearchDoctor extends React.Component<RouteComponentProps> {
               className="find-a-doctor-input"
             />
           </label>
-
           <button type="submit" className="find-a-doctor-button">
             <SearchIcon />
             &nbsp; Search
