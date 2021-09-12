@@ -90,6 +90,7 @@
   border: 2px solid;
   border-radius : 4px;
   border-color: #ffffff;
+  background-color: white;
   margin: 2px 0;
   width: 15rem;
   color: grey;
@@ -127,18 +128,18 @@
   width: 200px;
   position: fixed;
   top: 30px;
-  left: 950px
+  /*left: 950px;*/
+  right: 2%;
 }
 
 .find-a-doc-popup{
+  position:absolute;
   top: 50%;
   left: 50%;
-  position:absolute;
   transform: translate(-50%, -50%);
-
 }
 
-.modl, .overlay {
+.modl-pdoc, .overlay-pdoc {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -149,17 +150,19 @@
   transition: ease-out
 }
 
-.overlay {
+
+.overlay-pdoc {
   background: rgba(49,49,49,0.8);
 }
 
 
-.close-modl{
+.close-modl-pdoc{
   height: 2px;
   color: rgba(0,0,0);
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border: none;
   position:absolute;
-  top: 162px;
-  left: 750px;
+  top: 1%;
+  /* left: 750px; */
+  right: 1%;
 }
