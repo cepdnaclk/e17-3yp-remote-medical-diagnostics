@@ -1,4 +1,6 @@
 import * as React from "react";
+
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
 import { ReactComponent as SearchIcon } from "../../icons/search.svg";
 import { ReactComponent as Calendar } from "../../icons/calendar.svg";
@@ -6,12 +8,14 @@ import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Specialization } from "../../icons/specialization.svg";
 import { ReactComponent as Person } from "../../icons/person.svg";
 
-class PatientHomeSearchDoctor extends React.Component {
+
+class PatientHomeSearchDoctor extends React.Component<RouteComponentProps> {
   handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (
     e
   ) => {
-    alert("Searching for the Doctor......");
+    //alert("Searching for the Doctor......");
     e.preventDefault();
+    this.props.history.push("/doctors");
   };
 
   render() {
@@ -19,7 +23,7 @@ class PatientHomeSearchDoctor extends React.Component {
       <div className="find-a-doctor shadow-sm">
         <div className="mb-3">Find a Doctor</div>
         <form onSubmit={this.handleSubmit} className="d-flex flex-column">
-          <label className="find-a-doctor-input-field ">
+          <label className="find-a-doctor-input-field">
             &nbsp;&nbsp;
             <Person />
             &nbsp;&nbsp;
@@ -57,12 +61,11 @@ class PatientHomeSearchDoctor extends React.Component {
             <Calendar />
             &nbsp;&nbsp;
             <input
-              type="datetime-local"
-              placeholder="Date and Time"
+              type="date"
+              placeholder="Date"
               className="find-a-doctor-input"
             />
           </label>
-
           <button type="submit" className="find-a-doctor-button">
             <SearchIcon />
             &nbsp; Search
@@ -73,4 +76,4 @@ class PatientHomeSearchDoctor extends React.Component {
   }
 }
 
-export default PatientHomeSearchDoctor;
+export default withRouter(PatientHomeSearchDoctor);
