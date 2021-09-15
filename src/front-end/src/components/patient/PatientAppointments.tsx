@@ -1,11 +1,11 @@
 import { Dictionary } from "@reduxjs/toolkit";
 import React, { Fragment } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { Badge, Card } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { RouteComponentProps, withRouter } from "react-router";
-import { join } from '../../store/globalStates/VideoChat';
-import Store from "../../store/Store";
-import * as actions from '../../store/api';
+// import { join } from '../../store/globalStates/VideoChat';
+// import Store from "../../store/Store";
+// import * as actions from '../../store/api';
 
 export interface PatientAppointmentsProps extends RouteComponentProps { }
 
@@ -72,7 +72,7 @@ class PatientAppointments extends React.Component<
                       <td key={"date"}>{item["Date"]}</td>
                       <td key={"time"}>{item["Time"]}</td>
                       <th scope="row">{i++}</th>
-                      {item["paid"] === "true" && <Fragment><td key="join"><button className="btn btn-primary btn-sm" onClick={() => this.enterChatRoom(this.props)}>join</button></td><td><Badge bg="secondary">PAID</Badge></td></Fragment>}
+                      {item["paid"] === "true" && <Fragment><td key="join"><button className="btn btn-primary btn-sm" onClick={() => this.enterChatRoom(this.props)}>join</button></td><td><span className="badge bg-secondary">PAID</span></td></Fragment>}
                       {item["paid"] === "false" && <td key="pay"><button className="btn btn-success btn-sm" onClick={() => this.props.history.push('/payments')}>pay</button></td>}
                     </tr>;
                   })}

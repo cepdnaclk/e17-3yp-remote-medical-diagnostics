@@ -2,8 +2,8 @@ import { createAction } from "@reduxjs/toolkit";
 
 export interface apiCalledPayload {
     url: string,
-    onSuccess: string,
-    onError: string
+    // onSuccess: string,
+    // onError: string
 }
 
 export interface apiCallSuccessPayload {
