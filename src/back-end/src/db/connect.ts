@@ -8,9 +8,9 @@ export default async function connect() {
     try {
         await mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
         log.info("connected to database");
-    } catch (error) {
+    } catch (error: any) {
         log.error("database error", error);
-            process.exit(1);
+        process.exit(1);
     }
 }
 

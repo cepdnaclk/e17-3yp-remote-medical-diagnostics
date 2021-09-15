@@ -1,8 +1,8 @@
 import React from "react";
 
-export interface PatientDoctorsProps {}
+export interface PatientDoctorsProps { }
 
-export interface PatientDoctorsState {}
+export interface PatientDoctorsState { }
 
 class PatientDoctors extends React.Component<
   PatientDoctorsProps,

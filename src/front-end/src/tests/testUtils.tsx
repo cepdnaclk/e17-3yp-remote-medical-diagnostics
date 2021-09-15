@@ -1,7 +1,7 @@
 import React, { FC, ReactElement } from "react";
 import { render, RenderOptions } from "@testing-library/react";
 import { Provider as StateProvider } from "react-redux";
-import Store from "../Store";
+import Store from "../store/Store";
 
 const AllTheProviders: FC = ({ children }) => {
   return <StateProvider store={Store}>{children}</StateProvider>;

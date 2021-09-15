@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { setName } from "../globalStates/LoggedUser";
+import { setName } from "../store/globalStates/LoggedUser";
 import logo from "../logo.svg";
 
 export interface LoginProps extends RouteComponentProps { }
