@@ -9,7 +9,7 @@ export async function createPatientHandler(req: Request, res: Response) {
 
         return res.send(omit(patient.toJSON(), "password"));
 
-    } catch (e) {
+    } catch (e: any) {
         log.error(e)
         return res.status(409).send(e.message);
     }

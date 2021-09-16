@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import "../App.css";
-import { toggle } from "../globalStates/SidebarState";
-import { RootState } from "../Store";
+import { toggle } from "../store/globalStates/SidebarState";
+import { RootState } from "../store/Store";
 import DropdownMenu from "./dropdownMenu";
 import { ReactComponent as ExpandIcon } from "../icons/expandIcon.svg";
 
@@ -11,7 +11,7 @@ export interface SidebarProps {
   username: string;
 }
 type props = SidebarProps & PropsFromRedux;
-export interface SidebarState {}
+export interface SidebarState { }
 
 class Sidebar extends React.Component<props, SidebarState> {
   state = {

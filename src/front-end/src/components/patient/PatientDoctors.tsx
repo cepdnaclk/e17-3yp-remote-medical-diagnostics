@@ -2,9 +2,9 @@ import React from "react";
 import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 
-export interface PatientDoctorsProps {}
+export interface PatientDoctorsProps { }
 
-export interface PatientDoctorsState {}
+export interface PatientDoctorsState { }
 
 class PatientDoctors extends React.Component<
   PatientDoctorsProps,

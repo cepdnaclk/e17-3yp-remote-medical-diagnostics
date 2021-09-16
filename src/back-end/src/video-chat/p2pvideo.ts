@@ -4,6 +4,7 @@ import config from 'config';
 import http from 'http';
 import { Server } from 'socket.io'
 import { v4 as uuidV4 } from 'uuid'; // uuid ; A universally unique identifier (for each room)
+import Peer from 'peerjs';
 
 const app = express()
 const server = http.createServer(app);

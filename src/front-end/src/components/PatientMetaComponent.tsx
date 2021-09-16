@@ -1,6 +1,6 @@
 import * as React from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { RootState } from "../Store";
+import { connect, ConnectedProps, Provider } from "react-redux";
+import Store, { RootState } from "../store/Store";
 import { Switch, Route } from "react-router";
 import Sidebar from "./sidebar";
 import SidebarItem from "./sidebarItem";
@@ -13,8 +13,10 @@ import PatientAppointments from "./patient/PatientAppointments";
 import PatientDoctors from "./patient/PatientDoctors";
 import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
+import PatientChatRoom from "./patient/PatientChatRoom";
 
-export interface PatientMetaComponentProps {}
+
+export interface PatientMetaComponentProps { }
 export interface PatientMetaComponentState {
   config_device_modal: boolean;
 }
@@ -31,42 +33,47 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
 
   render() {
     return (
-      <Router>
-        <div className="d-flex">
-          <div className="d-flex flex-column flex-shrink-0 me-3">
-            <Sidebar username={this.props.firstName}>
-              <SidebarItem name="Home" icon={Home} link="/" />
-              <SidebarItem
-                name="Appointments"
-                icon={Appointment}
-                link="/appointments"
-              />
-              <SidebarItem name="Doctors" icon={Doctor} link="/doctors" />
-              <SidebarItem name="Payments" icon={CreditCard} link="/payments" />
-            </Sidebar>
-          </div>
-
-          <div className="d-flex flex-grow-1 justify-content-center flex-column">
-            <Switch>
-              <Route exact path="/">
-                <PatientHome
-                  modal_status_global={this.state.config_device_modal}
-                  closeModal={this.resetModalState}
+      <Provider store={Store}>
+        <Router>
+          <div className="d-flex">
+            <div className="d-flex flex-column flex-shrink-0 me-3">
+              <Sidebar username={this.props.firstName}>
+                <SidebarItem name="Home" icon={Home} link="/" />
+                <SidebarItem
+                  name="Appointments"
+                  icon={Appointment}
+                  link="/appointments"
                 />
-              </Route>
-              <Route path="/appointments">
-                <PatientAppointments />
-              </Route>
-              <Route path="/doctors">
-                <PatientDoctors />
-              </Route>
-              <Route path="/payments">
-                <PatientPayments />
-              </Route>
-            </Switch>
+                <SidebarItem name="Doctors" icon={Doctor} link="/doctors" />
+                <SidebarItem name="Payments" icon={CreditCard} link="/payments" />
+              </Sidebar>
+            </div>
+
+            <div className="flex-column">
+              <Switch>
+                <Route exact path="/">
+                  <PatientHome
+                    modal_status_global={this.state.config_device_modal}
+                    closeModal={this.resetModalState}
+                  />
+                </Route>
+                <Route path="/appointments">
+                  <PatientAppointments />
+                </Route>
+                <Route path="/chat-room">
+                  <PatientChatRoom />
+                </Route>
+                <Route path="/doctors">
+                  <PatientDoctors />
+                </Route>
+                <Route path="/payments">
+                  <PatientPayments />
+                </Route>
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </Provider>
     );
   }
 }

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { setName } from "../globalStates/LoggedUser";
+import { setName } from "../store/globalStates/LoggedUser";
 import logo from "../logo.svg";
 
-export interface LoginProps extends RouteComponentProps {}
+export interface LoginProps extends RouteComponentProps { }
 type props = PropsFromRedux & LoginProps;
 export interface LoginState {
   email: string;
@@ -123,7 +123,7 @@ class Login extends React.Component<props, LoginState> {
   async loginDetailsAreCorrect(): Promise<boolean> {
     // let {email, pass} = this.state;
     // artificial delay to simulate a network call
-    await new Promise((f) => setTimeout(f, 2000));
+    await new Promise((f) => setTimeout(f, 500));
     return true;
     // Todo: implement the logic later
   }

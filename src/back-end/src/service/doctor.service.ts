@@ -5,10 +5,11 @@ import { omit } from "lodash";
 export async function createDoctor(input: DocumentDefinition<DoctorDocument>) {
     try {
         return await Doctor.create(input);
-    } catch (error) {
+    } catch (error: any) {
         throw new Error(error);
     }
 }
+
 function findDoctor(query: FilterQuery<DoctorDocument>) {
     return Doctor.findOne(query).lean();
 }
