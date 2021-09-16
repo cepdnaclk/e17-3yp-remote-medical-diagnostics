@@ -15,12 +15,22 @@ import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
 import PatientChatRoom from "./patient/PatientChatRoom";
 
-export interface PatientHomeProps { }
-export interface PatientHomeState { }
-type props = PropsFromRedux & PatientHomeProps;
 
-class PatientMeta extends React.Component<props, PatientHomeState> {
-  state = {};
+export interface PatientMetaComponentProps {}
+export interface PatientMetaComponentState {
+  config_device_modal: boolean;
+}
+type props = PropsFromRedux & PatientMetaComponentProps;
+
+class PatientMeta extends React.Component<props, PatientMetaComponentState> {
+  state = {
+    config_device_modal: true, //global state of the config device modal
+  };
+
+  resetModalState = (): void => {
+    this.setState({ config_device_modal: false });
+  };
+
   render() {
     return (
       <Provider store={Store}>
@@ -58,7 +68,6 @@ class PatientMeta extends React.Component<props, PatientHomeState> {
                 </Route>
               </Switch>
             </div>
-
           </div>
         </Router>
       </Provider>

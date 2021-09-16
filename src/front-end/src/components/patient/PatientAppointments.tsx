@@ -7,13 +7,19 @@ import { RouteComponentProps, withRouter } from "react-router";
 // import Store from "../../store/Store";
 // import * as actions from '../../store/api';
 
+<<<<<<< video-chat
 export interface PatientAppointmentsProps extends RouteComponentProps { }
+=======
+
+export interface PatientAppointmentsProps {}
+>>>>>>> main
 
 type props = PatientAppointmentsProps & PropsFromRedux;
 export interface PatientAppointmentsState {
   appointments: string;
 }
 
+<<<<<<< video-chat
 class PatientAppointments extends React.Component<
   props,
   PatientAppointmentsState
@@ -82,6 +88,18 @@ class PatientAppointments extends React.Component<
           </div>
         </div>
       </div>
+=======
+
+
+class PatientAppointments extends React.Component<PatientAppointmentsProps,PatientAppointmentsState> {
+
+  
+
+
+  render() {
+    return (
+      <h1>Patient's Appointments</h1>
+>>>>>>> main
     );
   }
 }
