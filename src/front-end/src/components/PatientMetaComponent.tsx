@@ -16,7 +16,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import PatientChatRoom from "./patient/PatientChatRoom";
 
 
-export interface PatientMetaComponentProps {}
+export interface PatientMetaComponentProps { }
 export interface PatientMetaComponentState {
   config_device_modal: boolean;
 }
@@ -52,7 +52,10 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
             <div className="flex-column">
               <Switch>
                 <Route exact path="/">
-                  <PatientHome />
+                  <PatientHome
+                    modal_status_global={this.state.config_device_modal}
+                    closeModal={this.resetModalState}
+                  />
                 </Route>
                 <Route path="/appointments">
                   <PatientAppointments />
