@@ -4,7 +4,7 @@ import log from './logger';
 import connect from './db/connect';
 import routes from './routes/routes';
 
-const {port, host} = Config
+const { port, host } = Config
 
 async function main() {
     const app = express();
@@ -18,10 +18,14 @@ async function main() {
 
 // Used to stop listening to a port when tests are running
 if (require.main === module) {
-    main().then(app =>{
-    app.listen(port, host)
-    log.info(`server listening at port ${port} of host ${host}`)
-})}
+    main().then(app => {
+        app.listen(port, host)
+        log.info(`server listening at port ${port} of host ${host}`)
+        console.log(`server listening at port ${port} of host ${host}`)
+    }).catch((error: any) => {
+        log.debug(error);
+    })
+}
 
 
 
