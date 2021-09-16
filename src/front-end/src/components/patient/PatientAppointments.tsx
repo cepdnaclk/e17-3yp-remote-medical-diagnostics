@@ -1,16 +1,21 @@
 import React from "react";
 
+
 export interface PatientAppointmentsProps {}
 
 export interface PatientAppointmentsState {}
 
-class PatientAppointments extends React.Component<
-  PatientAppointmentsProps,
-  PatientAppointmentsState
-> {
-  state = {};
+
+
+class PatientAppointments extends React.Component<PatientAppointmentsProps,PatientAppointmentsState> {
+
+  
+
+
   render() {
-    return <h1>This is patient appointments component</h1>;
+    return (
+      <h1>Patient's Appointments</h1>
+    );
   }
 }
 

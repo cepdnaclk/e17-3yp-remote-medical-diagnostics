@@ -10,7 +10,9 @@ class PatientPayments extends React.Component<
 > {
   state = {};
   render() {
-    return <h1>This is patient payments component</h1>;
+    return(
+      <button type="button" className="btn btn-primary btn-lg" id="btn-1">Request a Refund</button>
+    );
   }
 }
 
