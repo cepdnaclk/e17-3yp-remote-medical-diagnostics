@@ -11,20 +11,25 @@ export interface PatientHomeState {}
 
 class PatientHome extends React.Component<PatientHomeProps, PatientHomeState> {
   state = {
-    modl: false,
+    modal: false,
   };
+  timerHandle: NodeJS.Timeout | undefined;
 
   openPopup = (): void => {
-    this.setState({ modl: true });
+    this.setState({ modal: true });
   };
 
   closePopup = (): void => {
     this.props.closeModal();
-    this.setState({ modl: false });
+    this.setState({ modal: false });
   };
 
   componentDidMount = (): void => {
-    setTimeout(this.openPopup, 2000);
+    this.timerHandle = setTimeout(this.openPopup, 2000);
+  };
+  componentWillUnmount = () => {
+    if (this.timerHandle) clearTimeout(this.timerHandle);
+    this.timerHandle = undefined;
   };
 
   render() {
@@ -32,7 +37,7 @@ class PatientHome extends React.Component<PatientHomeProps, PatientHomeState> {
       <>
         <PatientHomeSearchDoctor />
         <ConfigDeviceOverlay
-          st={this.state.modl}
+          st={this.state.modal}
           st_global={this.props.modal_status_global}
           closePopup={this.closePopup}
         />

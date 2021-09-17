@@ -15,8 +15,7 @@ import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
 import PatientChatRoom from "./patient/PatientChatRoom";
 
-
-export interface PatientMetaComponentProps { }
+export interface PatientMetaComponentProps {}
 export interface PatientMetaComponentState {
   config_device_modal: boolean;
 }
@@ -45,11 +44,15 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
                   link="/appointments"
                 />
                 <SidebarItem name="Doctors" icon={Doctor} link="/doctors" />
-                <SidebarItem name="Payments" icon={CreditCard} link="/payments" />
+                <SidebarItem
+                  name="Payments"
+                  icon={CreditCard}
+                  link="/payments"
+                />
               </Sidebar>
             </div>
 
-            <div className="flex-column">
+            <div className="d-flex flex-grow-1 justify-content-center align-items-center flex-column">
               <Switch>
                 <Route exact path="/">
                   <PatientHome
