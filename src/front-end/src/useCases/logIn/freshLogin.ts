@@ -1,4 +1,4 @@
-import { setAccessToken, setName } from "../../globalStates/LoggedUser";
+import { setAccessToken, setName, seType } from "../../globalStates/LoggedUser";
 import { getCurrentUser } from "../../model/thisUser";
 import Token from "../../model/Token";
 import Store from "../../Store";
@@ -24,4 +24,5 @@ export const freshLogin = async (data: loginDetails) => {
 
   // todo: use name instead of email
   Store.dispatch(setName(me?.email || "No Name"));
+  Store.dispatch(seType(me?.type || "patient"));
 };

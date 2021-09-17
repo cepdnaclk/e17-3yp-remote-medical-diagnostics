@@ -25,8 +25,6 @@ const AuthProvider: FunctionComponent<authProviderProps> = ({
     setAsAuth(true);
   };
   const markLoadingFinish = () => {
-    console.log("here");
-
     setLoading(false);
   };
   const login = async (data: loginDetails) => {

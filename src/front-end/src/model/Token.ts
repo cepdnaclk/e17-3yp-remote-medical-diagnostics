@@ -33,7 +33,7 @@ export default class Token {
 
   /**
    * Get an access token from the refresh-token. This method
-   * will return null if the refresh token given is invalid
+   * will throw error if the refresh token given is invalid
    * @returns an access-token or null
    */
   static async getAccessToken() {
