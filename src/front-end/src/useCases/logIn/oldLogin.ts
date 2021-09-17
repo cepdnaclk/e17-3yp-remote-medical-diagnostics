@@ -18,12 +18,16 @@ export enum LoggedInState {
 export async function tryToLogin(): Promise<LoggedInState> {
   const token = Token.getRefreshTokenFromStorage();
   if (!token) return LoggedInState.NeedToLoginAgain;
-
-  const accessTOken = await Token.getAccessToken();
-  if (!accessTOken) return LoggedInState.NeedToLoginAgain;
+  let accessToken: string;
+  try {
+    accessToken = await Token.getAccessToken();
+  } catch (error) {
+    if (error instanceof Error) console.log(error.message);
+    return LoggedInState.NeedToLoginAgain;
+  }
 
   const me = await getCurrentUser();
-  Store.dispatch(setAccessToken(accessTOken));
+  Store.dispatch(setAccessToken(accessToken));
   // todo: use name instead of email
   Store.dispatch(setName(me?.email || "No Name"));
   return LoggedInState.AlreadyLoggedIn;

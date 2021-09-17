@@ -1,9 +1,9 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { setName } from "../globalStates/LoggedUser";
+import { AuthContext } from "../globalStates/AuthContext";
 import logo from "../logo.svg";
-import client from "../httpClient";
+import { freshLogin } from "../useCases/logIn/freshLogin";
 
 export interface LoginProps extends RouteComponentProps {}
 type props = PropsFromRedux & LoginProps;
@@ -14,6 +14,8 @@ export interface LoginState {
 }
 
 class Login extends React.Component<props, LoginState> {
+  static contextType = AuthContext;
+  context!: React.ContextType<typeof AuthContext>;
   state = {
     email: "",
     pass: "",
@@ -22,11 +24,9 @@ class Login extends React.Component<props, LoginState> {
 
   onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ email: event.currentTarget.value });
-    // console.log("email changed", event.currentTarget.value);
   };
   onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({ pass: event.currentTarget.value });
-    // console.log("email changed", event.currentTarget.value);
   };
 
   isEmailCorrect = () => {
@@ -39,12 +39,9 @@ class Login extends React.Component<props, LoginState> {
     e.preventDefault();
     this.setState({ formDisabled: true });
     if (await this.loginDetailsAreCorrect()) {
-      client.get("/login/patient");
-      this.props.dispatch(setName(`${this.state.email}`)); // Todo: use firstname instead of email
+      this.context.markAuthSuccess();
       this.props.history.push("/home");
     } else {
-      window.alert(`Email = ${this.state.email}\nPassword = ${this.state.pass}
-      \nDoesn't match ! Try again`);
       this.setState({ formDisabled: false });
     }
 
@@ -123,11 +120,17 @@ class Login extends React.Component<props, LoginState> {
     );
   }
   async loginDetailsAreCorrect(): Promise<boolean> {
-    // let {email, pass} = this.state;
-    // artificial delay to simulate a network call
-    await new Promise((f) => setTimeout(f, 2000));
-    return true;
-    // Todo: implement the logic later
+    try {
+      await freshLogin({
+        email: this.state.email,
+        password: this.state.pass,
+        userType: "patient",
+      });
+      return true;
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+      return false;
+    }
   }
 }
 

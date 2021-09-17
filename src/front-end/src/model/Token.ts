@@ -1,7 +1,8 @@
-import client from "../httpClient";
+import client, { isAxiosError } from "../httpClient";
 
 export default class Token {
   private static refreshToken: string | null;
+  static accessToken: string | null;
   /**
    * Stores a refresh token in the localStorage of the browser
    * @param token Token to be stored
@@ -9,11 +10,9 @@ export default class Token {
   static storeRefreshToken(token: string) {
     try {
       localStorage.setItem("refreshToken", token);
-    } catch (error) {
-      console.error(
-        (<Error>error)?.message || "Error when storing the refreshToken"
-      );
-      throw error;
+    } catch (e) {
+      if (isAxiosError(e)) e.message = e.response?.data;
+      throw e;
     }
   }
   /**
@@ -34,13 +33,38 @@ export default class Token {
     type data = {
       accessToken: string;
     };
-    var response = await client.post<data>("/token", {
-      refreshToken: this.refreshToken,
-    });
-    if (response.status === 403) {
-      console.info("Refresh token is invalid");
-      return null;
+    try {
+      var response = await client.post<data>("/token", {
+        refreshToken: this.refreshToken,
+      });
+      this.accessToken = response.data.accessToken;
+      return response.data.accessToken;
+    } catch (e) {
+      if (isAxiosError(e)) e.message = e.response?.data;
+      throw e;
     }
-    return response.data.accessToken;
+  }
+
+  static async getNewTokenPair(
+    email: string,
+    password: string,
+    userType: string
+  ) {
+    type data = {
+      accessToken: string;
+      refreshToken: string;
+    };
+    try {
+      var response = await client.post<data>(`/login/${userType}`, {
+        email,
+        password,
+      });
+      this.accessToken = response.data.accessToken;
+      return response.data;
+    } catch (e) {
+      if (isAxiosError(e)) e.message = e.response?.data;
+      // console.log(e);
+      throw e;
+    }
   }
 }
