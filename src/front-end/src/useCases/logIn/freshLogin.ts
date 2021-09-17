@@ -1,7 +1,7 @@
-import { setAccessToken, setName, seType } from "../../globalStates/LoggedUser";
+import { setAccessToken, setName, seType } from "../../store/globalStates/LoggedUser";
 import { getCurrentUser } from "../../model/thisUser";
 import Token from "../../model/Token";
-import Store from "../../Store";
+import Store from "../../store/Store";
 
 export interface loginDetails {
   email: string;

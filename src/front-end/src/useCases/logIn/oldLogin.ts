@@ -1,7 +1,7 @@
-import { setAccessToken, setName } from "../../globalStates/LoggedUser";
+import { setAccessToken, setName } from "../../store/globalStates/LoggedUser";
 import { getCurrentUser } from "../../model/thisUser";
 import Token from "../../model/Token";
-import Store from "../../Store";
+import Store from "../../store/Store";
 export enum LoggedInState {
   NeedToLoginAgain,
   AlreadyLoggedIn,
