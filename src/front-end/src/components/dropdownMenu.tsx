@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from "react";
+import logOut from "../useCases/logOut/logOut";
 
 export interface DropdownMenuProps {
   username: string;
@@ -32,6 +33,13 @@ class DropdownMenu extends React.Component<
       expanded: !this.state.expanded,
     });
     console.log("open dropdown called");
+  };
+
+  handleLogOut: MouseEventHandler<HTMLAnchorElement> = async (e) => {
+    e.preventDefault();
+    await logOut();
+    window.location.reload();
+    return false;
   };
   //   closeDropdown = () => {
   //     console.log("close dropdown called");
@@ -83,7 +91,7 @@ class DropdownMenu extends React.Component<
             <hr className="dropdown-divider" />
           </li>
           <li>
-            <a className="dropdown-item" href="/">
+            <a className="dropdown-item" href="/" onClick={this.handleLogOut}>
               Sign out
             </a>
           </li>
