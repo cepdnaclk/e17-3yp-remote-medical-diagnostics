@@ -44,8 +44,6 @@ class Login extends React.Component<props, LoginState> {
     } else {
       this.setState({ formDisabled: false });
     }
-
-    console.log("form state", process.env);
   };
   componentDidMount = () => {
     document.body.style.backgroundColor = "white";
@@ -128,7 +126,8 @@ class Login extends React.Component<props, LoginState> {
       });
       return true;
     } catch (error) {
-      if (error instanceof Error) alert(error.message);
+      if (error instanceof Error)
+        alert(error.message || "Connection error. Check your internet");
       return false;
     }
   }

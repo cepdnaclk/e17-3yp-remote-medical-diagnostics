@@ -21,7 +21,7 @@ function createAxiosResponseInterceptor() {
       if (isAxiosError(e)) {
         if (e.response?.status !== 401) {
           // reject promise for usual errors
-          console.log(e.response?.data);
+          console.log(e.response?.data || "Connection error");
           e.message = e.response?.data;
           return Promise.reject(e);
         } // for 401, try to refresh our access token
