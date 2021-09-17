@@ -1,11 +1,12 @@
 import React from "react";
 import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import ConfigDeviceOverlay from "./ConfigDeviceOverlay";
+import {
+  hasPopupAlreadyShown,
+  markPopupAsShown,
+} from "../../model/configureDevice";
 
-export interface PatientHomeProps {
-  modal_status_global: boolean;
-  closeModal: () => void;
-}
+export interface PatientHomeProps {}
 
 export interface PatientHomeState {}
 
@@ -20,12 +21,13 @@ class PatientHome extends React.Component<PatientHomeProps, PatientHomeState> {
   };
 
   closePopup = (): void => {
-    this.props.closeModal();
+    markPopupAsShown();
     this.setState({ modal: false });
   };
 
   componentDidMount = (): void => {
-    this.timerHandle = setTimeout(this.openPopup, 2000);
+    if (!hasPopupAlreadyShown())
+      this.timerHandle = setTimeout(this.openPopup, 2000);
   };
   componentWillUnmount = () => {
     if (this.timerHandle) clearTimeout(this.timerHandle);
@@ -38,7 +40,6 @@ class PatientHome extends React.Component<PatientHomeProps, PatientHomeState> {
         <PatientHomeSearchDoctor />
         <ConfigDeviceOverlay
           st={this.state.modal}
-          st_global={this.props.modal_status_global}
           closePopup={this.closePopup}
         />
       </>

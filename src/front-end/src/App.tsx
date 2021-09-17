@@ -4,12 +4,12 @@ import Login from "./components/Login";
 import { MemoryRouter, Switch } from "react-router";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
-import PatientMeta from "./components/PatientMetaComponent";
 import PrivateRoute from "./components/PrivateRoute";
 import React from "react";
 import Loading from "./components/Loading";
 import AuthProvider from "./components/AuthContext";
 import PatientAppointmentsChatRoom from "./components/patient/PatientChatRoom";
+import HomeSelector from "./components/HomeSelector";
 
 interface AppState {
   isLoading: boolean;
@@ -28,7 +28,7 @@ class App extends React.Component<props, AppState> {
                 render={(props) => <Loading {...props} />}
               />
               <Route path="/login" component={Login} />
-              <PrivateRoute path="/home" Comp={PatientMeta} />
+              <PrivateRoute path="/home" Comp={HomeSelector} />
               <Route
                 path="/appointments/chat-room"
                 component={PatientAppointmentsChatRoom}

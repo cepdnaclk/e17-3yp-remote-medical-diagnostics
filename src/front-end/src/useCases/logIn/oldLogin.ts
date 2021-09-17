@@ -1,4 +1,8 @@
-import { setAccessToken, setName } from "../../store/globalStates/LoggedUser";
+import {
+  setAccessToken,
+  setName,
+  seType,
+} from "../../store/globalStates/LoggedUser";
 import { getCurrentUser } from "../../model/thisUser";
 import Token from "../../model/Token";
 import Store from "../../store/Store";
@@ -30,5 +34,6 @@ export async function tryToLogin(): Promise<LoggedInState> {
   Store.dispatch(setAccessToken(accessToken));
   // todo: use name instead of email
   Store.dispatch(setName(me?.email || "No Name"));
+  Store.dispatch(seType(me?.type || "patient"));
   return LoggedInState.AlreadyLoggedIn;
 }
