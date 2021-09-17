@@ -15,10 +15,10 @@ instance.interceptors.request.use((conf: AxiosRequestConfig) => {
 
 // Logs 4xx responses
 instance.interceptors.response.use(undefined, (e: unknown) => {
-  const error = e as AxiosError;
-  if (error?.isAxiosError) console.log(error.response?.data);
-  else console.log(error.message);
-  console.log("wait a min");
+  if (isAxiosError(e)) {
+    console.log(e.response?.data);
+    e.message = e.response?.data;
+  } else console.log((e as Error).message);
   return Promise.reject(e);
 });
 

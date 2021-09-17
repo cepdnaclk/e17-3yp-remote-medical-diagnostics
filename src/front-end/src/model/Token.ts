@@ -15,6 +15,13 @@ export default class Token {
       throw e;
     }
   }
+
+  /**
+   * Remove the refresh token from the local storage
+   */
+  static removeRefreshTOken() {
+    localStorage.removeItem("refreshToken");
+  }
   /**
    * Get the refresh token from the local storage
    * @returns The refresh token if there is any otherwise null
@@ -45,6 +52,13 @@ export default class Token {
     }
   }
 
+  /**
+   * Calls /login endpoint to obtain token pair
+   * @param email email of the user
+   * @param password password of the user
+   * @param userType Either 'patient' or 'doctor'
+   * @returns refresh token and access token
+   */
   static async getNewTokenPair(
     email: string,
     password: string,
@@ -65,6 +79,19 @@ export default class Token {
       if (isAxiosError(e)) e.message = e.response?.data;
       // console.log(e);
       throw e;
+    }
+  }
+
+  /**
+   * TO invalidate a refresh token
+   */
+  static async invalidateRefreshTOken() {
+    try {
+      await client.post("/logout", {
+        refreshToken: this.refreshToken,
+      });
+    } catch (error) {
+      throw error;
     }
   }
 }
