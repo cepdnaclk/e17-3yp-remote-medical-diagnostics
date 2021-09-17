@@ -21,11 +21,6 @@ type props = PropsFromRedux & PatientMetaComponentProps;
 
 class PatientMeta extends React.Component<props, PatientMetaComponentState> {
   state = {};
-
-  resetModalState = (): void => {
-    this.setState({});
-  };
-
   render() {
     return (
       <Provider store={Store}>
