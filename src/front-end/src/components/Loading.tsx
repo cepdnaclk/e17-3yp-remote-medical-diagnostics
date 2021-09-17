@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useAuth } from "../globalStates/AuthContext";
+import "./Loading.css";
 
 interface props {}
 /**
@@ -19,7 +20,15 @@ const Loading: FunctionComponent<props> = () => {
     if (!isLoading) history.push("/home");
   }, [history, isLoading]);
 
-  return <h1>Loading </h1>;
+  return (
+    <main className="container">
+      <div className="d-flex flex-row  justify-content-center align-items-center loading-container">
+        <div className="d-flex flex-column ">
+          <div className="outline-square"></div>
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default Loading;
