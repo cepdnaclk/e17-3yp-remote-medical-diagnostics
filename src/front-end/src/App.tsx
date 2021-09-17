@@ -8,7 +8,7 @@ import PatientMeta from "./components/PatientMetaComponent";
 import PrivateRoute from "./components/PrivateRoute";
 import React from "react";
 import Loading from "./components/Loading";
-import AuthProvider from "./globalStates/AuthContext";
+import AuthProvider from "./components/AuthContext";
 import PatientAppointmentsChatRoom from "./components/patient/PatientChatRoom";
 
 interface AppState {
@@ -29,7 +29,10 @@ class App extends React.Component<props, AppState> {
               />
               <Route path="/login" component={Login} />
               <PrivateRoute path="/home" Comp={PatientMeta} />
-              <Route path="/appointments/chat-room" component={PatientAppointmentsChatRoom} />
+              <Route
+                path="/appointments/chat-room"
+                component={PatientAppointmentsChatRoom}
+              />
             </Switch>
           </MemoryRouter>
         </Provider>

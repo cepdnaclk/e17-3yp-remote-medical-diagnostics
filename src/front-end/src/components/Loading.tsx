@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from "react";
 import { useHistory } from "react-router";
-import { useAuth } from "../globalStates/AuthContext";
+import { useAuth } from "./AuthContext";
 import "./Loading.css";
 
 interface props {}

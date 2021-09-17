@@ -1,7 +1,7 @@
 import { ComponentType, FunctionComponent } from "react";
 import { ConnectedComponent } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
-import { useAuth } from "../globalStates/AuthContext";
+import { useAuth } from "./AuthContext";
 
 interface PrivateRouteProps {
   Comp: ComponentType | ConnectedComponent<any, any>;
