@@ -1,5 +1,5 @@
 import "./App.css";
-import Store from "./Store";
+import Store from "./store/Store";
 import Login from "./components/Login";
 import { MemoryRouter, Switch } from "react-router";
 import { Provider } from "react-redux";
@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import React from "react";
 import Loading from "./components/Loading";
 import AuthProvider from "./globalStates/AuthContext";
+import PatientAppointmentsChatRoom from "./components/patient/PatientChatRoom";
 
 interface AppState {
   isLoading: boolean;
@@ -28,6 +29,7 @@ class App extends React.Component<props, AppState> {
               />
               <Route path="/login" component={Login} />
               <PrivateRoute path="/home" Comp={PatientMeta} />
+              <Route path="/appointments/chat-room" component={PatientAppointmentsChatRoom} />
             </Switch>
           </MemoryRouter>
         </Provider>

@@ -1,0 +1,68 @@
+.config-device {
+  background: white;
+  width: 420px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.modl,
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.overlay {
+  background: rgba(49, 49, 49, 0.8);
+}
+
+.b4-u-continue {
+  height: 50px;
+  width: 370px;
+  font-family: Tahoma;
+  font-size: 24px;
+  font-weight: bold;
+  position: relative;
+  top: 20px;
+  left: 30px;
+  border: 1px solid;
+  border-color: white;
+  border-bottom-color: black;
+}
+
+.text-message {
+  position: relative;
+  top: 30px;
+  left: 30px;
+  width: 400px;
+}
+
+.btns {
+  position: relative;
+  top: 36px;
+  left: 200px;
+}
+
+.overlay-btns {
+  font-size: small;
+  border: none;
+  width: 100px;
+  height: 36px;
+}
+
+#now {
+  color: white;
+  background-color: #4285f4;
+}
+
+#later {
+  color: #2671e9;
+  background-color: white;
+}

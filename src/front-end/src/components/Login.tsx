@@ -5,7 +5,7 @@ import { AuthContext } from "../globalStates/AuthContext";
 import logo from "../logo.svg";
 import { freshLogin } from "../useCases/logIn/freshLogin";
 
-export interface LoginProps extends RouteComponentProps {}
+export interface LoginProps extends RouteComponentProps { }
 type props = PropsFromRedux & LoginProps;
 export interface LoginState {
   email: string;
@@ -118,6 +118,7 @@ class Login extends React.Component<props, LoginState> {
     );
   }
   async loginDetailsAreCorrect(): Promise<boolean> {
+
     try {
       await freshLogin({
         email: this.state.email,
@@ -130,6 +131,7 @@ class Login extends React.Component<props, LoginState> {
         alert(error.message || "Connection error. Check your internet");
       return false;
     }
+
   }
 }
 
