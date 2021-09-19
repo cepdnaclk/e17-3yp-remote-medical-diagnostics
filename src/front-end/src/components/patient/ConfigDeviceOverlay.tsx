@@ -1,5 +1,5 @@
 import * as React from "react";
-import "../../Styles/ConfigDeviceOverlay.css";
+import "../../styles/ConfigDeviceOverlay.css";
 
 export interface ConfigDeviceOverlayProps {
   st: boolean;

@@ -19,7 +19,10 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/home" component={PatientMeta} />
           <Route path="/test" component={Sidebar} />
-          <Route path="/appointments/chat-room" component={PatientAppointmentsChatRoom} />
+          <Route
+            path="/appointments/chat-room"
+            component={PatientAppointmentsChatRoom}
+          />
         </div>
       </MemoryRouter>
     </Provider>
