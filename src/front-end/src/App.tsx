@@ -11,27 +11,6 @@ import AuthProvider from "./components/AuthContext";
 import PatientAppointmentsChatRoom from "./components/patient/PatientChatRoom";
 import HomeSelector from "./components/HomeSelector";
 
-<<<<<<< HEAD
-function App() {
-  return (
-    <Provider store={Store}>
-      <MemoryRouter
-        initialEntries={["/login", "/home", "/test"]}
-        initialIndex={0}
-      >
-        <div>
-          <Route path="/login" component={Login} />
-          <Route path="/home" component={PatientMeta} />
-          <Route path="/test" component={Sidebar} />
-          <Route
-            path="/appointments/chat-room"
-            component={PatientAppointmentsChatRoom}
-          />
-        </div>
-      </MemoryRouter>
-    </Provider>
-  );
-=======
 interface AppState {
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -60,7 +39,6 @@ class App extends React.Component<props, AppState> {
       </AuthProvider>
     );
   }
->>>>>>> c626ee0117e7e0217720fb8498a089c3a95872ca
 }
 
 export default App;
