@@ -1,12 +1,43 @@
-import React from "react";
+import React, { ReactElement, ReactHTMLElement } from "react";
 import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import { Card } from "react-bootstrap";
 import axios from "axios";
 
-export interface PatientDoctorsProps {}
+export interface DoctorProps {
+  doctor: {
+    name: string;
+    speciality: string;
+    age: number;
+    email: string;
+    rating: number;
+  };
+}
 
-export interface PatientDoctorsState {}
+const Doctor = (props: DoctorProps) => {
+  return (
+    <tr>
+      <td>photo</td>
+      <td>{props.doctor.name}</td>
+      <td>{props.doctor.speciality}</td>
+      <td>{props.doctor.age}</td>
+      <td>{props.doctor.email}</td>
+      <td>{props.doctor.rating}</td>
+    </tr>
+  );
+};
+
+export interface PatientDoctorsProps {}
+export interface PatientDoctorsState {
+  findDoctorPopup: boolean;
+  doctors: {
+    name: string;
+    speciality: string;
+    age: number;
+    email: string;
+    rating: number;
+  }[];
+}
 
 class PatientDoctors extends React.Component<
   PatientDoctorsProps,
@@ -14,6 +45,7 @@ class PatientDoctors extends React.Component<
 > {
   state = {
     findDoctorPopup: false,
+    doctors: [],
   };
 
   togglePopup = (): void => {
@@ -21,11 +53,43 @@ class PatientDoctors extends React.Component<
     this.setState({ findDoctorPopup: !this.state.findDoctorPopup });
   };
 
+  doctorList = () => {
+    return this.state.doctors.map((doctor) => {
+      return <Doctor doctor={doctor} />;
+    });
+  };
+
+  getDoctors = async () => {
+    try {
+      const doctors = await axios.get(
+        "https://jsonplaceholder.typicode.com/users" //TODO : API
+      );
+
+      //======================================================================
+      let doc_list: any[] = [];
+      doctors.data.forEach((doc: any) => {
+        doc_list.push({
+          name: doc.name,
+          speciality: doc.username,
+          age: doc.id,
+          email: doc.email,
+          rating: doc.id,
+        });
+      });
+      //=======================================================================
+
+      this.setState({ doctors: doc_list.slice(0, 5) }); //<---- fetched data
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  componentDidMount = () => {
+    //fetch doctors from the database
+    this.getDoctors();
+  };
+
   render() {
-    // const valuesArray: Array<Dictionary<string>> = JSON.parse(
-    //   this.state.appointments
-    // );
-    let i = 1;
     return (
       <>
         <div className="d-flex mb-auto mt-5">
@@ -60,19 +124,17 @@ class PatientDoctors extends React.Component<
                         Rating
                       </th>
                       <th key="add" scope="col">
-                        {" "}
+                        |Btn|
                       </th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>{this.doctorList()}</tbody>
                 </table>
               </Card>
             </div>
           </div>
         </div>
 
-        {/* ===================================================================================================
-        =================================================================================================== */}
         <button
           onClick={this.togglePopup}
           type="button"
