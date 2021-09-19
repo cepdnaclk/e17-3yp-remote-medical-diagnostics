@@ -3,7 +3,6 @@ import "../../styles/ConfigDeviceOverlay.css";
 
 export interface ConfigDeviceOverlayProps {
   st: boolean;
-  st_global: boolean;
   closePopup: () => void;
 }
 
@@ -15,8 +14,7 @@ class ConfigDeviceOverlay extends React.Component<
 > {
   render() {
     return (
-      this.props.st &&
-      this.props.st_global && (
+      this.props.st && (
         <div className="modl">
           <div className="overlay"></div>
           <div className="config-device">

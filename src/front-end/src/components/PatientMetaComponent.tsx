@@ -15,22 +15,12 @@ import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
 import PatientChatRoom from "./patient/PatientChatRoom";
 
-
-export interface PatientMetaComponentProps { }
-export interface PatientMetaComponentState {
-  config_device_modal: boolean;
-}
+export interface PatientMetaComponentProps {}
+export interface PatientMetaComponentState {}
 type props = PropsFromRedux & PatientMetaComponentProps;
 
 class PatientMeta extends React.Component<props, PatientMetaComponentState> {
-  state = {
-    config_device_modal: true, //global state of the config device modal
-  };
-
-  resetModalState = (): void => {
-    this.setState({ config_device_modal: false });
-  };
-
+  state = {};
   render() {
     return (
       <Provider store={Store}>
@@ -45,17 +35,18 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
                   link="/appointments"
                 />
                 <SidebarItem name="Doctors" icon={Doctor} link="/doctors" />
-                <SidebarItem name="Payments" icon={CreditCard} link="/payments" />
+                <SidebarItem
+                  name="Payments"
+                  icon={CreditCard}
+                  link="/payments"
+                />
               </Sidebar>
             </div>
 
-            <div className="flex-column">
+            <div className="d-flex flex-grow-1 justify-content-center align-items-center flex-column">
               <Switch>
                 <Route exact path="/">
-                  <PatientHome
-                    modal_status_global={this.state.config_device_modal}
-                    closeModal={this.resetModalState}
-                  />
+                  <PatientHome />
                 </Route>
                 <Route path="/appointments">
                   <PatientAppointments />

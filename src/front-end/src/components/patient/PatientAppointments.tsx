@@ -51,13 +51,7 @@ class PatientAppointments extends React.Component<
     );
     let i = 1;
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="d-flex mb-auto mt-5">
         <div>
           {" "}
           &nbsp;
@@ -81,17 +75,28 @@ class PatientAppointments extends React.Component<
               <table className="table" style={{ width: "800px", margin: 0 }}>
                 <thead>
                   <tr>
-                    <th scope="col">Doctor</th>
-                    <th scope="col">Specialty</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">#</th>
+                    <th key="doc" scope="col">
+                      Doctor
+                    </th>
+                    <th key="esp" scope="col">
+                      Specialty
+                    </th>
+                    <th key="date" scope="col">
+                      Date
+                    </th>
+                    <th key="time" scope="col">
+                      Time
+                    </th>
+                    <th key="num" scope="col">
+                      #
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {valuesArray.map((item: Dictionary<string>) => {
+                    const id = item["id"];
                     return (
-                      <tr key={item["id"]}>
+                      <tr key={id}>
                         <td key={"doctor"}>{item["doctor"]}</td>
                         <td key={"specialty"}>{item["Specialty"]}</td>
                         <td key={"date"}>{item["Date"]}</td>
@@ -101,6 +106,7 @@ class PatientAppointments extends React.Component<
                           <Fragment>
                             <td key="join">
                               <button
+                                key={id}
                                 className="btn btn-primary btn-sm"
                                 onClick={() => this.enterChatRoom(this.props)}
                               >
@@ -115,6 +121,7 @@ class PatientAppointments extends React.Component<
                         {item["paid"] === "false" && (
                           <td key="pay">
                             <button
+                              key={id}
                               className="btn btn-success btn-sm"
                               onClick={() =>
                                 this.props.history.push("/payments")
