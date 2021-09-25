@@ -1,0 +1,38 @@
+/* Navbar Related */
+
+#login-button-navbar {
+  position: absolute;
+  right: 4%;
+  border-radius: 20px;
+  width: 120px;
+}
+
+/*Footer Related*/
+
+.ftr {
+  margin-bottom: 10px;
+}
+
+/*landing page related*/
+.img {
+  width: 100%;
+  filter: brightness(50%);
+}
+
+.txt {
+  width: 1000px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+#t1 {
+  top: 50%;
+  font-size: 50px;
+  font-weight: bold;
+}
+#t2 {
+  top: 75%;
+  font-size: 29px;
+}

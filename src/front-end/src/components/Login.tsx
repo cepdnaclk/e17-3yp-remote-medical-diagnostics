@@ -45,6 +45,10 @@ class Login extends React.Component<props, LoginState> {
       this.setState({ formDisabled: false });
     }
   };
+
+  handleSignup = (): void => {
+    this.props.history.push("/signup");
+  };
   componentDidMount = () => {
     document.body.style.backgroundColor = "white";
   };
@@ -107,10 +111,14 @@ class Login extends React.Component<props, LoginState> {
                 </button>
               </fieldset>
             </form>
-            <div className="mt-2">
-              Don't have an account?
-              <a href="example.com"> Register</a>
-            </div>
+            <div className="mt-2">Don't have an account?</div>
+            <button
+              className="w-100 btn btn-lg btn-primary"
+              type="submit"
+              onClick={this.handleSignup}
+            >
+              Create Account
+            </button>
             <p className="mt-5 mb-3 text-muted">Medgenie© 2021</p>
           </div>
         </div>

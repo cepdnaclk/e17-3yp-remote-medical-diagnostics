@@ -1,4 +1,5 @@
 import * as React from "react";
+import "../../Styles/landingPage.css";
 
 class Navbar extends React.Component {
   render() {
@@ -8,6 +9,13 @@ class Navbar extends React.Component {
           <a className="navbar-brand" href="#">
             MedGenie
           </a>
+          <button
+            type="button"
+            id="login-button-navbar"
+            className="btn btn-primary"
+          >
+            Log In
+          </button>
         </nav>
       </React.Fragment>
     );
