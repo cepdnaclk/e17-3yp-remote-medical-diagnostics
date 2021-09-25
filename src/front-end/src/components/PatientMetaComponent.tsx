@@ -23,14 +23,7 @@ export interface PatientMetaComponentState {
 type props = PropsFromRedux & PatientMetaComponentProps;
 
 class PatientMeta extends React.Component<props, PatientMetaComponentState> {
-  state = {
-    config_device_modal: true, //global state of the config device modal
-  };
-
-  resetModalState = (): void => {
-    this.setState({ config_device_modal: false });
-  };
-
+  state = {};
   render() {
     return (
       <Provider store={Store}>
