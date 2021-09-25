@@ -2,10 +2,11 @@ import { Dictionary } from "@reduxjs/toolkit";
 import React, { Fragment } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { Card } from "react-bootstrap";
+// import * as Store from "../../store/Store";
 import { RouteComponentProps, withRouter } from "react-router";
-// import { join } from '../../store/globalStates/VideoChat';
-// import Store from "../../store/Store";
-// import * as actions from '../../store/api';
+import { join } from '../../store/globalStates/VideoChat';
+import { AppDispatch, RootState } from "../../store/Store";
+import * as actions from '../../store/actions/api';
 
 export interface PatientAppointmentsProps extends RouteComponentProps { }
 
@@ -21,23 +22,21 @@ class PatientAppointments extends React.Component<
 > {
   constructor(props: props) {
     super(props);
+    //until the api is implemented 
     this.state = { appointments: '[{"doctor" : "name", "Specialty": "specilaty", "Date" : "xxxx-xx-xx", "Time" : "xxPM" }]' }
   }
 
   enterChatRoom = (props: props) => {
     props.history.push('/chat-room');
-    //Store.dispatch(join());
+    // props.join()
   }
 
   componentDidMount() {
     //until the api is implemented 
-    this.setState({ appointments: '[{"id":"1", "doctor" : "Dr.Geller", "Specialty": "Dentist", "Date" : "2019-09-09", "Time" : "5PM", "paid" : "true" }, {"id":"2","doctor" : "Dr.Monica", "Specialty": "Cardiologist", "Date" : "2021-08-07", "Time" : "7PM", "paid" : "false" }]' })
-
-    /*Store.dispatch(actions.apiCalled({
-      url: "/appointments",
-      onSuccess: "",
-      onError: ""
-    }))*/
+    this.setState({
+      appointments: '[{"id":"1", "doctor" : "Dr.Geller", "Specialty": "Dentist", "Date" : "2019-09-09", "Time" : "5PM", "paid" : "true" }, {"id":"2","doctor" : "Dr.Monica", "Specialty": "Cardiologist", "Date" : "2021-08-07", "Time" : "7PM", "paid" : "false" }]'
+    })
+    // this.props.callApi({ url: '/appointments'/*onSuccess, onError*/ })
   }
 
   render() {
@@ -73,8 +72,28 @@ class PatientAppointments extends React.Component<
                       <td key={"date"}>{item["Date"]}</td>
                       <td key={"time"}>{item["Time"]}</td>
                       <th scope="row">{i++}</th>
-                      {item["paid"] === "true" && <Fragment><td key="join"><button className="btn btn-primary btn-sm" onClick={() => this.enterChatRoom(this.props)}>join</button></td><td><span className="badge bg-secondary">PAID</span></td></Fragment>}
-                      {item["paid"] === "false" && <td key="pay"><button className="btn btn-success btn-sm" onClick={() => this.props.history.push('/payments')}>pay</button></td>}
+                      {
+                        item["paid"] === "true" &&
+                        <Fragment>
+                          <td key="join">
+                            <button className="btn btn-primary btn-sm" onClick={() => this.enterChatRoom(this.props)}>
+                              join
+                            </button>
+                          </td>
+                          <td>
+                            <span className="badge bg-secondary">
+                              PAID
+                            </span></td>
+                        </Fragment>
+                      }
+                      {
+                        item["paid"] === "false" &&
+                        <td key="pay">
+                          <button className="btn btn-success btn-sm" onClick={() => this.props.history.push('/payments')}>
+                            pay
+                          </button>
+                        </td>
+                      }
                     </tr>;
                   })}
                 </tbody>
@@ -87,7 +106,20 @@ class PatientAppointments extends React.Component<
   }
 }
 
+function mapStateToProps(state: RootState) {
+  return {
+    isJoined: state.videoChat.isJoined
+  };
+}
 
-const connector = connect();
+function mapDispatchToProps(dispatch: AppDispatch) {
+  return {
+    join: () => dispatch(join()),
+    callApi: (endpoint: actions.apiCalledPayload) => dispatch(actions.apiCalled(endpoint))
+  };
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+connector(PatientAppointments);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 export default withRouter(connector(PatientAppointments));
