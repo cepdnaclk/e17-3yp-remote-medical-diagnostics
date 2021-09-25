@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactHTMLElement } from "react";
+import React from "react";
 import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import { Card } from "react-bootstrap";
@@ -15,6 +15,7 @@ export interface DoctorProps {
 }
 
 const Doctor = (props: DoctorProps) => {
+  //A doctor component to be put in the list
   return (
     <tr>
       <td>photo</td>
@@ -55,7 +56,7 @@ class PatientDoctors extends React.Component<
 
   doctorList = () => {
     return this.state.doctors.map((doctor) => {
-      return <Doctor doctor={doctor} />;
+      return <Doctor doctor={doctor} key={Math.random()} />; // *****Change the Key*******
     });
   };
 

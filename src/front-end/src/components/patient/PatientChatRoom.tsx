@@ -1,6 +1,5 @@
 import { Card } from "react-bootstrap";
 import React from "react";
-import Signup from "../Signup";
 
 export interface PatientChatRoomProps {}
 
@@ -12,10 +11,7 @@ class PatientChatRoom extends React.Component<
 > {
   state = {};
   render() {
-    return (
-      <Card>video chat</Card>
-      // <Signup />
-    );
+    return <Card>video chat</Card>;
   }
 }
 
