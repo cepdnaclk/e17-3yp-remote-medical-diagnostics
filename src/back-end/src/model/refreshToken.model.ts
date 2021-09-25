@@ -9,7 +9,7 @@ export interface refreshTokenDocument extends mongoose.Document {
     updatedAt: Date;
 }
 
-interface refreshTokenModel extends mongoose.Model<refreshTokenDocument>{
+interface refreshTokenModel extends mongoose.Model<refreshTokenDocument> {
     /**
      * Invalidate the refresh token 
      * @param refreshToken This refresh token will be marked as invalid
@@ -20,7 +20,7 @@ interface refreshTokenModel extends mongoose.Model<refreshTokenDocument>{
      * @param refreshToken newly created refresh token
      * @param userAgent user agent (just for statistical purposes)
      */
-    addNewToken(refreshToken: string, userAgent:String): Promise<void>;
+    addNewToken(refreshToken: string, userAgent: String): Promise<void>;
     /**
      * Test the validity of a given refresh token
      * @param refreshToken token to test
@@ -29,9 +29,9 @@ interface refreshTokenModel extends mongoose.Model<refreshTokenDocument>{
     isRefreshTokenValid(refreshToken: string): Promise<boolean>
 }
 
-const refreshTokenSchema = new mongoose.Schema<refreshTokenDocument,refreshTokenModel>(
+const refreshTokenSchema = new mongoose.Schema<refreshTokenDocument, refreshTokenModel>(
     {
-        refreshToken: { type: String},
+        refreshToken: { type: String },
         valid: { type: Boolean, default: true },
         userAgent: { type: String }
     },
@@ -39,29 +39,29 @@ const refreshTokenSchema = new mongoose.Schema<refreshTokenDocument,refreshToken
 );
 
 refreshTokenSchema.statics.invalidate = async function (refreshToken: String) {
-    const a =  await this.updateOne({refreshToken: refreshToken},{valid: false}).exec()
+    const a = await this.updateOne({ refreshToken: refreshToken }, { valid: false }).exec()
     if (a.nModified !== 1)
         log.info("token invalidation failed (token doesn't exist or already invalidated)")
 }
 
-refreshTokenSchema.statics.addNewToken = async function(refreshToken: String, userAgent: String) { 
-        try {
-            await this.create({refreshToken, userAgent})
-        } catch (error) {
-            log.error("Database: add new token failed")
-        }
-           
-}
-refreshTokenSchema.statics.isRefreshTokenValid = async function( refreshToken: string){
+refreshTokenSchema.statics.addNewToken = async function (refreshToken: String, userAgent: String) {
     try {
-        const document = await this.findOne({refreshToken,valid:true}).exec()
+        await this.create({ refreshToken, userAgent })
+    } catch (error) {
+        log.error("Database: add new token failed")
+    }
+
+}
+refreshTokenSchema.statics.isRefreshTokenValid = async function (refreshToken: string) {
+    try {
+        const document = await this.findOne({ refreshToken, valid: true }).exec()
         if (document == null) return false
         return true
-    } catch (error) {
-        log.error(error,"Database: isRefreshTokenValid error")
+    } catch (error: any) {
+        log.error(error, "Database: isRefreshTokenValid error")
         throw error
     }
 }
-const model= mongoose.model<refreshTokenDocument,refreshTokenModel>("refreshToken", refreshTokenSchema);
+const model = mongoose.model<refreshTokenDocument, refreshTokenModel>("refreshToken", refreshTokenSchema);
 
 export default model;

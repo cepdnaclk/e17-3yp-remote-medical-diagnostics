@@ -3,8 +3,6 @@ import express from 'express'
 import config from 'config';
 import http from 'http';
 import { Server } from 'socket.io'
-import { v4 as uuidV4 } from 'uuid'; // uuid ; A universally unique identifier (for each room)
-import Peer from 'peerjs';
 
 const app = express()
 const server = http.createServer(app);
@@ -21,9 +19,22 @@ require('dotenv').config();
 const port = config.get("port") as number;
 const host = config.get("host") as string;
 
-app.set('view-engine', 'ejs') // using ejs as the view engine (to be used temporarily until intergration with React front-end)
 app.use(express.static('public')) // serve static files
+
+io.on('connection', (socket) => {
+    socket.emit('me', socket.id);
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('callEnded');
+    })
+    socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+        io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+    })
+
+    socket.on('answerCall', (data) => {
+        io.to(data.to).emit(data.signal);
+    })
+});
 
 app.listen(port, host, () => {
     console.log(`server running on port ${port} of host ${host}`)
-})
+});
