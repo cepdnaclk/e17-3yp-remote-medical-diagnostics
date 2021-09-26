@@ -61,7 +61,6 @@
   transition: display 0.4s ease-out;
 }
 
-
 /*Search Box Related*/
 .find-a-doctor {
   font-size: x-large;
@@ -110,7 +109,6 @@
   height: 38px;
 }
 
-
 /*Patient Home*/
 
 /*Patient-Doctor Page*/
@@ -118,7 +116,7 @@
 /*top-right-button related*/
 #btn-1 {
   border-radius: 60px;
-  background-color: #4285F4;
+  background-color: #4285f4;
   width: 200px;
   position: fixed;
   top: 30px;
@@ -126,14 +124,15 @@
   right: 2%;
 }
 
-.find-a-doc-popup{
-  position:absolute;
+.find-a-doc-popup {
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.modl-pdoc, .overlay-pdoc {
+.modl-pdoc,
+.overlay-pdoc {
   width: 100vw;
   height: 100vh;
   top: 0;
@@ -141,23 +140,20 @@
   right: 0;
   bottom: 0;
   position: fixed;
-  transition: ease-out
+  transition: ease-out;
 }
-
 
 .overlay-pdoc {
-  background: rgba(49,49,49,0.8);
+  background: rgba(49, 49, 49, 0.8);
 }
 
-
-.close-modl-pdoc{
+.close-modl-pdoc {
   height: 2px;
-  color: rgba(0,0,0);
+  color: rgba(0, 0, 0);
   background-color: rgb(255, 255, 255);
   border: none;
-  position:absolute;
+  position: absolute;
   top: 1%;
   /* left: 750px; */
   right: 1%;
 }
-

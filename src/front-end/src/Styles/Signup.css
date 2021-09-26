@@ -1,0 +1,30 @@
+.signup-form {
+  position: absolute;
+  right: 0%;
+  align-items: center;
+  height: 100%;
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: #ffffff;
+}
+
+.create-account-label {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 4px;
+}
+.row {
+  margin-bottom: 12px;
+}
+
+#sign-up-btn {
+  width: 100%;
+
+  margin-top: 3px;
+}
