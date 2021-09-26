@@ -24,14 +24,14 @@ class App extends React.Component<props, AppState> {
       <>
         <AuthProvider>
           <Provider store={Store}>
-            <MemoryRouter initialEntries={["/loading"]} initialIndex={0}>
+            <MemoryRouter initialEntries={["/"]} initialIndex={0}>
               <Switch>
                 <Route
                   path="/loading"
                   render={(props) => <Loading {...props} />}
                 />
 
-                <Route path="/" component={Landing} />
+                <Route path="/" exact component={Landing} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
 

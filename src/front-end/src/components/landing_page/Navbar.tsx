@@ -1,25 +1,31 @@
 import * as React from "react";
 import "../../Styles/landingPage.css";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 
-class Navbar extends React.Component {
+class Navbar extends React.Component<RouteComponentProps> {
+  handleLogin = (): void => {
+    this.props.history.push("/login");
+  };
+
   render() {
     return (
-      <React.Fragment>
+      <>
         <nav className="navbar navbar-light bg-light">
-          <a className="navbar-brand" href="#">
+          <label className="navbar-brand" id="MG">
             MedGenie
-          </a>
+          </label>
           <button
             type="button"
             id="login-button-navbar"
             className="btn btn-primary"
+            onClick={this.handleLogin}
           >
             Log In
           </button>
         </nav>
-      </React.Fragment>
+      </>
     );
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);
