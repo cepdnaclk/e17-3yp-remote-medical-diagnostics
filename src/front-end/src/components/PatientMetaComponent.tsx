@@ -17,9 +17,8 @@ import PatientChatRoom from "./patient/PatientChatRoom";
 
 
 export interface PatientMetaComponentProps { }
-export interface PatientMetaComponentState {
-  config_device_modal: boolean;
-}
+export interface PatientMetaComponentState { }
+
 type props = PropsFromRedux & PatientMetaComponentProps;
 
 class PatientMeta extends React.Component<props, PatientMetaComponentState> {
@@ -45,10 +44,7 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
             <div className="flex-column">
               <Switch>
                 <Route exact path="/">
-                  <PatientHome
-                    modal_status_global={this.state.config_device_modal}
-                    closeModal={this.resetModalState}
-                  />
+                  <PatientHome />
                 </Route>
                 <Route path="/appointments">
                   <PatientAppointments />

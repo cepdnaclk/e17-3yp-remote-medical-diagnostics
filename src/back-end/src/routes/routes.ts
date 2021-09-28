@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import { createPatientHandler } from '../controller/patient.controller';
 import { createDoctorHandler } from '../controller/doctor.controller';
-import generateRoom from '../controller/newRoom.controller';
+// import generateRoom from '../controller/newRoom.controller';
 import logoutHandler from '../controller/commonLogout.controller';
 import validateRequest from '../middleware/validateRequests';
 import { createPatientSchema } from '../schema/patient.schema';
@@ -36,7 +36,7 @@ export default function (app: Express) {
      * 
      */
 
-    app.get('/api/room', generateRoom) // called by a doctor; generate a unique roomid and redirected to it
+    // app.get('/api/room', generateRoom) // called by a doctor; generate a unique roomid and redirected to it
     app.use('/api', authRouter)
 }
 

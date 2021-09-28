@@ -1,19 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Socket } from 'socket.io-client';
 
 const initialState = {
     callAccepted: false,
     callEnded: false,
-    stream: null,
+    // myVideo: undefined,
+    // callerVideo: undefined,
+    stream: false,
     name: '',
-    call: {},
+    call: {
+        isReceivingCall: false,
+        from: "",
+        name: "",
+        signal: ""
+    },
     me: 0,
+}
+
+export interface Call {
+    isReceivingCall: boolean,
+    from: string,
+    name: string,
+    signal: string
+
 }
 
 const videoChatSlice = createSlice({
     name: "videoChat",
     initialState,
     reducers: {
-        answercall: (state) => {
+        answerCall: (state) => {
             state.callAccepted = true;
         },
         setMe: (state, action) => {
@@ -22,6 +38,12 @@ const videoChatSlice = createSlice({
         endCall: (state) => {
             state.callEnded = true;
         },
+        // setMyVideo: (state, action) => {
+        //     state.myVideo = action.payload;
+        // },
+        // setCallerVideo: (state, action) => {
+        //     state.callerVideo = action.payload;
+        // },
         setStream: (state, action) => {
             state.stream = action.payload;
         },
@@ -34,5 +56,5 @@ const videoChatSlice = createSlice({
     }
 })
 
-export const { answercall, setMe, setStream, setCallName, setCall } = videoChatSlice.actions;
+export const { answerCall, setMe, /* setCallerVideo, setMyVideo, */ setCallName, setCall, setStream, endCall } = videoChatSlice.actions;
 export const { reducer } = videoChatSlice;
