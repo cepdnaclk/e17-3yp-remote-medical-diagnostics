@@ -6,6 +6,16 @@
   border-radius: 20px;
   width: 120px;
 }
+.navlinks {
+  width: 20%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  position: absolute;
+  right: 15%;
+  top: 35%;
+}
 
 #MG {
   font-size: 30px;
@@ -13,10 +23,6 @@
 }
 
 /*Footer Related*/
-
-.ftr {
-  margin-bottom: 10px;
-}
 
 /*landing page related*/
 .img {

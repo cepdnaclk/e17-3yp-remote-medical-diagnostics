@@ -9,119 +9,129 @@ import { ReactComponent as Specialization } from "../../icons/specialization.svg
 import { ReactComponent as Person } from "../../icons/person.svg";
 
 export interface PatientHomeSearchDoctorState {
-	name: string;
-	specialization: string;
-	language: string;
-	date: string;
+  name: string;
+  specialization: string;
+  language: string;
+  date: string;
 }
 
+class PatientHomeSearchDoctor extends React.Component<
+  RouteComponentProps,
+  PatientHomeSearchDoctorState
+> {
+  state = {
+    name: "",
+    specialization: "general-practitioner",
+    language: "sinhala",
+    date: "",
+  };
 
-class PatientHomeSearchDoctor extends React.Component<RouteComponentProps, PatientHomeSearchDoctorState> {
+  handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (
+    e
+  ) => {
+    alert(
+      `${this.state.name} | ${this.state.specialization} | ${this.state.language} | ${this.state.date}`
+    );
+    e.preventDefault();
+    this.props.history.push("/doctors");
+  };
 
-	state = {
-		name: "",
-		specialization: "general-practitioner",
-		language: "sinhala",
-		date: "",
-	};
+  handleNameChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    this.setState({
+      name: e.currentTarget.value,
+    });
+  };
 
+  handleSpecializationChange = (
+    e: React.FormEvent<HTMLSelectElement>
+  ): void => {
+    this.setState({
+      specialization: e.currentTarget.value,
+    });
+  };
 
+  handleLanguageChange = (e: React.FormEvent<HTMLSelectElement>): void => {
+    this.setState({
+      language: e.currentTarget.value,
+    });
+  };
 
-	handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (
-		e
-	) => {
-		alert(`${this.state.name} | ${this.state.specialization} | ${this.state.language} | ${this.state.date}`);
-		e.preventDefault();
-		this.props.history.push("/doctors");
-	};
+  handleDateChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    this.setState({
+      date: e.currentTarget.value,
+    });
+  };
 
-	handleNameChange = (e: React.FormEvent<HTMLInputElement>): void => {
-		this.setState({
-			name: e.currentTarget.value
-		})
-	};
+  render() {
+    const { name, specialization, language, date } = this.state;
 
-	handleSpecializationChange = (e: React.FormEvent<HTMLSelectElement>): void => {
-		this.setState({
-			specialization: e.currentTarget.value
-		})
-	};
+    return (
+      <div className="find-a-doctor shadow-sm">
+        <div className="mb-3">Find a Doctor</div>
+        <form onSubmit={this.handleSubmit} className="d-flex flex-column">
+          <label className="find-a-doctor-input-field">
+            &nbsp;&nbsp;
+            <Person />
+            &nbsp;&nbsp;
+            <input
+              type="text"
+              value={name}
+              onChange={this.handleNameChange}
+              placeholder="Name"
+              className="find-a-doctor-input"
+            />
+          </label>
 
-	handleLanguageChange = (e: React.FormEvent<HTMLSelectElement>): void => {
-		this.setState({
-			language: e.currentTarget.value
-		})
-	};
+          <label className="find-a-doctor-input-field">
+            &nbsp;&nbsp;
+            <Specialization />
+            &nbsp;&nbsp;
+            <select
+              className="find-a-doctor-input"
+              value={specialization}
+              onChange={this.handleSpecializationChange}
+            >
+              <option value="general-practitioner">General Practitioner</option>
+              <option value="cardiologist">Cardiologist</option>
+              <option value="Allergist">Allergist</option>
+            </select>
+          </label>
 
-	handleDateChange = (e: React.FormEvent<HTMLInputElement>): void => {
-		this.setState({
-			date: e.currentTarget.value
-		})
-	};
+          <label className="find-a-doctor-input-field">
+            &nbsp;&nbsp;
+            <Globe />
+            &nbsp;&nbsp;
+            <select
+              className="find-a-doctor-input"
+              value={language}
+              onChange={this.handleLanguageChange}
+            >
+              <option value="sinhala">සිංහල​​</option>
+              <option value="tamil">தமிழ்</option>
+              <option value="english">English</option>
+            </select>
+          </label>
 
-	render() {
-
-		const { name, specialization, language, date } = this.state;
-
-		return (
-			<div className="find-a-doctor shadow-sm">
-				<div className="mb-3">Find a Doctor</div>
-				<form onSubmit={this.handleSubmit} className="d-flex flex-column">
-					<label className="find-a-doctor-input-field">
-						&nbsp;&nbsp;
-						<Person />
-						&nbsp;&nbsp;
-						<input
-							type="text"
-							value={name}
-							onChange={this.handleNameChange}
-							placeholder="Name"
-							className="find-a-doctor-input"
-						/>
-					</label>
-
-					<label className="find-a-doctor-input-field">
-						&nbsp;&nbsp;
-						<Specialization />
-						&nbsp;&nbsp;
-						<select className="find-a-doctor-input" value={specialization} onChange={this.handleSpecializationChange}>
-							<option value="general-practitioner">General Practitioner</option>
-							<option value="cardiologist">Cardiologist</option>
-							<option value="Allergist">Allergist</option>
-						</select>
-					</label>
-
-					<label className="find-a-doctor-input-field">
-						&nbsp;&nbsp;
-						<Globe />
-						&nbsp;&nbsp;
-						<select className="find-a-doctor-input" value={language} onChange={this.handleLanguageChange}>
-							<option value="sinhala">සිංහල​​</option>
-							<option value="tamil">தமிழ்</option>
-							<option value="english">English</option>
-						</select>
-					</label>
-
-					<label className="find-a-doctor-input-field">
-						&nbsp;&nbsp;
-						<Calendar />
-						&nbsp;&nbsp;
-						<input
-							type="date"
-							value={date}
-							onChange={this.handleDateChange}
-							placeholder="Date"
-							className="find-a-doctor-input"
-						/>
-					</label>
-					<button type="submit" className="find-a-doctor-button">
-						<SearchIcon />
-						&nbsp; Search
-					</button>
-				</form>
-			</div>
-		);
-	}
+          <label className="find-a-doctor-input-field">
+            &nbsp;&nbsp;
+            <Calendar />
+            &nbsp;&nbsp;
+            <input
+              type="date"
+              value={date}
+              onChange={this.handleDateChange}
+              placeholder="Date"
+              className="find-a-doctor-input"
+            />
+          </label>
+          <button type="submit" className="find-a-doctor-button">
+            <SearchIcon />
+            &nbsp; Search
+          </button>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default withRouter(PatientHomeSearchDoctor);

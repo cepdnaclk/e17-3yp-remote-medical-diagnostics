@@ -12,6 +12,8 @@ import PatientAppointmentsChatRoom from "./components/patient/PatientChatRoom";
 import HomeSelector from "./components/HomeSelector";
 import Signup from "./components/Signup";
 import Landing from "./components/landing_page/Landing";
+import About from "./components/landing_page/About";
+import Contact from "./components/landing_page/Contact";
 
 interface AppState {
   isLoading: boolean;
@@ -34,6 +36,8 @@ class App extends React.Component<props, AppState> {
                 <Route path="/" exact component={Landing} />
                 <Route path="/login" component={Login} />
                 <Route path="/signup" component={Signup} />
+                <Route path="/about" component={About} />
+                <Route path="/contact" component={Contact} />
 
                 <PrivateRoute path="/home" Comp={HomeSelector} />
 

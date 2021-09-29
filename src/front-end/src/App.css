@@ -41,6 +41,28 @@
   height: 90vh;
 }
 
+#login_ {
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  width: 318px; /*Easter Egg - E/17/318 is one of the developers of MedGenie*/
+  background: rgba(86, 108, 128, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+#home-login {
+  position: absolute;
+
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  border: none;
+}
+
 /* sidebar related */
 .sidebar {
   /* position: absolute;

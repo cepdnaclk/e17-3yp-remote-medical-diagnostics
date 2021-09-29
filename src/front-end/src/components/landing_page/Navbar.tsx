@@ -1,6 +1,6 @@
 import * as React from "react";
 import "../../Styles/landingPage.css";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 
 class Navbar extends React.Component<RouteComponentProps> {
   handleLogin = (): void => {
@@ -10,10 +10,24 @@ class Navbar extends React.Component<RouteComponentProps> {
   render() {
     return (
       <>
-        <nav className="navbar navbar-light bg-light">
+        <nav className="navbar navbar-light bg-light" id="nav-bar">
           <label className="navbar-brand" id="MG">
             MedGenie
           </label>
+
+          <ul className="navlinks">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <li>Home</li>
+            </Link>
+
+            <Link to="/about" style={{ textDecoration: "none" }}>
+              <li>About</li>
+            </Link>
+
+            <Link to="/contact" style={{ textDecoration: "none" }}>
+              <li>Contact</li>
+            </Link>
+          </ul>
           <button
             type="button"
             id="login-button-navbar"
