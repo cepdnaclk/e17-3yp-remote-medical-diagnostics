@@ -1,4 +1,5 @@
 import React, { MouseEventHandler } from "react";
+import { Link } from "react-router-dom";
 import logOut from "../useCases/logOut/logOut";
 
 export interface DropdownMenuProps {
@@ -29,9 +30,7 @@ class DropdownMenu extends React.Component<
   };
   toggleDropdown: MouseEventHandler<HTMLAnchorElement> = (e) => {
     e.preventDefault();
-    this.setState({
-      expanded: !this.state.expanded,
-    });
+    this._toggleDropdown();
     console.log("open dropdown called");
   };
 
@@ -41,6 +40,15 @@ class DropdownMenu extends React.Component<
     window.location.reload();
     return false;
   };
+  /**
+   * Toggles the dropdown menu between hidden and shown
+   */
+  private _toggleDropdown = () => {
+    this.setState({
+      expanded: !this.state.expanded,
+    });
+  };
+
   //   closeDropdown = () => {
   //     console.log("close dropdown called");
 
@@ -83,9 +91,13 @@ class DropdownMenu extends React.Component<
             </a>
           </li>
           <li>
-            <a className="dropdown-item" href="/">
+            <Link
+              className="dropdown-item"
+              to="/profile"
+              onClick={this._toggleDropdown}
+            >
               Profile
-            </a>
+            </Link>
           </li>
           <li>
             <hr className="dropdown-divider" />
