@@ -14,6 +14,14 @@ export interface SignupState {
   gender: string;
   password: string;
   passwordConfirmation: string;
+  errors: {
+    fname: string; //required
+    lname: string; //required
+    email: string; //valid/invalid
+    age: string; //required (must be a number?)
+    gender: string; //required
+    password: string; //must be at least 8 characters long
+  };
 }
 
 class Signup extends React.Component<RouteComponentProps, SignupState> {
@@ -25,6 +33,14 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     gender: "",
     password: "",
     passwordConfirmation: "",
+    errors: {
+      fname: "",
+      lname: "",
+      email: "",
+      age: "",
+      gender: "",
+      password: "",
+    },
   };
 
   handleLoginButton = (): void => {
