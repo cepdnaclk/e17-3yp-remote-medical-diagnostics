@@ -113,11 +113,13 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
   handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({
       password: e.currentTarget.value,
+      errors: {
+        ...this.state.errors,
+        password: e.currentTarget.value.length
+          ? "Password must be at least 8 characters long"
+          : "",
+      },
     });
-    this.state.errors.password =
-      e.currentTarget.value.length < 8
-        ? "Password must be at least 8 characters long"
-        : "";
   };
 
   handleConfirmPasswordChange = (
