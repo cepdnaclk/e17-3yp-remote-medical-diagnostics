@@ -21,8 +21,7 @@ export const createPatientSchema = object({
         mobileNo: string()
             .matches(/^[0-9]+/, "must be a number")
             .min(10, "invalid mobile number")
-            .max(10, "invalid mobile number")
-            .required(),
+            .max(10, "invalid mobile number"),
         // TODO : validate not required fields if entered
         homeAddress: string().notRequired(),
         weight: string().notRequired(),
