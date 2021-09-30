@@ -27,6 +27,7 @@ const Doctor = (props: DoctorProps) => {
           height="32"
         />
       </td>
+
       <td>{props.doctor.name}</td>
       <td>{props.doctor.speciality}</td>
       <td>{props.doctor.age}</td>
@@ -143,6 +144,7 @@ class PatientDoctors extends React.Component<
             </div>
           </div>
         </div>
+
         <button
           onClick={this.togglePopup}
           type="button"
@@ -152,6 +154,7 @@ class PatientDoctors extends React.Component<
           Find a Doctor
         </button>
         {/* Modal overlay */}
+
         {this.state.findDoctorPopup && (
           <div className="modl-pdoc">
             <div className="overlay-pdoc"></div>
