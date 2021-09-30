@@ -88,3 +88,15 @@
   height: 40px;
   border: none;
 }
+
+.err {
+  color: red;
+  font-size: 10px;
+  float: left;
+}
+
+.confirm-pw {
+  color: green;
+  font-size: 10px;
+  float: left;
+}

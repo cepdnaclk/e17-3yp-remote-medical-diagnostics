@@ -15,11 +15,11 @@ export interface SignupState {
   password: string;
   passwordConfirmation: string;
   errors: {
-    fname: string; //required
-    lname: string; //required
-    email: string; //valid/invalid
-    age: string; //required (must be a number?)
-    gender: string; //required
+    // fname: string; //required
+    // lname: string; //required
+    // email: string; //valid/invalid
+    // age: string; //required (must be a number?)
+    // gender: string; //required
     password: string; //must be at least 8 characters long
   };
 }
@@ -29,16 +29,16 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     firstName: "",
     lastName: "",
     email: "",
-    age: 0,
+    age: 4,
     gender: "",
     password: "",
     passwordConfirmation: "",
     errors: {
-      fname: "",
-      lname: "",
-      email: "",
-      age: "",
-      gender: "",
+      // fname: "",
+      // lname: "",
+      // email: "",
+      // age: "",
+      // gender: "",
       password: "",
     },
   };
@@ -80,12 +80,16 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     this.setState({
       firstName: e.currentTarget.value,
     });
+    // this.state.errors.fname =
+    //   e.currentTarget.value.length > 0 ? "" : "First Name Required!";
   };
 
   handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({
       lastName: e.currentTarget.value,
     });
+    // this.state.errors.lname =
+    //   e.currentTarget.value.length > 0 ? "" : "Last Name Required!";
   };
 
   handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -110,6 +114,10 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     this.setState({
       password: e.currentTarget.value,
     });
+    this.state.errors.password =
+      e.currentTarget.value.length < 8
+        ? "Password must be at least 8 characters long"
+        : "";
   };
 
   handleConfirmPasswordChange = (
@@ -126,7 +134,19 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
   };
 
   arePasswordsMatching = (): boolean => {
-    return this.state.password === this.state.passwordConfirmation;
+    const { password, passwordConfirmation } = this.state;
+    return password.length > 7 && password === passwordConfirmation;
+  };
+
+  areFieldsFilled = (): boolean => {
+    const { firstName, lastName, age, gender } = this.state;
+    return (
+      (firstName.length > 0 || lastName.length > 0) &&
+      gender.length > 0 &&
+      age > 3 &&
+      this.isEmailCorrect() &&
+      this.arePasswordsMatching()
+    );
   };
 
   handleHomeButton = (): void => {
@@ -134,6 +154,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
   };
 
   render() {
+    const { errors } = this.state;
     return (
       <>
         <div className="signup-page">
@@ -159,6 +180,9 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     placeholder="First Name"
                     onChange={this.handleFirstNameChange}
                   />
+                  {/* {errors.fname.length > 0 && (
+                    <span className="err">{errors.fname}</span>
+                  )} */}
                 </div>
                 <div className="form-group col-md-6">
                   <input
@@ -168,6 +192,9 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     placeholder="Last Name"
                     onChange={this.handleLastNameChange}
                   />
+                  {/* {errors.lname.length > 0 && (
+                    <span className="err">{errors.lname}</span>
+                  )} */}
                 </div>
               </div>
               <div className="row">
@@ -215,6 +242,9 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     placeholder="Password"
                     onChange={this.handlePasswordChange}
                   />
+                  {errors.password.length > 0 && (
+                    <span className="err">{errors.password}</span>
+                  )}
                 </div>
               </div>
               <div className="row">
@@ -226,15 +256,19 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     placeholder="Confirm Password"
                     onChange={this.handleConfirmPasswordChange}
                   />
+                  {this.arePasswordsMatching() && (
+                    <span className="confirm-pw">Passwords Match</span>
+                  )}
                 </div>
               </div>
+              {!this.areFieldsFilled() && (
+                <span className="err">No field should be empty!</span>
+              )}
               <button
                 type="submit"
                 id="sign-up-btn"
                 className="btn btn-primary"
-                disabled={
-                  !(this.isEmailCorrect() && this.arePasswordsMatching())
-                }
+                disabled={!this.areFieldsFilled()}
               >
                 Create Account
               </button>
