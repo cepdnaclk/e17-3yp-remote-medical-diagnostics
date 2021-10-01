@@ -26,7 +26,7 @@ class App extends React.Component<props, AppState> {
       <>
         <AuthProvider>
           <Provider store={Store}>
-            <MemoryRouter initialEntries={["/"]} initialIndex={0}>
+            <MemoryRouter initialEntries={["/loading"]} initialIndex={0}>
               <Switch>
                 <Route
                   path="/loading"

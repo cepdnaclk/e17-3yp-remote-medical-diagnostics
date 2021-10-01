@@ -1,7 +1,6 @@
 import * as React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import landing from "../../images/landing.jpg";
 import { Button } from "react-bootstrap";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -15,7 +14,7 @@ class Landing extends React.Component<RouteComponentProps> {
       <React.Fragment>
         <Navbar />
         <div className="page-content">
-          <img className="img" src={landing} alt="landing" />
+          <img className="img" src="/landing.jpg" alt="landing" />
           <div className="txt" id="t1">
             The Best Doctors Right on Your Doorstep.
           </div>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import "../Styles/Signup.css";
-// import signup_pic from "../images/signup_pic.jpg";
 import { ReactComponent as GoogleIcon } from "../icons/google.svg";
 import { ReactComponent as HomeIcon } from "../icons/home.svg";
 import { RouteComponentProps } from "react-router-dom";

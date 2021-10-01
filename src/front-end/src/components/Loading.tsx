@@ -10,15 +10,18 @@ interface props {}
  */
 const Loading: FunctionComponent<props> = () => {
   const history = useHistory();
-  const { isLoading, loadSession } = useAuth();
+  const { isLoading, loadSession, isAuth } = useAuth();
 
   useEffect(() => {
     loadSession();
   }, [loadSession]);
 
   useEffect(() => {
-    if (!isLoading) history.push("/home");
-  }, [history, isLoading]);
+    if (!isLoading) {
+      if (isAuth) history.push("/home");
+      else history.push("/");
+    }
+  }, [history, isLoading, isAuth]);
 
   return (
     <main className="container">
