@@ -32,8 +32,7 @@ export async function tryToLogin(): Promise<LoggedInState> {
 
   const me = await getCurrentUser();
   Store.dispatch(setAccessToken(accessToken));
-  // todo: use name instead of email
-  Store.dispatch(setName(me?.email || "No Name"));
+  Store.dispatch(setName(me?.name || "No Name"));
   Store.dispatch(seType(me?.type || "patient"));
   return LoggedInState.AlreadyLoggedIn;
 }

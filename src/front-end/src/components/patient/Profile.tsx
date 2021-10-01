@@ -5,8 +5,9 @@ import Row from "react-bootstrap/Row";
 import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { collapse, expand } from "../../store/globalStates/SidebarState";
+import { RootState } from "../../store/Store";
 
 interface ProfileProps {}
 
@@ -21,6 +22,8 @@ const Profile: FunctionComponent<ProfileProps> = () => {
       dispatch(expand());
     };
   }, [dispatchRef]);
+
+  const user = useSelector((state: RootState) => state.user);
   return (
     <Container className="mt-5 mb-auto">
       <Row className="mt-5">
@@ -48,7 +51,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
                 width="200"
                 height="200"
               />
-              <h1 className="ms-5 me-auto">First Name Last Name</h1>
+              <h1 className="ms-5 me-auto">{user.firstName}</h1>
               <Button className="align-self-start" variant="outline-dark">
                 Edit Profile
               </Button>
