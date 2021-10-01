@@ -101,9 +101,11 @@ class PatientAppointments extends React.Component<
                         <td key={"specialty"}>{item["Specialty"]}</td>
                         <td key={"date"}>{item["Date"]}</td>
                         <td key={"time"}>{item["Time"]}</td>
-                        <th scope="row">{i++}</th>
+                        <th scope="row" key={id}>
+                          {i++}
+                        </th>
                         {item["paid"] === "true" && (
-                          <Fragment>
+                          <Fragment key={id}>
                             <td key="join">
                               <button
                                 key={id}

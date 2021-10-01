@@ -20,7 +20,7 @@ const Doctor = (props: DoctorProps) => {
     <tr>
       <td>
         <img
-          src="https://github.com/uaudith.png"
+          src="/fallbackProfilePic.jpg"
           alt=""
           className="rounded-circle me-2"
           width="32"
