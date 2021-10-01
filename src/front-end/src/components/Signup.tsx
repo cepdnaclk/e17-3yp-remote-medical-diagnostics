@@ -48,7 +48,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
 
   handleSignup = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const url = "http://localhost:8080/api/patient";
+    const url = "http://localhost:8080/api/newPatient";
     const name = this.state.firstName + " " + this.state.lastName;
     const gender = this.state.gender === "male" ? "M" : "F";
 

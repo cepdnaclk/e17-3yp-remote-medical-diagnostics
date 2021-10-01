@@ -11,7 +11,7 @@ class Navbar extends React.Component<RouteComponentProps> {
     return (
       <>
         <nav className="navbar navbar-light bg-light" id="nav-bar">
-          <label className="navbar-brand" id="MG">
+          <label className="navbar-brand ms-3" id="MG">
             MedGenie
           </label>
 

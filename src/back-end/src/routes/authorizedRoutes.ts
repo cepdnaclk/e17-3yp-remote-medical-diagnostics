@@ -1,20 +1,15 @@
 import { Request, Router } from "express";
-import authenticateToken, {
-  authResponse,
-} from "../middleware/authenticateToken";
-import { getUserDetailsFromDb } from "../service/getMeDetails";
+import { handleMe } from "../controller/me.controller";
+import authenticateToken from "../middleware/authenticateToken";
+import patientAuthRouter from "./authorizedPatientRoutes";
 
 const authRouter = Router();
 authRouter.use(authenticateToken);
 
-authRouter.get("/me", async (req: Request, res: authResponse) => {
-  const user = res.locals.user;
-  const info = await getUserDetailsFromDb(user.type, user.email);
+//handles /me endpoint
+authRouter.get("/me", handleMe);
 
-  res.json({
-    ...user,
-    ...info,
-  });
-});
+//handles authorized requests to the patient
+authRouter.use("/patient", patientAuthRouter);
 
 export default authRouter;
