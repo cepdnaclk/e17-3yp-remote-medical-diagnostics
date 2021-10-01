@@ -69,7 +69,7 @@ class DropdownMenu extends React.Component<
           onClick={this.toggleDropdown}
         >
           <img
-            src="https://github.com/uaudith.png"
+            src="/fallbackProfilePic.jpg"
             alt=""
             className="rounded-circle me-2"
             width="32"

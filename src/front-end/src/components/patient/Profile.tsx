@@ -45,7 +45,7 @@ const Profile: FunctionComponent<ProfileProps> = () => {
           <Row className="pe-3">
             <Card className="d-flex flex-row align-items-center p-4 shadow-sm">
               <img
-                src="https://github.com/uaudith.png"
+                src="/fallbackProfilePic.jpg"
                 alt=""
                 className="rounded-circle d-inline-block"
                 width="200"
