@@ -1,0 +1,55 @@
+/* Navbar Related */
+
+#login-button-navbar {
+  position: absolute;
+  right: 4%;
+  border-radius: 20px;
+  width: 120px;
+}
+.navlinks {
+  width: 20%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  position: absolute;
+  right: 15%;
+  top: 35%;
+}
+
+#MG {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+/*Footer Related*/
+
+/*landing page related*/
+.img {
+  width: 100%;
+  filter: brightness(40%);
+}
+
+.txt {
+  width: 1000px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+#t1 {
+  top: 45%;
+  font-size: 50px;
+  font-weight: bold;
+}
+#t2 {
+  top: 65%;
+  font-size: 29px;
+}
+
+#get-started-btn {
+  position: absolute;
+  left: 45%;
+  top: 85%;
+}

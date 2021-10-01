@@ -18,7 +18,16 @@ const Doctor = (props: DoctorProps) => {
   //A doctor component to be put in the list
   return (
     <tr>
-      <td>photo</td>
+      <td>
+        <img
+          src="https://github.com/uaudith.png"
+          alt=""
+          className="rounded-circle me-2"
+          width="32"
+          height="32"
+        />
+      </td>
+
       <td>{props.doctor.name}</td>
       <td>{props.doctor.speciality}</td>
       <td>{props.doctor.age}</td>
@@ -150,6 +159,8 @@ class PatientDoctors extends React.Component<
         >
           Find a Doctor
         </button>
+        {/* Modal overlay */}
+
         {this.state.findDoctorPopup && (
           <div className="modl-pdoc">
             <div className="overlay-pdoc"></div>

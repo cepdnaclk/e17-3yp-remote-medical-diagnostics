@@ -278,15 +278,18 @@ Prototypes with different hardware implementations are planned to be used to tes
 
 All items and costs according to the current plan: (might change in the future)
 
-| Item                    | Quantity | Unit Cost (Rs.) | Total (Rs.) |
-| ----------------------- | :------: | :-------------: | ----------: |
-| ESP32                   |    1     |      1500       |        1500 |
-| LM35 Temperature Sensor |    1     |       110       |         110 |
-| Pre-amplifier MAX4466   |    1     |       500       |         500 |
-| Condenser mic CA0106    |    1     |       20        |          20 |
-| Stethoscope             |    1     |       840       |         840 |
-| Others                  |    1     |      1500       |        1500 |
-|                         |          |      TOTAL      |        4470 |
+| Item                             | Quantity | Unit Cost (Rs.) | Total (Rs.) |
+| -------------------------------- | :------: | :-------------: | ----------: |
+| ESP32                            |    1     |      1500       |        1500 |
+| LM35 Temperature Sensor          |    1     |       110       |         110 |
+| 3.7V Li-ion Rechargeable Battery |    2     |       200       |         400 |
+| Max17048 Cell Fuel Gauge         |    1     |       500       |         500 |
+| AMS1117-3.3 Voltage Regulator    |    1     |        10       |          10 |
+| Logic Level Converter            |    1     |       135       |         135 |
+| Condenser mic CA0106             |    1     |        20       |          20 |
+| Stethoscope                      |    1     |       840       |         840 |
+| Others                           |          |                 |        2000 |
+|                                  |          |      TOTAL      |        5515 |
 
 ## Project Timeline
 

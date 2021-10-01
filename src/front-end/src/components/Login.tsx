@@ -4,6 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import logo from "../logo.svg";
 import { freshLogin } from "../useCases/logIn/freshLogin";
+import { ReactComponent as HomeIcon } from "../icons/home.svg";
 
 export interface LoginProps extends RouteComponentProps {}
 type props = PropsFromRedux & LoginProps;
@@ -45,76 +46,93 @@ class Login extends React.Component<props, LoginState> {
       this.setState({ formDisabled: false });
     }
   };
+
+  handleSignup = (): void => {
+    this.props.history.push("/signup");
+  };
   componentDidMount = () => {
     document.body.style.backgroundColor = "white";
   };
   componentWillUnmount = () => {
     document.body.style.removeProperty("background-color");
   };
+
+  handleHomeButton = (): void => {
+    this.props.history.push("/");
+  };
   render() {
     return (
-      <main className="container  text-center">
-        <div className="row justify-content-md-center align-items-center login-form">
-          <div className="col col-lg-4 col-md-6 col-12">
-            <form onSubmit={this.handleSubmit}>
-              <fieldset disabled={this.state.formDisabled}>
-                <img
-                  className="mb-4"
-                  src={logo}
-                  alt="our logo"
-                  width="100"
-                  height="100"
-                />
-                <h1 className="h3 mb-3 fw-normal">Sign in to MedGenie</h1>
-
-                <div className="form-floating">
-                  <input
-                    type="email"
-                    className="form-control"
-                    id="floatingInput"
-                    placeholder={this.state.email}
-                    onChange={this.onEmailChange}
+      <>
+        <button id="home-login" onClick={this.handleHomeButton}>
+          <HomeIcon />
+        </button>
+        <main className="container  text-center">
+          <div className="row justify-content-md-center align-items-center login-form">
+            <div className="col col-lg-4 col-md-6 col-12" id="login_">
+              <form onSubmit={this.handleSubmit}>
+                <fieldset disabled={this.state.formDisabled}>
+                  <img
+                    className="mb-4"
+                    src={logo}
+                    alt="our logo"
+                    width="100"
+                    height="100"
                   />
-                  <label htmlFor="floatingInput">Email address</label>
-                </div>
-                <div className="form-floating">
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="floatingPassword"
-                    placeholder={this.state.pass}
-                    onChange={this.onPasswordChange}
-                  />
-                  <label htmlFor="floatingPassword">Password</label>
-                </div>
+                  <h1 className="h3 mb-3 fw-normal">Sign in to MedGenie</h1>
 
-                <div className="checkbox mb-3">
-                  <label>
-                    Remember me
+                  <div className="form-floating">
                     <input
-                      className="m-2"
-                      type="checkbox"
-                      value="remember-me"
+                      type="email"
+                      className="form-control"
+                      id="floatingInput"
+                      placeholder={this.state.email}
+                      onChange={this.onEmailChange}
                     />
-                  </label>
-                </div>
-                <button
-                  className="w-100 btn btn-lg btn-primary"
-                  type="submit"
-                  disabled={!this.isEmailCorrect()}
-                >
-                  {this.state.formDisabled ? "Signing in" : "Sign in"}
-                </button>
-              </fieldset>
-            </form>
-            <div className="mt-2">
-              Don't have an account?
-              <a href="example.com"> Register</a>
+                    <label htmlFor="floatingInput">Email address</label>
+                  </div>
+                  <div className="form-floating">
+                    <input
+                      type="password"
+                      className="form-control"
+                      id="floatingPassword"
+                      placeholder={this.state.pass}
+                      onChange={this.onPasswordChange}
+                    />
+                    <label htmlFor="floatingPassword">Password</label>
+                  </div>
+
+                  <div className="checkbox mb-3">
+                    <label>
+                      Remember me
+                      <input
+                        className="m-2"
+                        type="checkbox"
+                        value="remember-me"
+                      />
+                    </label>
+                  </div>
+                  <button
+                    className="w-100 btn btn-lg btn-primary"
+                    type="submit"
+                    disabled={!this.isEmailCorrect()}
+                  >
+                    {this.state.formDisabled ? "Signing in" : "Sign in"}
+                  </button>
+                </fieldset>
+              </form>
+              <div className="mt-2">Don't have an account?</div>
+              <button
+                className="w-100 btn btn-lg btn-primary"
+                type="submit"
+                onClick={this.handleSignup}
+              >
+                Create Account
+              </button>
+              <p className="mt-5 mb-3 text-muted">Medgenie© 2021</p>
             </div>
-            <p className="mt-5 mb-3 text-muted">Medgenie© 2021</p>
           </div>
-        </div>
-      </main>
+        </main>
+      </>
     );
   }
   async loginDetailsAreCorrect(): Promise<boolean> {
