@@ -161,7 +161,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
             <button id="home-signup" onClick={this.handleHomeButton}>
               <HomeIcon />
             </button>
-            <div className="mg-txt" id="mg-t1">
+            <div className="mg-txt d-none d-sm-none d-md-block" id="mg-t1">
               MedGenie
             </div>
           </div>

@@ -15,43 +15,37 @@ import Landing from "./components/landing_page/Landing";
 import About from "./components/landing_page/About";
 import Contact from "./components/landing_page/Contact";
 
-interface AppState {
-  isLoading: boolean;
-  isAuthenticated: boolean;
-}
 interface props {}
-class App extends React.Component<props, AppState> {
-  render() {
-    return (
-      <>
-        <AuthProvider>
-          <Provider store={Store}>
-            <MemoryRouter initialEntries={["/loading"]} initialIndex={0}>
-              <Switch>
-                <Route
-                  path="/loading"
-                  render={(props) => <Loading {...props} />}
-                />
+const App: React.FunctionComponent<props> = () => {
+  return (
+    <>
+      <AuthProvider>
+        <Provider store={Store}>
+          <MemoryRouter initialEntries={["/loading"]} initialIndex={0}>
+            <Switch>
+              <Route
+                path="/loading"
+                render={(props) => <Loading {...props} />}
+              />
 
-                <Route path="/" exact component={Landing} />
-                <Route path="/login" component={Login} />
-                <Route path="/signup" component={Signup} />
-                <Route path="/about" component={About} />
-                <Route path="/contact" component={Contact} />
+              <Route path="/" exact component={Landing} />
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/about" component={About} />
+              <Route path="/contact" component={Contact} />
 
-                <PrivateRoute path="/home" Comp={HomeSelector} />
+              <PrivateRoute path="/home" Comp={HomeSelector} />
 
-                <Route
-                  path="/appointments/chat-room"
-                  component={PatientAppointmentsChatRoom}
-                />
-              </Switch>
-            </MemoryRouter>
-          </Provider>
-        </AuthProvider>
-      </>
-    );
-  }
-}
+              <Route
+                path="/appointments/chat-room"
+                component={PatientAppointmentsChatRoom}
+              />
+            </Switch>
+          </MemoryRouter>
+        </Provider>
+      </AuthProvider>
+    </>
+  );
+};
 
 export default App;
