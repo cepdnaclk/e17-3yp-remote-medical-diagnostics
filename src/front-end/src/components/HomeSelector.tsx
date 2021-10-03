@@ -2,7 +2,8 @@ import { FunctionComponent } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/Store";
 import PatientMetaComponent from "./PatientMetaComponent";
-import PatientAppointmentsChatRoom from "./patient/PatientChatRoom";
+import DoctorMetaComponent from "./DoctorMetaComponent";
+//import PatientAppointmentsChatRoom from "./patient/PatientChatRoom";
 
 interface HomeSelectorProps {}
 
@@ -11,8 +12,8 @@ const HomeSelector: FunctionComponent<HomeSelectorProps> = () => {
   return type === "patient" ? (
     <PatientMetaComponent />
   ) : (
-    // <DoctorMetaComponent/>
-    <PatientAppointmentsChatRoom />
+    <DoctorMetaComponent />
+    //<PatientAppointmentsChatRoom />
   );
 };
 
