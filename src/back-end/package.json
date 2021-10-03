@@ -8,6 +8,7 @@
     "start": "node build/app.js",
     "test": "jest --verbose",
     "dev": "nodemon src/app.ts",
+    "socket": "nodemon src/video-chat/p2pvideo.ts",
     "build": "tsc -p ."
   },
   "keywords": [],

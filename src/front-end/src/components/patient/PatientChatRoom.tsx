@@ -1,132 +1,214 @@
-import React, { useEffect, useRef } from "react";
-import { AppDispatch, RootState } from "../../store/Store"
-import { connect, ConnectedProps } from "react-redux";
+import { useState, useRef, useEffect } from 'react';
+import { Grid, Typography, TextField, Button } from '@material-ui/core';
 import { io } from 'socket.io-client';
-import { answerCall, setMe, setCallName, setCall, Call, setStream, endCall } from '../../store/globalStates/callState';
-import { Grid, Typography, Paper, Button } from '@material-ui/core';
 import Peer from 'simple-peer';
+import { Card } from 'react-bootstrap';
 
-export interface PatientChatRoomProps {
+interface CallInterface {
+    from: string,
+    isReceivingCall: boolean,
+    signal: any
 }
 
-type props = PatientChatRoomProps & PropsFromRedux;
+const socket = io("http://localhost:5000"); //host must be specified if the backend is at a different address
 
-export interface PatientChatRoomState {
-}
-class PatientChatRoom extends React.Component<props, PatientChatRoomState> {
-    constructor(props: props) {
-        super(props);
-    }
-    socket = io(); //host must be specified if the backend is at a different address
-
-    myVideo: (MediaStream | undefined) = undefined;
-    callerVideo: (MediaStream | undefined) = undefined;
-    mySource: string = "";
-    callerSource: string = "";
-
-
-    setMyVideo = (myStream: MediaStream) => {
-        console.log("my stream object" + myStream);
-        this.mySource = window.URL.createObjectURL(myStream);
-        this.myVideo = myStream;
-    }
-
-    setCallerVideo = (callerStream: MediaStream) => {
-        this.callerSource = window.URL.createObjectURL(callerStream)
-        this.callerVideo = callerStream;
-    }
-
-    componentDidMount() {
-
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-            .then((currentStream) => {
-                console.log("user media fetched");
-                this.setMyVideo(currentStream);
-            });
+const PatientChatRoom = () => {
+    const [callAccepted, setCallAccepted] = useState(false);
+    const [camOn, setCamOn] = useState(false);
+    const [callEnded, setCallEnded] = useState(false);
+    const [idToCall, setIdToCall] = useState('');
+    const [myVideoStream, setMyStream] = useState<MediaStream>();
+    const [call, setCall] = useState<CallInterface>({
+        from: '',
+        isReceivingCall: false,
+        signal: undefined
+    });
+    const [me, setMe] = useState('');
+    const myVideo = useRef<HTMLVideoElement>(null);
+    const callerVideo = useRef<HTMLVideoElement>(null);
+    const peerRef = useRef<Peer.Instance>();
 
 
-        this.socket.on('me', (id) => setMe(id));
+    useEffect(() => {
 
+        // socket.on('me', (id: string) => {
 
-        this.socket.on('callUser', ({ from, name: callerName, signal }) => {
-            setCall({ isReceivingCall: true, from, name: callerName, signal });
+        // });
+
+        setMe(socket.id);
+        console.log("from useffect: (socket.id)" + socket.id);
+        socket.on('callUser', ({ from, signal }) => {
+            setCall({ isReceivingCall: true, from: from, signal: signal });
         });
-    };
+    }, []);
 
-    answerCall = () => {
-        this.props.answerCall();
+    const turnOnCamera = () => {
+        setCamOn(true);
+        try {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then((myStream) => {
+                    setMyStream(myStream);
 
-        const peer = new Peer({ initiator: false, trickle: false, stream: this.callerVideo });
+                    if (myVideo.current) {
+                        myVideo.current.srcObject = myStream;
+                    };
+                })
+                .catch((err) => {
+                    alert(err.message || "please grant permission to access video");
+                });
+        } catch (error: any) {
+            alert("no media devices found !");
+        }
+    }
+
+    const turnOffCamera = () => {
+        setCamOn(false);
+        myVideoStream?.getTracks().forEach((track) => {
+            track.stop();
+        });
+    }
+
+    const toggleAudio = () => {
+        myVideoStream?.getAudioTracks().forEach((track) => {
+            if (track.muted) {
+                track.enabled = true;
+            } else {
+                track.enabled = false;
+            };
+        })
+    }
+
+    const answerCall = () => {
+        setCallAccepted(true);
+
+        const peer = new Peer({
+            initiator: false,
+            answerOptions: {
+                offerToReceiveAudio: false,
+                offerToReceiveVideo: false
+            },
+            trickle: false,
+            stream: myVideoStream
+        });
+
 
         peer.on('signal', (data) => {
-            this.socket.emit('answerCall', { signal: data, to: this.props.call.from });
+            socket.emit('answerCall', { signalData: data, to: call.from });
+            console.log("peer signal sent to original caller: " + call.from);
         });
 
         peer.on('stream', (currentStream) => {
-            this.setCallerVideo(currentStream);
+            if (callerVideo?.current) {
+                callerVideo.current.srcObject = currentStream;
+                console.log("stream recieved at callee: ");
+                console.log(callerVideo.current.srcObject);
+            }
         });
 
-        peer.signal(this.props.call.signal);
+        peer.signal(call.signal);
+
+        peerRef.current = peer;
 
     };
 
+    const callUser = (id: string) => {
+        console.log("from call user (socket id)" + socket.id + "(me)" + me)
 
-    leaveCall = () => {
-        this.props.endCall();
+        const peer = new Peer({
+            initiator: true,
+            offerOptions: {
+                offerToReceiveAudio: true,
+                offerToReceiveVideo: true
+            },
+            trickle: false,
+            stream: myVideoStream
+        });
+
+        peer.on('signal', (data) => {
+            socket.emit('callUser', { userToCall: id, signalData: data, from: socket.id });
+            console.log("from caller; sending peer signal: (socket.id)" + socket.id);
+        });
+
+        peer.on('stream', (currentStream) => {
+            if (callerVideo?.current) {
+                callerVideo.current.srcObject = currentStream;
+                console.log("stream recieved at caller ");
+                console.log(callerVideo.current.srcObject);
+            }
+        });
+
+        console.log("from call user (socket id)" + socket.id + "(me)" + me)
+
+        socket.on('answerCall', (signalData) => {
+            console.log('Call accepted');
+            setCallAccepted(true);
+            peer.signal(signalData);
+        });
+
+        peerRef.current = peer;
+    };
+
+    const leaveCall = () => {
+        setCallEnded(true);
+
+        if (peerRef?.current) peerRef.current.destroy();
 
         window.location.reload();
     };
 
-    render() {
-        return (
-            <div>
-                <Grid container >
-                    {this.props.stream && (
-                        <Paper >
-                            <Grid item xs={12} md={6}>
-                                <Typography variant="h5" gutterBottom>{this.props.name || 'Name'}</Typography>
+    return (
+        <div>
+            <Grid container >
+                {callAccepted && (
+                    <Card >
+                        <Grid item xs={12} md={6}>
+                            <Typography variant="h5" gutterBottom>{'Doctor'}</Typography>
+                            <video id="callerVideo" ref={callerVideo} autoPlay />
 
-                            </Grid>
-                        </Paper>
-                    )}
-                    {
-                        <Paper >
-                            <Grid item xs={12} md={6}>
-                                <Typography variant="h5" gutterBottom>{this.props.name || 'Name'}</Typography>
-                                <video id="myVideo" src={this.mySource} autoPlay />
-                            </Grid>
-                        </Paper>
-                    }
-                </Grid>
-            </div>
-        );
-    }
-
+                        </Grid>
+                    </Card>
+                )}
+                <Card >
+                    <Grid item xs={12} md={6}>
+                        <Typography variant="h5" gutterBottom>{'You'}</Typography>
+                        {!camOn ?
+                            (<Button onClick={() => turnOnCamera()}> turn on camera </Button>
+                            ) : (
+                                <>
+                                    <video id="myVideo" muted ref={myVideo} autoPlay />
+                                    <Button onClick={() => turnOffCamera()}> turn off camera </Button>
+                                    <Button onClick={() => toggleAudio()}> mic on/off </Button>
+                                </>
+                            )}
+                    </Grid>
+                    {console.log("from component (socket.id)" + socket.id + "(me)" + me)}
+                </Card>
+            </Grid>
+            <Grid item xs={12} md={6} >
+                <Typography gutterBottom variant="h6">Make a call</Typography>
+                <TextField label="patient ID" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
+                {callAccepted && !callEnded ? (
+                    <Button variant="contained" color="secondary" fullWidth onClick={leaveCall} >
+                        Leave Room
+                    </Button>
+                ) : (
+                    <Button variant="contained" color="primary" fullWidth onClick={() => callUser(idToCall)} >
+                        Admit
+                    </Button>
+                )}
+            </Grid>
+            <>
+                {call.isReceivingCall && !callAccepted && (
+                    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                        <h1>Doctor is inviting you to the room: </h1>
+                        <Button variant="contained" color="primary" onClick={answerCall}>
+                            Enter
+                        </Button>
+                    </div>
+                )}
+            </>
+        </div>
+    );
 }
 
-
-function mapStateToProps(state: RootState) {
-    return {
-        callAccepted: state.calls.callAccepted,
-        callEnded: state.calls.callEnded,
-        name: state.calls.name,
-        call: state.calls.call,
-        stream: state.calls.stream,
-        me: state.calls.call
-    };
-}
-
-function mapDispatchToProps(dispatch: AppDispatch) {
-    return {
-        answerCall: () => dispatch(answerCall()),
-        setMe: (id: String) => dispatch(setMe(id)),
-        setCallName: (callName: String) => setCallName(callName),
-        setStream: (stream: boolean) => setStream(stream),
-        setCall: (call: Call) => setCall(call),
-        endCall: () => endCall(),
-    };
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-export default connector(PatientChatRoom);
+export default PatientChatRoom;
