@@ -3,6 +3,7 @@ import client from "../httpClient";
 export interface User {
   email: string;
   type: string;
+  name: string;
 }
 
 /**

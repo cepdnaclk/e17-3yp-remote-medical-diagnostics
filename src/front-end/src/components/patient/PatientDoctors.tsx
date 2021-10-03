@@ -1,7 +1,7 @@
 import React from "react";
 import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
-import { Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 import axios from "axios";
 
 export interface DoctorProps {
@@ -20,7 +20,7 @@ const Doctor = (props: DoctorProps) => {
     <tr>
       <td>
         <img
-          src="https://github.com/uaudith.png"
+          src="/fallbackProfilePic.jpg"
           alt=""
           className="rounded-circle me-2"
           width="32"
@@ -53,6 +53,7 @@ class PatientDoctors extends React.Component<
   PatientDoctorsProps,
   PatientDoctorsState
 > {
+  hasMounted: boolean = false;
   state = {
     findDoctorPopup: false,
     doctors: [],
@@ -87,8 +88,9 @@ class PatientDoctors extends React.Component<
         });
       });
       //=======================================================================
-
-      this.setState({ doctors: doc_list.slice(0, 5) }); //<---- fetched data
+      if (this.hasMounted) {
+        this.setState({ doctors: doc_list.slice(0, 5) }); //<---- fetched data
+      }
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +98,11 @@ class PatientDoctors extends React.Component<
 
   componentDidMount = () => {
     //fetch doctors from the database
+    this.hasMounted = true;
     this.getDoctors();
+  };
+  componentWillUnmount = () => {
+    this.hasMounted = false;
   };
 
   render() {

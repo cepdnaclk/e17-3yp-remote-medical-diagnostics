@@ -1,10 +1,9 @@
 import * as React from "react";
 import "../Styles/Signup.css";
-// import signup_pic from "../images/signup_pic.jpg";
 import { ReactComponent as GoogleIcon } from "../icons/google.svg";
 import { ReactComponent as HomeIcon } from "../icons/home.svg";
 import { RouteComponentProps } from "react-router-dom";
-import axios from "axios";
+import { signUp } from "../useCases/signUp/signup";
 
 export interface SignupState {
   firstName: string;
@@ -30,7 +29,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     lastName: "",
     email: "",
     age: 4,
-    gender: "",
+    gender: "male",
     password: "",
     passwordConfirmation: "",
     errors: {
@@ -47,9 +46,8 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     this.props.history.push("/login");
   };
 
-  handleSignup = (e: React.FormEvent<HTMLFormElement>): void => {
+  handleSignup = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    const url = "http://localhost:8080/api/patient";
     const name = this.state.firstName + " " + this.state.lastName;
     const gender = this.state.gender === "male" ? "M" : "F";
 
@@ -63,14 +61,11 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     };
 
     if (name.length < 200) {
-      axios
-        .post(url, userData)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        console.log(await signUp(userData));
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     this.props.history.push("/login");
@@ -115,9 +110,10 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
       password: e.currentTarget.value,
       errors: {
         ...this.state.errors,
-        password: e.currentTarget.value.length
-          ? "Password must be at least 8 characters long"
-          : "",
+        password:
+          e.currentTarget.value.length < 8
+            ? "Password must be at least 8 characters long"
+            : "",
       },
     });
   };
@@ -165,7 +161,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
             <button id="home-signup" onClick={this.handleHomeButton}>
               <HomeIcon />
             </button>
-            <div className="mg-txt" id="mg-t1">
+            <div className="mg-txt d-none d-sm-none d-md-block" id="mg-t1">
               MedGenie
             </div>
           </div>
@@ -226,12 +222,12 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     id="gender"
                     onChange={this.handleGenderChange}
                   >
-                    <option selected disabled hidden>
+                    <option defaultValue="male" disabled hidden>
                       {/*WARNING!!!!!*/}
                       Gender
                     </option>
                     <option value="male">Male</option>
-                    <option value="male">Female</option>
+                    <option value="female">Female</option>
                   </select>
                 </div>
               </div>
