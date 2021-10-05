@@ -1,0 +1,35 @@
+services:
+  reactApp:
+    build: ./front-end/
+    ports:
+      - "8081:80"
+    environment:
+      - REACT_APP_USE_MOCK_API
+    depends_on:
+      - expressServer
+    restart: on-failure
+
+  expressServer:
+    build: ./back-end/
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URI=mongodb://root:internalPW@mongo
+      - ACCESS_TOKEN_TTL
+      - REFRESH_TOKEN_TTL
+      - PRIVATE_KEY
+      - PUBLIC_KEY
+    depends_on:
+      - mongo
+    restart: on-failure
+
+  mongo:
+    image: mongo
+    volumes:
+      - mongo_medGenie:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: internalPW
+
+volumes:
+  mongo_medGenie:
