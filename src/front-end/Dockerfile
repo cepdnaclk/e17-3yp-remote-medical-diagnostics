@@ -7,7 +7,7 @@ WORKDIR /code
 COPY package*.json ./
 
 # Install dependancies
-RUN npm ci --production
+RUN npm ci
 
 # Copy source files
 COPY . .
