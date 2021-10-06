@@ -1,15 +1,15 @@
 services:
-  reactApp:
+  react_app:
     build: ./front-end/
     ports:
       - "8081:80"
     environment:
       - REACT_APP_USE_MOCK_API
     depends_on:
-      - expressServer
+      - express_server
     restart: on-failure
 
-  expressServer:
+  express_server:
     build: ./back-end/
     ports:
       - "8080:8080"
