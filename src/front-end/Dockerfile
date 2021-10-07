@@ -12,6 +12,11 @@ RUN npm ci
 # Copy source files
 COPY . .
 
+# Get the passed backend api FQDN
+ARG REACT_APP_USE_MOCK_API
+# Set the backend url before build
+ENV REACT_APP_USE_MOCK_API $REACT_APP_USE_MOCK_API
+
 # Build the project
 RUN npm run build
 

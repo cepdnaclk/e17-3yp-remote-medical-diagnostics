@@ -1,10 +1,11 @@
 services:
   react_app:
-    build: ./front-end/
+    build:
+      context: ./front-end/
+      args:
+        REACT_APP_USE_MOCK_API: ${REACT_APP_USE_MOCK_API}
     ports:
       - "8081:80"
-    environment:
-      - REACT_APP_USE_MOCK_API
     depends_on:
       - express_server
     restart: on-failure
