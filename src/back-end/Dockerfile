@@ -18,7 +18,7 @@ COPY . .
 RUN npm run build
 
 ENV PORT=8080
-ENV HOST=localhost
+ENV HOST=0.0.0.0
 ENV SALT_WORKER_FACTOR=10
 
 # Starts the express server

@@ -30,6 +30,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: internalPW
+    logging:
+      driver: "none"
 
 volumes:
   mongo_medGenie:
