@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
+import { ReactComponent as Mic } from "../../icons/mic.svg";
+import { ReactComponent as Camera } from "../../icons/camera-video.svg";
+import { ReactComponent as CamOff } from "../../icons/camera-video-off.svg";
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
 import { Card } from 'react-bootstrap';
@@ -14,32 +18,30 @@ const socket = io("http://localhost:5000"); //host must be specified if the back
 
 const PatientChatRoom = () => {
     const [callAccepted, setCallAccepted] = useState(false);
+    const [videoSet, setVideoSet] = useState(false);
     const [camOn, setCamOn] = useState(false);
+    const [muted, setMuted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [idToCall, setIdToCall] = useState('');
     const [myVideoStream, setMyStream] = useState<MediaStream>();
+    const [callerVideoStream, setCallerVideoStream] = useState<MediaStream>();
     const [call, setCall] = useState<CallInterface>({
         from: '',
         isReceivingCall: false,
         signal: undefined
     });
-    const [me, setMe] = useState('');
     const myVideo = useRef<HTMLVideoElement>(null);
     const callerVideo = useRef<HTMLVideoElement>(null);
     const peerRef = useRef<Peer.Instance>();
 
-
     useEffect(() => {
 
-        // socket.on('me', (id: string) => {
-
-        // });
-
-        setMe(socket.id);
-        console.log("from useffect: (socket.id)" + socket.id);
         socket.on('callUser', ({ from, signal }) => {
             setCall({ isReceivingCall: true, from: from, signal: signal });
         });
+        if (callerVideo.current && callerVideoStream) {
+            callerVideo.current.srcObject = callerVideoStream;
+        }
     }, []);
 
     const turnOnCamera = () => {
@@ -72,8 +74,10 @@ const PatientChatRoom = () => {
         myVideoStream?.getAudioTracks().forEach((track) => {
             if (track.muted) {
                 track.enabled = true;
+                setMuted(false);
             } else {
                 track.enabled = false;
+                setMuted(true);
             };
         })
     }
@@ -94,25 +98,26 @@ const PatientChatRoom = () => {
 
         peer.on('signal', (data) => {
             socket.emit('answerCall', { signalData: data, to: call.from });
-            console.log("peer signal sent to original caller: " + call.from);
+            // console.log("peer signal sent to original caller: " + call.from);
         });
 
         peer.on('stream', (currentStream) => {
-            if (callerVideo?.current) {
+            // console.log("stream recieved at callee: " + callerVideo.current);
+            if (callerVideo.current) {
+                setCallerVideoStream(currentStream)
                 callerVideo.current.srcObject = currentStream;
-                console.log("stream recieved at callee: ");
-                console.log(callerVideo.current.srcObject);
+                // console.log(callerVideo.current.srcObject);
             }
+            setVideoSet(true)
         });
 
         peer.signal(call.signal);
 
         peerRef.current = peer;
-
     };
 
     const callUser = (id: string) => {
-        console.log("from call user (socket id)" + socket.id + "(me)" + me)
+        // console.log("from call user (socket id)" + socket.id + "(me)" + me)
 
         const peer = new Peer({
             initiator: true,
@@ -126,23 +131,24 @@ const PatientChatRoom = () => {
 
         peer.on('signal', (data) => {
             socket.emit('callUser', { userToCall: id, signalData: data, from: socket.id });
-            console.log("from caller; sending peer signal: (socket.id)" + socket.id);
+            // console.log("from caller; sending peer signal: (socket.id)" + socket.id);
         });
 
         peer.on('stream', (currentStream) => {
-            if (callerVideo?.current) {
+            // console.log("stream recieved at caller " + callerVideo.current);
+            if (callerVideo.current) {
+                setCallerVideoStream(currentStream)
                 callerVideo.current.srcObject = currentStream;
-                console.log("stream recieved at caller ");
-                console.log(callerVideo.current.srcObject);
+                // console.log(callerVideo.current.srcObject);
             }
+            setVideoSet(true)
         });
 
-        console.log("from call user (socket id)" + socket.id + "(me)" + me)
+        // console.log("from call user (socket id)" + socket.id + "(me)" + me)
 
         socket.on('answerCall', (signalData) => {
-            console.log('Call accepted');
-            setCallAccepted(true);
             peer.signal(signalData);
+            setCallAccepted(true);
         });
 
         peerRef.current = peer;
@@ -163,8 +169,10 @@ const PatientChatRoom = () => {
                     <Card >
                         <Grid item xs={12} md={6}>
                             <Typography variant="h5" gutterBottom>{'Doctor'}</Typography>
-                            <video id="callerVideo" ref={callerVideo} autoPlay />
-
+                            {/* <Button onClick={() => enabledoc()}> turn on camera </Button> */}
+                            <video id="myVideo" ref={callerVideo} autoPlay />
+                            {/* {console.log("caller video source ")}{console.log(callerVideo.current?.srcObject)}
+                            {console.log("caller videoStream state ")}{console.log(callerVideoStream)} */}
                         </Grid>
                     </Card>
                 )}
@@ -172,18 +180,18 @@ const PatientChatRoom = () => {
                     <Grid item xs={12} md={6}>
                         <Typography variant="h5" gutterBottom>{'You'}</Typography>
                         {!camOn ?
-                            (<Button onClick={() => turnOnCamera()}> turn on camera </Button>
+                            (<Button onClick={() => turnOnCamera()}> <CamOff /> </Button>
                             ) : (
                                 <>
-                                    <video id="myVideo" muted ref={myVideo} autoPlay />
-                                    <Button onClick={() => turnOffCamera()}> turn off camera </Button>
-                                    <Button onClick={() => toggleAudio()}> mic on/off </Button>
+                                    <video id="callerVideo" muted ref={myVideo} autoPlay />
+                                    <Button onClick={() => turnOffCamera()}> <Camera /> </Button>
+                                    {muted ? <Button onClick={() => toggleAudio()} > <Mute /> </Button> : <Button onClick={() => toggleAudio()} > <Mic /> </Button>}
                                 </>
                             )}
                     </Grid>
-                    {console.log("from component (socket.id)" + socket.id + "(me)" + me)}
+                    <h6>{socket.id}</h6>
                 </Card>
-            </Grid>
+            </Grid >
             <Grid item xs={12} md={6} >
                 <Typography gutterBottom variant="h6">Make a call</Typography>
                 <TextField label="patient ID" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
@@ -207,7 +215,7 @@ const PatientChatRoom = () => {
                     </div>
                 )}
             </>
-        </div>
+        </div >
     );
 }
 
