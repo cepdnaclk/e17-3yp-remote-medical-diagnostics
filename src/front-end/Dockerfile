@@ -25,5 +25,8 @@ FROM nginx:1.21-alpine as prod
 
 # Get the build artifacts from previous stage
 COPY --from=build /code/build /usr/share/nginx/html
+# Copy nginx configurations
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 CMD [ "nginx","-g","daemon off;" ]
