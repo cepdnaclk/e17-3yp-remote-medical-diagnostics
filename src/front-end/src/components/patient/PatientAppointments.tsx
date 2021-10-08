@@ -1,7 +1,7 @@
 import { Dictionary } from "@reduxjs/toolkit";
 import React, { Fragment } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 import { RouteComponentProps, withRouter } from "react-router";
 // import { join } from '../../store/globalStates/VideoChat';
 // import Store from "../../store/Store";

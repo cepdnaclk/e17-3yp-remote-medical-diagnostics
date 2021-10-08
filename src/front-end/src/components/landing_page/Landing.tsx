@@ -1,7 +1,7 @@
 import * as React from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { Button } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
 import { RouteComponentProps } from "react-router-dom";
 
 class Landing extends React.Component<RouteComponentProps> {
