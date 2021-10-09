@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
-import { setName } from "../store/globalStates/LoggedUser";
 import { AuthContext } from "./AuthContext";
 import logo from "../logo.svg";
 import { freshLogin } from "../useCases/logIn/freshLogin";

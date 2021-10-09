@@ -18,7 +18,6 @@ const socket = io("http://localhost:5000"); //host must be specified if the back
 
 const PatientChatRoom = () => {
     const [callAccepted, setCallAccepted] = useState(false);
-    const [videoSet, setVideoSet] = useState(false);
     const [camOn, setCamOn] = useState(false);
     const [muted, setMuted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
@@ -42,7 +41,7 @@ const PatientChatRoom = () => {
         if (callerVideo.current && callerVideoStream) {
             callerVideo.current.srcObject = callerVideoStream;
         }
-    }, []);
+    }, [callerVideoStream]);
 
     const turnOnCamera = () => {
         setCamOn(true);
@@ -108,7 +107,7 @@ const PatientChatRoom = () => {
                 callerVideo.current.srcObject = currentStream;
                 // console.log(callerVideo.current.srcObject);
             }
-            setVideoSet(true)
+            // setVideoSet(true)
         });
 
         peer.signal(call.signal);
@@ -141,7 +140,6 @@ const PatientChatRoom = () => {
                 callerVideo.current.srcObject = currentStream;
                 // console.log(callerVideo.current.srcObject);
             }
-            setVideoSet(true)
         });
 
         // console.log("from call user (socket id)" + socket.id + "(me)" + me)
@@ -170,7 +168,7 @@ const PatientChatRoom = () => {
                         <Grid item xs={12} md={6}>
                             <Typography variant="h5" gutterBottom>{'Doctor'}</Typography>
                             {/* <Button onClick={() => enabledoc()}> turn on camera </Button> */}
-                            <video id="myVideo" ref={callerVideo} autoPlay />
+                            {<video id="myVideo" ref={callerVideo} autoPlay />}
                             {/* {console.log("caller video source ")}{console.log(callerVideo.current?.srcObject)}
                             {console.log("caller videoStream state ")}{console.log(callerVideoStream)} */}
                         </Grid>
