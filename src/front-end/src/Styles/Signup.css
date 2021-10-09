@@ -1,0 +1,101 @@
+.body {
+  background-color: #ffffff;
+}
+
+.signup-form {
+  color: black;
+  position: absolute;
+  right: 5%;
+  top: 5%;
+  align-items: center;
+  height: 480px;
+  width: 350px;
+  margin: 0 auto;
+  text-align: center;
+  padding-top: 4px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background: rgba(86, 108, 128, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(3.5px);
+  -webkit-backdrop-filter: blur(3.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+#gender {
+  color: gray;
+}
+
+.create-account-label {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 4px;
+}
+.row {
+  margin-bottom: 12px;
+}
+
+#sign-up-btn {
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+#sign-up-btn-google {
+  color: black;
+  background-color: #ffffff;
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 20px;
+}
+
+#login-btn {
+  width: 100%;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.signup-page {
+  display: flex;
+}
+
+.signup-img {
+  filter: brightness(40%);
+  height: inherit;
+  width: 100%;
+  /* object-fit: fill; */
+}
+
+.mg-txt {
+  position: absolute;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  color: black;
+}
+
+#mg-t1 {
+  top: 35%;
+  font-size: 400%;
+  font-weight: bold;
+}
+
+/*Home icon*/
+#home-signup {
+  width: 40px;
+  height: 40px;
+  border: none;
+}
+
+.err {
+  color: red;
+  font-size: 10px;
+  float: left;
+}
+
+.confirm-pw {
+  color: green;
+  font-size: 10px;
+  float: left;
+}

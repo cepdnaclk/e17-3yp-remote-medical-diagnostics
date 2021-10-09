@@ -1,17 +1,45 @@
 import * as React from "react";
+import "../../Styles/landingPage.css";
+import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 
-class Navbar extends React.Component {
+class Navbar extends React.Component<RouteComponentProps> {
+  handleLogin = (): void => {
+    this.props.history.push("/login");
+  };
+
   render() {
     return (
-      <React.Fragment>
-        <nav className="navbar navbar-light bg-light">
-          <a className="navbar-brand" href="#">
+      <>
+        <nav className="navbar navbar-light bg-light" id="nav-bar">
+          <label className="navbar-brand ms-3" id="MG">
             MedGenie
-          </a>
+          </label>
+
+          <ul className="navlinks">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <li>Home</li>
+            </Link>
+
+            <Link to="/about" style={{ textDecoration: "none" }}>
+              <li>About</li>
+            </Link>
+
+            <Link to="/contact" style={{ textDecoration: "none" }}>
+              <li>Contact</li>
+            </Link>
+          </ul>
+          <button
+            type="button"
+            id="login-button-navbar"
+            className="btn btn-primary"
+            onClick={this.handleLogin}
+          >
+            Log In
+          </button>
         </nav>
-      </React.Fragment>
+      </>
     );
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

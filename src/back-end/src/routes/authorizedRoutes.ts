@@ -1,17 +1,15 @@
-import { NextFunction, Request, Response, Router } from "express";
-import authenticateToken, { authResponse } from "../middleware/authenticateToken";
+import { Request, Router } from "express";
+import { handleMe } from "../controller/me.controller";
+import authenticateToken from "../middleware/authenticateToken";
+import patientAuthRouter from "./authorizedPatientRoutes";
 
+const authRouter = Router();
+authRouter.use(authenticateToken);
 
-const authRouter = Router()
-authRouter.use(authenticateToken)
+//handles /me endpoint
+authRouter.get("/me", handleMe);
 
+//handles authorized requests to the patient
+authRouter.use("/patient", patientAuthRouter);
 
-authRouter.get('/me',(req: Request, res: authResponse)=>{
-    const user = res.locals.user
-    res.json(user)
-})
-
-
-export default authRouter
-
-
+export default authRouter;

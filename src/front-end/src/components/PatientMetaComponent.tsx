@@ -14,6 +14,7 @@ import PatientDoctors from "./patient/PatientDoctors";
 import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
 import PatientChatRoom from "./patient/PatientChatRoom";
+import Profile from "./patient/Profile";
 
 
 export interface PatientMetaComponentProps { }
@@ -57,6 +58,9 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
                 </Route>
                 <Route path="/payments">
                   <PatientPayments />
+                </Route>
+                <Route path="/profile">
+                  <Profile />
                 </Route>
               </Switch>
             </div>
