@@ -9,7 +9,7 @@ export interface SignupState {
   firstName: string;
   lastName: string;
   email: string;
-  age: number;
+  age: string;
   gender: string;
   password: string;
   passwordConfirmation: string;
@@ -28,7 +28,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     firstName: "",
     lastName: "",
     email: "",
-    age: 4,
+    age: "",
     gender: "male",
     password: "",
     passwordConfirmation: "",
@@ -54,7 +54,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     const userData = {
       name: name,
       email: this.state.email,
-      age: this.state.age,
+      age: parseInt(this.state.age),
       gender: gender,
       password: this.state.password,
       passwordConfirmation: this.state.passwordConfirmation,
@@ -95,7 +95,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
 
   handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({
-      age: parseInt(e.currentTarget.value),
+      age: e.currentTarget.value,
     });
   };
 
@@ -141,7 +141,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     return (
       (firstName.length > 0 || lastName.length > 0) &&
       gender.length > 0 &&
-      age > 3 &&
+      parseInt(age) > 3 &&
       this.isEmailCorrect() &&
       this.arePasswordsMatching()
     );

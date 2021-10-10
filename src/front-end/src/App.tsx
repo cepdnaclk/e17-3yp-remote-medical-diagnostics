@@ -17,7 +17,7 @@ import Contact from "./components/landing_page/Contact";
 
 interface props {}
 const App: React.FunctionComponent<props> = () => {
-  return (
+  return ( 
     <>
       <AuthProvider>
         <Provider store={Store}>

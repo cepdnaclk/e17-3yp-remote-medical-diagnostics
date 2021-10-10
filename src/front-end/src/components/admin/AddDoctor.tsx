@@ -7,7 +7,7 @@ export interface AddDoctorState {
   firstName: string;
   lastName: string;
   email: string;
-  age: number;
+  age: string;
   gender: string;
   password: string;
   passwordConfirmation: string;
@@ -22,13 +22,14 @@ export interface AddDoctorState {
     password: string; //must be at least 8 characters long
   };
 }
+export interface AddDoctorProps {}
 
-class AddDoctor extends React.Component<AddDoctorState> {
+class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
   state = {
     firstName: "",
     lastName: "",
     email: "",
-    age: 4,
+    age: "",
     gender: "male",
     password: "",
     passwordConfirmation: "",
@@ -52,7 +53,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
     const userData = {
       name: name,
       email: this.state.email,
-      age: this.state.age,
+      age: parseInt(this.state.age),
       gender: gender,
       password: this.state.password,
       passwordConfirmation: this.state.passwordConfirmation,
@@ -67,6 +68,24 @@ class AddDoctor extends React.Component<AddDoctorState> {
           console.log(error);
         }
       }
+
+      //clear the fields : Consider moving this UP
+      this.setState(
+        {
+          firstName: "",
+          lastName: "",
+          email: "",
+          age: "",
+          gender: "male",
+          password: "",
+          passwordConfirmation: "",
+          license:"",
+          mobileNo:"",
+          errors: {
+            password: "",
+          }
+        }
+      );
 
   };
 
@@ -94,7 +113,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
 
   handleAgeChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({
-      age: parseInt(e.currentTarget.value),
+      age: e.currentTarget.value,
     });
   };
 
@@ -152,7 +171,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
     return (
       (firstName.length > 0 || lastName.length > 0) &&
       gender.length > 0 &&
-      age > 3 &&
+      parseInt(age) > 3 &&
       this.isEmailCorrect() &&
       this.arePasswordsMatching() &&
       license.length > 0 &&
@@ -161,7 +180,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
   };
 
   render() {
-    const { errors } = this.state;
+    const { firstName,lastName,email, age,license,mobileNo,password,passwordConfirmation,errors } = this.state;
     return (
       <>
         <div className="add-doc">
@@ -175,6 +194,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputText3"
                     placeholder="First Name"
+                    value = {firstName}
                     onChange={this.handleFirstNameChange}
                   />
                 </div>
@@ -184,6 +204,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputText4"
                     placeholder="Last Name"
+                    value = {lastName}
                     onChange={this.handleLastNameChange}
                   />
                 </div>
@@ -195,6 +216,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputEmail4"
                     placeholder="Email Address"
+                    value = {email}
                     onChange={this.handleEmailChange}
                   />
                 </div>
@@ -206,6 +228,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputAge"
                     placeholder="Age"
+                    value = {age}
                     onChange={this.handleAgeChange}
                   />
                 </div>
@@ -232,6 +255,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputlicense"
                     placeholder="SLMC Registration No."
+                    value = {license}
                     onChange={this.handleLicenseChange}
                   />
                 </div>
@@ -244,6 +268,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputmobileno"
                     placeholder="Mobile No."
+                    value = {mobileNo}
                     onChange={this.handleMobileNoChange}
                   />
                 </div>
@@ -255,6 +280,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputpassword3"
                     placeholder="Password"
+                    value = {password}
                     onChange={this.handlePasswordChange}
                   />
                   {errors.password.length > 0 && (
@@ -269,6 +295,7 @@ class AddDoctor extends React.Component<AddDoctorState> {
                     className="form-control"
                     id="inputpassword4"
                     placeholder="Confirm Password"
+                    value = {passwordConfirmation}
                     onChange={this.handleConfirmPasswordChange}
                   />
                   {this.arePasswordsMatching() && (
