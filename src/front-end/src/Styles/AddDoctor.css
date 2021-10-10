@@ -1,0 +1,62 @@
+.body {
+    background-color: #ffffff;
+  }
+  
+  .add-doc-form {
+    color: black;
+    position: absolute;
+    left: 50%;
+    top: 5%;
+    align-items: center;
+    height: 480px;
+    width: 350px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background: rgba(86, 108, 128, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(3.5px);
+    -webkit-backdrop-filter: blur(3.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  #gender {
+    color: gray;
+  }
+  
+  .create-account-label {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 4px;
+  }
+  .row {
+    margin-bottom: 12px;
+  }
+  
+  #sign-up-btn {
+    width: 100%;
+    margin-top: 3px;
+    margin-bottom: 3px;
+  }
+  
+  
+  .signup-page {
+    display: flex;
+  }
+
+  .err {
+    color: red;
+    font-size: 10px;
+    float: left;
+  }
+  
+  .confirm-pw {
+    color: green;
+    font-size: 10px;
+    float: left;
+  }
+  

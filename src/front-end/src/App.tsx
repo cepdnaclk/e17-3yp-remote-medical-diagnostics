@@ -3,7 +3,7 @@ import Store from "./store/Store";
 import Login from "./components/Login";
 import { MemoryRouter, Switch } from "react-router";
 import { Provider } from "react-redux";
-import { BrowserRouter, Route } from "react-router-dom"; //TODO:Remove BrowsweRouter
+import {  Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import React from "react";
 import Loading from "./components/Loading";
@@ -14,7 +14,6 @@ import Signup from "./components/Signup";
 import Landing from "./components/landing_page/Landing";
 import About from "./components/landing_page/About";
 import Contact from "./components/landing_page/Contact";
-import DoctorMeta from "./components/DoctorMetaComponent";
 
 interface props {}
 const App: React.FunctionComponent<props> = () => {
