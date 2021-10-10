@@ -16,8 +16,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 import PatientChatRoom from "./patient/PatientChatRoom";
 import Profile from "./patient/Profile";
 
-export interface PatientMetaComponentProps {}
-export interface PatientMetaComponentState {}
+
+export interface PatientMetaComponentProps { }
+export interface PatientMetaComponentState { }
+
 type props = PropsFromRedux & PatientMetaComponentProps;
 
 class PatientMeta extends React.Component<props, PatientMetaComponentState> {
@@ -36,11 +38,7 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
                   link="/appointments"
                 />
                 <SidebarItem name="Doctors" icon={Doctor} link="/doctors" />
-                <SidebarItem
-                  name="Payments"
-                  icon={CreditCard}
-                  link="/payments"
-                />
+                <SidebarItem name="Payments" icon={CreditCard} link="/payments" />
               </Sidebar>
             </div>
 

@@ -6,7 +6,7 @@ import logo from "../logo.svg";
 import { freshLogin } from "../useCases/logIn/freshLogin";
 import { ReactComponent as HomeIcon } from "../icons/home.svg";
 
-export interface LoginProps extends RouteComponentProps {}
+export interface LoginProps extends RouteComponentProps { }
 type props = PropsFromRedux & LoginProps;
 export interface LoginState {
   email: string;

@@ -7,7 +7,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 // import Store from "../../store/Store";
 // import * as actions from '../../store/api';
 
-export interface PatientAppointmentsProps extends RouteComponentProps {}
+export interface PatientAppointmentsProps extends RouteComponentProps { }
 
 type props = PatientAppointmentsProps & PropsFromRedux;
 export interface PatientAppointmentsState {
