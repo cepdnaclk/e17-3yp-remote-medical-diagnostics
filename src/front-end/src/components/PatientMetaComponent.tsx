@@ -42,7 +42,7 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
               </Sidebar>
             </div>
 
-            <div className="flex-column">
+            <div className="d-flex flex-grow-1 justify-content-center align-items-center flex-column">
               <Switch>
                 <Route exact path="/">
                   <PatientHome />

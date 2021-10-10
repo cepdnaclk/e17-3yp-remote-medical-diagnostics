@@ -12,7 +12,7 @@ function authenticateToken(req: Request, res: Response, next: NextFunction) {
     res.locals.user = userIdentifier
     next()
   } catch (error) {
-    res.sendStatus(403)
+    res.sendStatus(401)
   }
 }
 
