@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Card } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 
 //============================================= Payment Component ==========================================
 export interface PaymentProps {
