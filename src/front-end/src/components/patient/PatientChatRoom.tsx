@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+import { Prompt } from 'react-router'
+import { useDispatch } from "react-redux";
 import { Grid, Typography, TextField, Button } from '@material-ui/core';
 import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
 import { ReactComponent as Mic } from "../../icons/mic.svg";
@@ -7,6 +9,7 @@ import { ReactComponent as CamOff } from "../../icons/camera-video-off.svg";
 import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
 import { Card } from 'react-bootstrap';
+import { collapse } from '../../store/globalStates/SidebarState';
 
 interface CallInterface {
     from: string,
@@ -17,8 +20,11 @@ interface CallInterface {
 const socket = io("http://localhost:5000"); //host must be specified if the backend is at a different address
 
 const PatientChatRoom = () => {
+    const dispatch = useDispatch();
+
     const [callAccepted, setCallAccepted] = useState(false);
     const [camOn, setCamOn] = useState(false);
+    const [blockNavigation, setBlockNavigation] = useState(false);
     const [muted, setMuted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [idToCall, setIdToCall] = useState('');
@@ -34,12 +40,17 @@ const PatientChatRoom = () => {
     const peerRef = useRef<Peer.Instance>();
 
     useEffect(() => {
-
+        dispatch(collapse());
         socket.on('callUser', ({ from, signal }) => {
             setCall({ isReceivingCall: true, from: from, signal: signal });
         });
         if (callerVideo.current && callerVideoStream) {
             callerVideo.current.srcObject = callerVideoStream;
+        }
+        if (blockNavigation) {
+            window.onbeforeunload = () => true;
+        } else {
+            window.onbeforeunload = null;
         }
     }, [callerVideoStream]);
 
@@ -83,6 +94,8 @@ const PatientChatRoom = () => {
 
     const answerCall = () => {
         setCallAccepted(true);
+        dispatch(collapse())
+        setBlockNavigation(true);
 
         const peer = new Peer({
             initiator: false,
@@ -91,7 +104,17 @@ const PatientChatRoom = () => {
                 offerToReceiveVideo: false
             },
             trickle: false,
-            stream: myVideoStream
+            stream: myVideoStream,
+            //custom iceServer:
+            /* config: {
+                iceServers: [
+                    {
+                        urls: ["turn:<EC2 instance public IP>:3478?transport=tcp"],//replace with turn server IP
+                        username: "<USERNAME>",//leave as <USERNAME>
+                        credential: "<PASSWORD>",//leave as <PASSWORD>
+                    }
+                ]
+            } */
         });
 
 
@@ -147,6 +170,8 @@ const PatientChatRoom = () => {
         socket.on('answerCall', (signalData) => {
             peer.signal(signalData);
             setCallAccepted(true);
+            dispatch(collapse());
+            setBlockNavigation(true);
         });
 
         peerRef.current = peer;
@@ -162,6 +187,10 @@ const PatientChatRoom = () => {
 
     return (
         <div>
+            <Prompt
+                when={blockNavigation}
+                message='Are you sure you want to leave the room?'
+            />
             <Grid container >
                 {callAccepted && (
                     <Card >
