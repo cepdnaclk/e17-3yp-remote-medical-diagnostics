@@ -17,7 +17,7 @@ interface CallInterface {
     signal: any
 }
 
-const socket = io("http://localhost:5000"); //host must be specified if the backend is at a different address
+const socket = io("http://localhost:8080"); //host must be specified if the backend is at a different address
 
 const PatientChatRoom = () => {
     const dispatch = useDispatch();
