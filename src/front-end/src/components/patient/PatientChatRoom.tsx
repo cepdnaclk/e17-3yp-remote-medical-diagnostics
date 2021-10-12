@@ -44,6 +44,11 @@ const PatientChatRoom = () => {
         socket.on('callUser', ({ from, signal }) => {
             setCall({ isReceivingCall: true, from: from, signal: signal });
         });
+        socket.on('callEnded', () => {
+            // alert("Call ended by the user");
+            leaveCall();
+            // setCallEnded(true);
+        });
         if (callerVideo.current && callerVideoStream) {
             callerVideo.current.srcObject = callerVideoStream;
         }
@@ -52,7 +57,7 @@ const PatientChatRoom = () => {
         } else {
             window.onbeforeunload = null;
         }
-    }, [callerVideoStream]);
+    }, [callerVideoStream, blockNavigation]);
 
     const turnOnCamera = () => {
         setCamOn(true);
@@ -178,8 +183,8 @@ const PatientChatRoom = () => {
     };
 
     const leaveCall = () => {
+        setBlockNavigation(false);
         setCallEnded(true);
-
         if (peerRef?.current) peerRef.current.destroy();
 
         window.location.reload();
@@ -195,7 +200,7 @@ const PatientChatRoom = () => {
                 {callAccepted && (
                     <Card >
                         <Grid item xs={12} md={6}>
-                            <Typography variant="h5" gutterBottom>{'Doctor'}</Typography>
+                            <Typography variant="h6" gutterBottom>{'Doctor'}</Typography>
                             {/* <Button onClick={() => enabledoc()}> turn on camera </Button> */}
                             {<video id="myVideo" ref={callerVideo} autoPlay />}
                             {/* {console.log("caller video source ")}{console.log(callerVideo.current?.srcObject)}
@@ -205,7 +210,7 @@ const PatientChatRoom = () => {
                 )}
                 <Card >
                     <Grid item xs={12} md={6}>
-                        <Typography variant="h5" gutterBottom>{'You'}</Typography>
+                        <Typography variant="h6" gutterBottom>{'You'}</Typography>
                         {!camOn ?
                             (<Button onClick={() => turnOnCamera()}> <CamOff /> </Button>
                             ) : (
@@ -223,11 +228,11 @@ const PatientChatRoom = () => {
                 <Typography gutterBottom variant="h6">Make a call</Typography>
                 <TextField label="patient ID" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
                 {callAccepted && !callEnded ? (
-                    <Button variant="contained" color="secondary" fullWidth onClick={leaveCall} >
+                    <Button variant="contained" color="secondary" onClick={leaveCall} >
                         Leave Room
                     </Button>
                 ) : (
-                    <Button variant="contained" color="primary" fullWidth onClick={() => callUser(idToCall)} >
+                    <Button variant="contained" color="primary" onClick={() => callUser(idToCall)} >
                         Admit
                     </Button>
                 )}
