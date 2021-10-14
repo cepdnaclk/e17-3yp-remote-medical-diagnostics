@@ -1,11 +1,9 @@
 import * as React from "react";
-import "../Styles/Signup.css";
-import { ReactComponent as GoogleIcon } from "../icons/google.svg";
-import { ReactComponent as HomeIcon } from "../icons/home.svg";
-import { RouteComponentProps } from "react-router-dom";
-import { signUp } from "../useCases/signUp/signup";
+import "../../Styles/AddDoctor.css";
+import { addDoctor } from "../../useCases/addDoctor/AddDoctor";
 
-export interface SignupState {
+
+export interface AddDoctorState {
   firstName: string;
   lastName: string;
   email: string;
@@ -13,6 +11,8 @@ export interface SignupState {
   gender: string;
   password: string;
   passwordConfirmation: string;
+  license:string;
+  mobileNo:string;
   errors: {
     // fname: string; //required
     // lname: string; //required
@@ -22,8 +22,9 @@ export interface SignupState {
     password: string; //must be at least 8 characters long
   };
 }
+export interface AddDoctorProps {}
 
-class Signup extends React.Component<RouteComponentProps, SignupState> {
+class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
   state = {
     firstName: "",
     lastName: "",
@@ -32,6 +33,8 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     gender: "male",
     password: "",
     passwordConfirmation: "",
+    license:"",
+    mobileNo:"",
     errors: {
       // fname: "",
       // lname: "",
@@ -42,13 +45,9 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     },
   };
 
-  handleLoginButton = (): void => {
-    this.props.history.push("/login");
-  };
-
   handleSignup = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    const name = this.state.firstName + " " + this.state.lastName;
+    const name = "Dr."+this.state.firstName + " " + this.state.lastName;
     const gender = this.state.gender === "male" ? "M" : "F";
 
     const userData = {
@@ -58,17 +57,36 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
       gender: gender,
       password: this.state.password,
       passwordConfirmation: this.state.passwordConfirmation,
+      license:this.state.license,
+      mobileNo:this.state.mobileNo,
     };
 
     if (name.length < 200) {
-      try {
-        console.log(await signUp(userData));
-      } catch (error) {
-        console.log(error);
+        try {
+          console.log(await addDoctor(userData));
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
 
-    this.props.history.push("/login");
+      //clear the fields : Consider moving this UP
+      this.setState(
+        {
+          firstName: "",
+          lastName: "",
+          email: "",
+          age: "",
+          gender: "male",
+          password: "",
+          passwordConfirmation: "",
+          license:"",
+          mobileNo:"",
+          errors: {
+            password: "",
+          }
+        }
+      );
+
   };
 
   handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -126,6 +144,18 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
     });
   };
 
+  handleLicenseChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({
+      license: e.currentTarget.value,
+    });
+  };
+
+  handleMobileNoChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({
+      mobileNo: e.currentTarget.value,
+    });
+  };
+
   isEmailCorrect = () => {
     let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(this.state.email);
@@ -137,37 +167,25 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
   };
 
   areFieldsFilled = (): boolean => {
-    const { firstName, lastName, age, gender } = this.state;
+    const { firstName, lastName, age, gender,license,mobileNo } = this.state;
     return (
       (firstName.length > 0 || lastName.length > 0) &&
       gender.length > 0 &&
       parseInt(age) > 3 &&
       this.isEmailCorrect() &&
-      this.arePasswordsMatching()
+      this.arePasswordsMatching() &&
+      license.length > 0 &&
+      mobileNo.length >0
     );
   };
 
-  handleHomeButton = (): void => {
-    this.props.history.push("/");
-  };
-
   render() {
-    const { errors } = this.state;
+    const { firstName,lastName,email, age,license,mobileNo,password,passwordConfirmation,errors } = this.state;
     return (
       <>
-        <div className="signup-page">
-          <div className="pic">
-            {/* <img className="signup-img" src={signup_pic} alt="signup" /> */}
-            <button id="home-signup" onClick={this.handleHomeButton}>
-              <HomeIcon />
-            </button>
-            <div className="mg-txt d-none d-sm-none d-md-block" id="mg-t1">
-              MedGenie
-            </div>
-          </div>
-
-          <div className="signup-form">
-            <label className="create-account-label">Create Your Account</label>
+        <div className="add-doc">
+          <div className="add-doc-form">
+            <label className="create-account-label">Add a Doctor</label>
             <form onSubmit={this.handleSignup}>
               <div className="row">
                 <div className="form-group col-md-6">
@@ -176,11 +194,9 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     className="form-control"
                     id="inputText3"
                     placeholder="First Name"
+                    value = {firstName}
                     onChange={this.handleFirstNameChange}
                   />
-                  {/* {errors.fname.length > 0 && (
-                    <span className="err">{errors.fname}</span>
-                  )} */}
                 </div>
                 <div className="form-group col-md-6">
                   <input
@@ -188,11 +204,9 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     className="form-control"
                     id="inputText4"
                     placeholder="Last Name"
+                    value = {lastName}
                     onChange={this.handleLastNameChange}
                   />
-                  {/* {errors.lname.length > 0 && (
-                    <span className="err">{errors.lname}</span>
-                  )} */}
                 </div>
               </div>
               <div className="row">
@@ -202,6 +216,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     className="form-control"
                     id="inputEmail4"
                     placeholder="Email Address"
+                    value = {email}
                     onChange={this.handleEmailChange}
                   />
                 </div>
@@ -213,6 +228,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     className="form-control"
                     id="inputAge"
                     placeholder="Age"
+                    value = {age}
                     onChange={this.handleAgeChange}
                   />
                 </div>
@@ -231,6 +247,32 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                   </select>
                 </div>
               </div>
+
+              <div className="row">
+                <div className="form-group col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputlicense"
+                    placeholder="SLMC Registration No."
+                    value = {license}
+                    onChange={this.handleLicenseChange}
+                  />
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-group col-md-12">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="inputmobileno"
+                    placeholder="Mobile No."
+                    value = {mobileNo}
+                    onChange={this.handleMobileNoChange}
+                  />
+                </div>
+              </div>
               <div className="row">
                 <div className="form-group col-md-12">
                   <input
@@ -238,6 +280,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     className="form-control"
                     id="inputpassword3"
                     placeholder="Password"
+                    value = {password}
                     onChange={this.handlePasswordChange}
                   />
                   {errors.password.length > 0 && (
@@ -252,6 +295,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                     className="form-control"
                     id="inputpassword4"
                     placeholder="Confirm Password"
+                    value = {passwordConfirmation}
                     onChange={this.handleConfirmPasswordChange}
                   />
                   {this.arePasswordsMatching() && (
@@ -268,20 +312,7 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
                 className="btn btn-primary"
                 disabled={!this.areFieldsFilled()}
               >
-                Create Account
-              </button>
-              or
-              <button id="sign-up-btn-google" className="btn btn-primary">
-                <GoogleIcon />
-                &nbsp; Sign Up with Google
-              </button>
-              Already have an account ?
-              <button
-                id="login-btn"
-                className="btn btn-primary"
-                onClick={this.handleLoginButton}
-              >
-                Log In
+                Add Doctor
               </button>
             </form>
           </div>
@@ -291,4 +322,4 @@ class Signup extends React.Component<RouteComponentProps, SignupState> {
   }
 }
 
-export default Signup;
+export default AddDoctor;

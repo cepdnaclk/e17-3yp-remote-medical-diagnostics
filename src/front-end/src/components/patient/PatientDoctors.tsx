@@ -3,6 +3,7 @@ import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
+import { useHistory } from "react-router";
 
 export interface DoctorProps {
   doctor: {
@@ -15,6 +16,15 @@ export interface DoctorProps {
 }
 
 const Doctor = (props: DoctorProps) => {
+  const history = useHistory();
+  const handleAddButton = ():void => {
+    // The appointment should be created
+    // Patient should be added to the particular session of the doctor
+    alert(`An appointment to Dr.${props.doctor.name} made`);
+    history.push("/appointments");
+  }
+
+
   //A doctor component to be put in the list
   return (
     <tr>
@@ -33,6 +43,9 @@ const Doctor = (props: DoctorProps) => {
       <td>{props.doctor.age}</td>
       <td>{props.doctor.email}</td>
       <td>{props.doctor.rating}</td>
+      <td>
+      <button onClick = {handleAddButton} type="button" className="btn btn-info">Add</button>
+      </td>
     </tr>
   );
 };
@@ -140,7 +153,6 @@ class PatientDoctors extends React.Component<
                         Rating
                       </th>
                       <th key="add" scope="col">
-                        |Btn|
                       </th>
                     </tr>
                   </thead>
