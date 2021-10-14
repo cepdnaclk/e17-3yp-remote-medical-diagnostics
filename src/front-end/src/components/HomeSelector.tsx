@@ -5,7 +5,7 @@ import PatientMetaComponent from "./PatientMetaComponent";
 import DoctorMetaComponent from "./DoctorMetaComponent";
 //import PatientAppointmentsChatRoom from "./patient/PatientChatRoom";
 
-interface HomeSelectorProps {}
+interface HomeSelectorProps { }
 
 const HomeSelector: FunctionComponent<HomeSelectorProps> = () => {
   const type = useSelector((state: RootState) => state.user.type);

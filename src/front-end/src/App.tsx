@@ -15,7 +15,7 @@ import Landing from "./components/landing_page/Landing";
 import About from "./components/landing_page/About";
 import Contact from "./components/landing_page/Contact";
 
-interface props {}
+interface props { }
 const App: React.FunctionComponent<props> = () => {
   return ( 
     <>
