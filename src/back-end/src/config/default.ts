@@ -1,3 +1,7 @@
+import * as dotenv from 'dotenv';
+
+const res = dotenv.config();
+
 export default {
     port: parseInt(process.env.PORT!),
     host: process.env.HOST!,

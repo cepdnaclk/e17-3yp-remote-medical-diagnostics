@@ -10,6 +10,9 @@ import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
 import { Card } from 'react-bootstrap';
 import { collapse } from '../../store/globalStates/SidebarState';
+import { useAppSelector } from '../../store/Store';
+import getProfile from "../../useCases/getProfile/getProfile";
+import UserType from "../../model/userType";
 
 interface CallInterface {
     from: string,
@@ -21,7 +24,8 @@ const socket = io("http://localhost:8080"); //host must be specified if the back
 
 const PatientChatRoom = () => {
     const dispatch = useDispatch();
-
+    const profile = useAppSelector((state) => state.patientProfile);
+    console.log(profile.email);
     const [callAccepted, setCallAccepted] = useState(false);
     const [camOn, setCamOn] = useState(false);
     const [blockNavigation, setBlockNavigation] = useState(false);
@@ -35,19 +39,30 @@ const PatientChatRoom = () => {
         isReceivingCall: false,
         signal: undefined
     });
+
     const myVideo = useRef<HTMLVideoElement>(null);
     const callerVideo = useRef<HTMLVideoElement>(null);
     const peerRef = useRef<Peer.Instance>();
 
     useEffect(() => {
         dispatch(collapse());
+
+        const fetchProfile = async () => {
+            const profileReq = new getProfile(UserType.patient);
+            await profileReq.execute();
+        };
+        // only fetches if there are no current profileDetails
+        if (!profile.email) fetchProfile();
+
+
+        socket.emit('email', { id: socket.id, email: profile.email });
+
+
         socket.on('callUser', ({ from, signal }) => {
             setCall({ isReceivingCall: true, from: from, signal: signal });
         });
         socket.on('callEnded', () => {
-            // alert("Call ended by the user");
             leaveCall();
-            // setCallEnded(true);
         });
         if (callerVideo.current && callerVideoStream) {
             callerVideo.current.srcObject = callerVideoStream;
@@ -57,7 +72,7 @@ const PatientChatRoom = () => {
         } else {
             window.onbeforeunload = null;
         }
-    }, [callerVideoStream, blockNavigation]);
+    }, [callerVideoStream, blockNavigation, profile]);
 
     const turnOnCamera = () => {
         setCamOn(true);
@@ -222,6 +237,7 @@ const PatientChatRoom = () => {
                             )}
                     </Grid>
                     <h6>{socket.id}</h6>
+                    <h6>{profile.email}</h6>
                 </Card>
             </Grid >
             <Grid item xs={12} md={6} >

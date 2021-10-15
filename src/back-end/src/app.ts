@@ -4,7 +4,7 @@ import log from './logger';
 import connect from './db/connect';
 import routes from './routes/routes';
 import cors from 'cors';
-import { Server } from 'socket.io'
+import createSocketServer from './chat/socketCommunication';
 
 const { port, host } = Config
 
@@ -23,38 +23,13 @@ async function main() {
 if (require.main === module) {
     main().then(app => {
         const server = app.listen(port, host);
-        const io = new Server(server, {
-            cors: {
-                origin: "*",
-                methods: ["GET", "POST"]
-            }
-        });
-        io.on('connection', (socket) => {
-            socket.emit('me', socket.id);
-            console.log("me emmited " + socket.id);
-
-            socket.on('disconnect', () => {
-                socket.broadcast.emit('callEnded');
-            })
-
-            socket.on('callUser', ({ userToCall, signalData, from }) => {
-                socket.to(userToCall).emit('callUser', { signal: signalData, from: from });
-                console.log({ userToCall, from })
-            })
-
-            socket.on('answerCall', ({ signalData, to }) => {
-                socket.to(to).emit('answerCall', signalData);
-                console.log("callAnswered revieved and signal emitted to : " + to);
-            })
-
-        });
+        createSocketServer(server);
         log.info(`server listening at port ${port} of host ${host}`)
         console.log(`server listening at port ${port} of host ${host}`)
     }).catch((error: any) => {
         log.debug(error);
     })
 }
-
 
 
 export default main
