@@ -39,7 +39,6 @@ const PatientChatRoom = () => {
         isReceivingCall: false,
         signal: undefined
     });
-
     const myVideo = useRef<HTMLVideoElement>(null);
     const callerVideo = useRef<HTMLVideoElement>(null);
     const peerRef = useRef<Peer.Instance>();
