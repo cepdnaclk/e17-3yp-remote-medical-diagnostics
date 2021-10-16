@@ -8,7 +8,7 @@ import DoctorHome from "./doctor/DoctorHome";
 import DoctorSessions from "./doctor/DoctorSessions";
 import DoctorChatRoom from "./doctor/DoctorChatRoom";
 
-export interface DoctorMetaComponentProps {}
+export interface DoctorMetaComponentProps { }
 
 type props = DoctorMetaComponentProps;
 
@@ -33,10 +33,10 @@ class DoctorMeta extends React.Component<props> {
               <Route exact path="/">
                 <DoctorHome />
               </Route>
-               <Route path="/sessions">
+              <Route path="/sessions">
                 <DoctorSessions />
               </Route>
-              
+
               <Route path="/chat-room">
                 <DoctorChatRoom />
               </Route>

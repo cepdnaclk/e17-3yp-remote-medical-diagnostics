@@ -25,7 +25,6 @@ const socket = io("http://localhost:8080"); //host must be specified if the back
 const PatientChatRoom = () => {
     const dispatch = useDispatch();
     const profile = useAppSelector((state) => state.patientProfile);
-    console.log(profile.email);
     const [callAccepted, setCallAccepted] = useState(false);
     const [camOn, setCamOn] = useState(false);
     const [blockNavigation, setBlockNavigation] = useState(false);
@@ -157,45 +156,6 @@ const PatientChatRoom = () => {
         peerRef.current = peer;
     };
 
-    const callUser = (id: string) => {
-        // console.log("from call user (socket id)" + socket.id + "(me)" + me)
-
-        const peer = new Peer({
-            initiator: true,
-            offerOptions: {
-                offerToReceiveAudio: true,
-                offerToReceiveVideo: true
-            },
-            trickle: false,
-            stream: myVideoStream
-        });
-
-        peer.on('signal', (data) => {
-            socket.emit('callUser', { userToCall: id, signalData: data, from: socket.id });
-            // console.log("from caller; sending peer signal: (socket.id)" + socket.id);
-        });
-
-        peer.on('stream', (currentStream) => {
-            // console.log("stream recieved at caller " + callerVideo.current);
-            if (callerVideo.current) {
-                setCallerVideoStream(currentStream)
-                callerVideo.current.srcObject = currentStream;
-                // console.log(callerVideo.current.srcObject);
-            }
-        });
-
-        // console.log("from call user (socket id)" + socket.id + "(me)" + me)
-
-        socket.on('answerCall', (signalData) => {
-            peer.signal(signalData);
-            setCallAccepted(true);
-            dispatch(collapse());
-            setBlockNavigation(true);
-        });
-
-        peerRef.current = peer;
-    };
-
     const leaveCall = () => {
         setBlockNavigation(false);
         setCallEnded(true);
@@ -242,13 +202,9 @@ const PatientChatRoom = () => {
             <Grid item xs={12} md={6} >
                 <Typography gutterBottom variant="h6">Make a call</Typography>
                 <TextField label="patient ID" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
-                {callAccepted && !callEnded ? (
+                {callAccepted && !callEnded && (
                     <Button variant="contained" color="secondary" onClick={leaveCall} >
                         Leave Room
-                    </Button>
-                ) : (
-                    <Button variant="contained" color="primary" onClick={() => callUser(idToCall)} >
-                        Admit
                     </Button>
                 )}
             </Grid>
