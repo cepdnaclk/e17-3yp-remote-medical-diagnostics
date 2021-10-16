@@ -1,4 +1,4 @@
-
+import { Request, Response } from 'express';
 import { Server } from 'socket.io'
 import http from 'http';
 
@@ -8,6 +8,10 @@ interface credential {
     id: string,
     email: string,
 }
+export function sendSockCredentials(req: Request, res: Response) {
+    res.send({ socketCredentials });
+}
+
 
 export default function createSocketServer(server: http.Server) {
     const io = new Server(server, {
