@@ -8,8 +8,8 @@ import DoctorHome from "./doctor/DoctorHome";
 import DoctorSessions from "./doctor/DoctorSessions";
 import DoctorChatRoom from "./doctor/DoctorChatRoom";
 import { BrowserRouter as Router } from "react-router-dom";
-import { RootState } from "../store/Store";
-import { connect, ConnectedProps } from "react-redux";
+import Store, { RootState } from "../store/Store";
+import { connect, ConnectedProps, Provider } from "react-redux";
 
 export interface DoctorMetaComponentProps { }
 
@@ -18,39 +18,41 @@ type props = DoctorMetaComponentProps & PropsFromRedux;
 class DoctorMeta extends React.Component<props> {
   render() {
     return (
-      <Router>
-        <div className="d-flex">
-          <div className="d-flex flex-column flex-shrink-0 me-3">
-            <Sidebar username={this.props.firstName}>
-              <SidebarItem name="Home" icon={Home} link="/" />
-              <SidebarItem
-                name="Sessions"
-                icon={Appointment}
-                link="/sessions"
-              />
-            </Sidebar>
-          </div>
+      <Provider store={Store}>
+        <Router>
+          <div className="d-flex">
+            <div className="d-flex flex-column flex-shrink-0 me-3">
+              <Sidebar username={this.props.firstName}>
+                <SidebarItem name="Home" icon={Home} link="/" />
+                <SidebarItem
+                  name="Sessions"
+                  icon={Appointment}
+                  link="/sessions"
+                />
+              </Sidebar>
+            </div>
 
-          <div className="d-flex flex-grow-1 justify-content-center align-items-center flex-column">
-            <Switch>
-              <Route exact path="/">
-                <DoctorHome />
-              </Route>
-              <Route path="/sessions">
-                <DoctorSessions />
-              </Route>
+            <div className="d-flex flex-grow-1 justify-content-center align-items-center flex-column">
+              <Switch>
+                <Route exact path="/">
+                  <DoctorHome />
+                </Route>
+                <Route path="/sessions">
+                  <DoctorSessions />
+                </Route>
 
-              <Route path="/chat-room">
-                <DoctorChatRoom />
-              </Route>
-              {/*
+                <Route path="/chat-room">
+                  <DoctorChatRoom />
+                </Route>
+                {/*
               <Route path="/profile">
                 <Profile />
               </Route> */}
-            </Switch>
+              </Switch>
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </Provider>
     );
   }
 }

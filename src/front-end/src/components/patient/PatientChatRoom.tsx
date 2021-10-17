@@ -1,18 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { Prompt } from 'react-router'
 import { useDispatch } from "react-redux";
-import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { Grid, Typography, Button } from '@material-ui/core';
 import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
 import { ReactComponent as Mic } from "../../icons/mic.svg";
 import { ReactComponent as Camera } from "../../icons/camera-video.svg";
 import { ReactComponent as CamOff } from "../../icons/camera-video-off.svg";
-import { io } from 'socket.io-client';
 import Peer from 'simple-peer';
 import { Card } from 'react-bootstrap';
 import { collapse } from '../../store/globalStates/SidebarState';
 import { useAppSelector } from '../../store/Store';
 import getProfile from "../../useCases/getProfile/getProfile";
 import UserType from "../../model/userType";
+import { socket } from "../../socket";
 
 interface CallInterface {
     from: string,
@@ -20,11 +20,11 @@ interface CallInterface {
     signal: any
 }
 
-const socket = io("http://localhost:8080"); //host must be specified if the backend is at a different address
-
 const PatientChatRoom = () => {
+
     const dispatch = useDispatch();
     const profile = useAppSelector((state) => state.patientProfile);
+
     const [callAccepted, setCallAccepted] = useState(false);
     const [camOn, setCamOn] = useState(false);
     const [blockNavigation, setBlockNavigation] = useState(false);
@@ -174,7 +174,7 @@ const PatientChatRoom = () => {
                 {callAccepted && (
                     <Card >
                         <Grid item xs={12} md={6}>
-                            <Typography variant="h6" gutterBottom>{'Doctor'}</Typography>
+                            <Card.Title>Doctor</Card.Title>
                             {/* <Button onClick={() => enabledoc()}> turn on camera </Button> */}
                             {<video id="myVideo" ref={callerVideo} autoPlay />}
                             {/* {console.log("caller video source ")}{console.log(callerVideo.current?.srcObject)}
@@ -182,26 +182,21 @@ const PatientChatRoom = () => {
                         </Grid>
                     </Card>
                 )}
-                <Card >
-                    <Grid item xs={12} md={6}>
-                        <Typography variant="h6" gutterBottom>{'You'}</Typography>
-                        {!camOn ?
-                            (<Button onClick={() => turnOnCamera()}> <CamOff /> </Button>
-                            ) : (
-                                <>
-                                    <video id="callerVideo" muted ref={myVideo} autoPlay />
-                                    <Button onClick={() => turnOffCamera()}> <Camera /> </Button>
-                                    {muted ? <Button onClick={() => toggleAudio()} > <Mute /> </Button> : <Button onClick={() => toggleAudio()} > <Mic /> </Button>}
-                                </>
-                            )}
-                    </Grid>
-                    <h6>{socket.id}</h6>
-                    <h6>{profile.email}</h6>
+                <Card style={{ width: '600px', height: '450px' }} >
+                    <Card.Title>You</Card.Title>
+                    {!camOn ?
+                        (<Button onClick={() => turnOnCamera()}> <CamOff /> </Button>
+                        ) : (
+                            <div>
+                                <video id="callerVideo" muted ref={myVideo} autoPlay />
+                                <Button onClick={() => turnOffCamera()}> <Camera /> </Button>
+                                {muted ? <Button onClick={() => toggleAudio()} > <Mute /> </Button> : <Button onClick={() => toggleAudio()} > <Mic /> </Button>}
+                            </div>
+                        )}
+                    {/* <h6>{socket.id}</h6> */}
                 </Card>
             </Grid >
             <Grid item xs={12} md={6} >
-                <Typography gutterBottom variant="h6">Make a call</Typography>
-                <TextField label="patient ID" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
                 {callAccepted && !callEnded && (
                     <Button variant="contained" color="secondary" onClick={leaveCall} >
                         Leave Room

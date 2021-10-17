@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Prompt } from 'react-router'
 import { useDispatch } from "react-redux";
-import { Grid, Typography, TextField, Button } from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
 import { ReactComponent as Mic } from "../../icons/mic.svg";
 import { ReactComponent as Camera } from "../../icons/camera-video.svg";
@@ -15,18 +15,18 @@ import UserType from "../../model/userType";
 import { socket } from "../../socket";
 import client from "../../httpClient";
 
+
 const DoctorChatRoom = () => {
 
   const dispatch = useDispatch();
   const profile = useAppSelector((state) => state.patientProfile);
-  console.log(profile.email);
 
   const [callAccepted, setCallAccepted] = useState(false);
+  const [sockIdSet, setSockId] = useState(false);
   const [camOn, setCamOn] = useState(false);
   const [blockNavigation, setBlockNavigation] = useState(false);
   const [muted, setMuted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
-  const [idToCall, setIdToCall] = useState('');
   const [myVideoStream, setMyStream] = useState<MediaStream>();
   const [callerVideoStream, setCallerVideoStream] = useState<MediaStream>();
 
@@ -34,10 +34,11 @@ const DoctorChatRoom = () => {
   const callerVideo = useRef<HTMLVideoElement>(null);
   const peerRef = useRef<Peer.Instance>();
 
-  let socketCredentials: { [key: string]: string } = {};
+  const socketCredentials = useRef<{ key: string, value: string }[]>([]);
 
   useEffect(() => {
     dispatch(collapse());
+
     const fetchProfile = async () => {
       const profileReq = new getProfile(UserType.patient);
       await profileReq.execute();
@@ -45,9 +46,11 @@ const DoctorChatRoom = () => {
     // only fetches if there are no current profileDetails
     if (!profile.email) fetchProfile();
 
-
     socket.emit('email', { id: socket.id, email: profile.email });
 
+    socket.on('callEnded', () => {
+      leaveCall();
+    });
     if (callerVideo.current && callerVideoStream) {
       callerVideo.current.srcObject = callerVideoStream;
     }
@@ -57,9 +60,15 @@ const DoctorChatRoom = () => {
       window.onbeforeunload = null;
     }
 
-    client.get('/api/socket')
+
+    client.get('/socket')
       .then((response) => {
-        socketCredentials = response.data;
+        for (const [key, value] of Object.entries(response.data.socketCredentials)) {
+          socketCredentials.current.push({ key: key, value: String(value) });
+        }
+        console.log("response.data");
+        console.log(socketCredentials);
+        setSockId(true);
       })
       .catch((error) => {
         console.log(error);
@@ -113,8 +122,6 @@ const DoctorChatRoom = () => {
 
     window.location.reload();
   };
-
-
   const callUser = (id: string) => {
     // console.log("from call user (socket id)" + socket.id + "(me)" + me)
 
@@ -143,7 +150,6 @@ const DoctorChatRoom = () => {
     });
 
     // console.log("from call user (socket id)" + socket.id + "(me)" + me)
-
     socket.on('answerCall', (signalData) => {
       peer.signal(signalData);
       setCallAccepted(true);
@@ -164,48 +170,73 @@ const DoctorChatRoom = () => {
         {callAccepted && (
           <Card >
             <Grid item xs={12} md={6}>
-              <Typography variant="h6" gutterBottom>{'Doctor'}</Typography>
+              <Card.Title>Patient</Card.Title>
               {/* <Button onClick={() => enabledoc()}> turn on camera </Button> */}
               {<video id="myVideo" ref={callerVideo} autoPlay />}
               {/* {console.log("caller video source ")}{console.log(callerVideo.current?.srcObject)}
-                        {console.log("caller videoStream state ")}{console.log(callerVideoStream)} */}
+                            {console.log("caller videoStream state ")}{console.log(callerVideoStream)} */}
             </Grid>
           </Card>
         )}
-        <Card >
+        <Card style={{ width: '600px', height: '450px' }} >
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" gutterBottom>{'You'}</Typography>
+            <Card.Title>You</Card.Title>
             {!camOn ?
               (<Button onClick={() => turnOnCamera()}> <CamOff /> </Button>
               ) : (
-                <>
+                <div>
                   <video id="callerVideo" muted ref={myVideo} autoPlay />
                   <Button onClick={() => turnOffCamera()}> <Camera /> </Button>
                   {muted ? <Button onClick={() => toggleAudio()} > <Mute /> </Button> : <Button onClick={() => toggleAudio()} > <Mic /> </Button>}
-                </>
+                </div>
               )}
           </Grid>
           <h6>{socket.id}</h6>
           <h6>{profile.email}</h6>
         </Card>
-        <Card>
-          {console.log(socketCredentials)}
-          <h6>{socketCredentials}</h6>
-        </Card>
+        {sockIdSet &&
+          <table className="table" style={{ width: "50", margin: 0 }}>
+            <thead>
+              <tr>
+                <th key="email" scope="col">
+                  Email
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {console.log("from table socketCredentials")}
+              {console.log(socketCredentials)}
+              {socketCredentials.current.map(({ key, value }) => {
+                console.log(`key ${key}: value ${value}`)
+                return (
+                  <tr>
+                    <td>{key}</td>
+                    <td>
+                      <Button variant="contained" color="primary" onClick={() => callUser(value)} >
+                        Admit
+                      </Button>
+                    </td>
+                  </tr>
+
+                );
+              })}
+            </tbody>
+          </table>}
       </Grid >
       <Grid item xs={12} md={6} >
-        <Typography gutterBottom variant="h6">Make a call</Typography>
-        <TextField label="patient ID" value={idToCall} onChange={(e) => setIdToCall(e.target.value)} fullWidth />
-        {callAccepted && !callEnded ? (
+        {callAccepted && !callEnded && (
           <Button variant="contained" color="secondary" onClick={leaveCall} >
             Leave Room
           </Button>
-        ) : (
-          <Button variant="contained" color="primary" onClick={() => callUser(idToCall)} >
-            Admit
-          </Button>
         )}
       </Grid>
+      <>
+        {callAccepted && !callEnded && (
+          <Button variant="contained" color="secondary" onClick={leaveCall} >
+            Leave Room
+          </Button>
+        )}
+      </>
     </div >
   );
 }
