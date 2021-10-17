@@ -7,18 +7,21 @@ import { Switch, Route } from "react-router";
 import DoctorHome from "./doctor/DoctorHome";
 import DoctorSessions from "./doctor/DoctorSessions";
 import DoctorChatRoom from "./doctor/DoctorChatRoom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { RootState } from "../store/Store";
+import { connect, ConnectedProps } from "react-redux";
 
 export interface DoctorMetaComponentProps {}
 
-type props = DoctorMetaComponentProps;
+type props = DoctorMetaComponentProps & PropsFromRedux;
 
 class DoctorMeta extends React.Component<props> {
   render() {
     return (
-      <>
+      <Router>
         <div className="d-flex">
           <div className="d-flex flex-column flex-shrink-0 me-3">
-            <Sidebar username="Username">
+            <Sidebar username={this.props.firstName}>
               <SidebarItem name="Home" icon={Home} link="/" />
               <SidebarItem
                 name="Sessions"
@@ -33,10 +36,10 @@ class DoctorMeta extends React.Component<props> {
               <Route exact path="/">
                 <DoctorHome />
               </Route>
-               <Route path="/sessions">
+              <Route path="/sessions">
                 <DoctorSessions />
               </Route>
-              
+
               <Route path="/chat-room">
                 <DoctorChatRoom />
               </Route>
@@ -47,9 +50,17 @@ class DoctorMeta extends React.Component<props> {
             </Switch>
           </div>
         </div>
-      </>
+      </Router>
     );
   }
 }
 
-export default DoctorMeta;
+const mapStateToProps = (state: RootState) => {
+  return {
+    firstName: state.user.firstName,
+  };
+};
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(DoctorMeta);
