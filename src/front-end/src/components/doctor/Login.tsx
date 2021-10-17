@@ -25,7 +25,12 @@ class Login extends React.Component<props, LoginState> {
   };
   render() {
     return (
-      <>
+      <div
+        style={{
+          backgroundImage: "url(doctor-login-img.jpg)",
+          height: "100vh",
+        }}
+      >
         <button id="home-login" onClick={this.handleHomeButton}>
           <HomeIcon />
         </button>
@@ -42,12 +47,12 @@ class Login extends React.Component<props, LoginState> {
                 Create Account
               </button>
               <p className="mt-4 mb-3 ">
-                <Link to="/login-doctor">I am a patient</Link>
+                <Link to="/login-patient">I am a patient</Link>
               </p>
             </div>
           </div>
         </main>
-      </>
+      </div>
     );
   }
 }
