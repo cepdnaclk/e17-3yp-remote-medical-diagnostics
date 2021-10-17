@@ -38,16 +38,10 @@ class Login extends React.Component<props, LoginState> {
           <div className="row justify-content-md-center align-items-center login-form">
             <div className="col col-lg-4 col-md-6 col-12" id="login_">
               <LoginForm type="doctor" />
-              <div className="mt-2 mb-2">Don't have an account?</div>
-              <button
-                className="w-100 btn btn-lg btn-primary"
-                type="submit"
-                onClick={this.handleSignup}
-              >
-                Create Account
-              </button>
+
               <p className="mt-4 mb-3 ">
-                <Link to="/login-patient">I am a patient</Link>
+                <span>Are u a patient </span>
+                <Link to="/login-patient">click here</Link>
               </p>
             </div>
           </div>

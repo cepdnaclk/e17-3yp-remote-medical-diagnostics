@@ -47,7 +47,8 @@ class Login extends React.Component<props, LoginState> {
                 Create Account
               </button>
               <p className="mt-4 mb-3 ">
-                <Link to="/login-doctor">I am a doctor</Link>
+                <span>Are u a doctor </span>
+                <Link to="/login-doctor">click here</Link>
               </p>
             </div>
           </div>
