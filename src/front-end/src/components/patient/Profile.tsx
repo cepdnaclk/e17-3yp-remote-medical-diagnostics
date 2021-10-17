@@ -8,7 +8,13 @@ import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { collapse, expand } from "../../store/globalStates/SidebarState";
 import { RootState } from "../../store/Store";
-import { BrowserRouter, Route, Switch, NavLink } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  NavLink,
+  useRouteMatch,
+} from "react-router-dom";
 import UserProfile from "./profile/UserProfile";
 import AccountSettings from "./profile/AccountSettings";
 import Notifications from "./profile/Notifications";
@@ -30,26 +36,27 @@ const Profile: FunctionComponent<ProfileProps> = () => {
   }, [dispatchRef]);
 
   const user = useSelector((state: RootState) => state.user);
+  let { path, url } = useRouteMatch();
   return (
     <Container className="mt-5 mb-auto">
       <Row className="mt-5">
-        <BrowserRouter basename="/profile">
+        <BrowserRouter>
           <Col md="auto">
             <Card border="secondary" className="p-3 shadow-sm">
               <Nav defaultActiveKey="/home" className="flex-column">
-                <Nav.Link as={NavLink} to="/">
+                <Nav.Link as={NavLink} to={url}>
                   User Profile
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/account">
+                <Nav.Link as={NavLink} to={`${url}/account`}>
                   Account Settings
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/privacy">
+                <Nav.Link as={NavLink} to={`${url}/privacy`}>
                   Privacy and security
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/notifications">
+                <Nav.Link as={NavLink} to={`${url}/notifications`}>
                   Notifications
                 </Nav.Link>
-                <Nav.Link as={NavLink} to="/preferences">
+                <Nav.Link as={NavLink} to={`${url}/preferences`}>
                   Preferences
                 </Nav.Link>
               </Nav>
@@ -73,11 +80,17 @@ const Profile: FunctionComponent<ProfileProps> = () => {
             </Row>
             <Row className="pe-3 mt-2 flex-grow-1">
               <Switch>
-                <Route exact path="/" component={UserProfile} />
-                <Route path="/account" component={AccountSettings} />
-                <Route path="/notifications" component={Notifications} />
-                <Route path="/preferences" component={Preferences} />
-                <Route path="/privacy" component={PrivacyAndSecurity} />
+                <Route exact path={`${path}/`} component={UserProfile} />
+                <Route path={`${path}/account`} component={AccountSettings} />
+                <Route
+                  path={`${path}/notifications`}
+                  component={Notifications}
+                />
+                <Route path={`${path}/preferences`} component={Preferences} />
+                <Route
+                  path={`${path}/privacy`}
+                  component={PrivacyAndSecurity}
+                />
               </Switch>
             </Row>
           </Col>

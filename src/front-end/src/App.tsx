@@ -1,6 +1,7 @@
 import "./App.css";
 import Store from "./store/Store";
-import Login from "./components/Login";
+import Login_Patient from "./components/patient/Login";
+import Login_Doctor from "./components/doctor/Login";
 import { MemoryRouter, Switch } from "react-router";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
@@ -15,7 +16,7 @@ import Landing from "./components/landing_page/Landing";
 import About from "./components/landing_page/About";
 import Contact from "./components/landing_page/Contact";
 
-interface props { }
+interface props {}
 const App: React.FunctionComponent<props> = () => {
   return (
     <>
@@ -29,7 +30,8 @@ const App: React.FunctionComponent<props> = () => {
               />
 
               <Route path="/" exact component={Landing} />
-              <Route path="/login" component={Login} />
+              <Route path="/login-patient" component={Login_Patient} />
+              <Route path="/login-doctor" component={Login_Doctor} />
               <Route path="/signup" component={Signup} />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />
