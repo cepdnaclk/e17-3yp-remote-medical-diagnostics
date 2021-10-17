@@ -10,6 +10,7 @@ export default class Token {
   static storeRefreshToken(token: string) {
     try {
       localStorage.setItem("refreshToken", token);
+      this.refreshToken = token;
     } catch (e) {
       if (isAxiosError(e)) e.message = e.response?.data;
       throw e;

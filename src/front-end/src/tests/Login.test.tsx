@@ -1,5 +1,5 @@
 import { render, screen } from "./testUtils";
-import Login from "../components/Login";
+import Login from "../components/patient/Login";
 import { MemoryRouter, Route } from "react-router-dom";
 
 test("renders sign in component", () => {
