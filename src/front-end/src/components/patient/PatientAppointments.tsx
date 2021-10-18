@@ -3,8 +3,8 @@ import React, { Fragment } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import Card from "react-bootstrap/Card";
 import { RouteComponentProps, withRouter } from "react-router";
-// import { join } from '../../store/globalStates/VideoChat';
-// import Store from "../../store/Store";
+import { join } from '../../store/globalStates/VideoChat';
+import Store from "../../store/Store";
 // import * as actions from '../../store/api';
 
 export interface PatientAppointmentsProps extends RouteComponentProps { }
@@ -26,16 +26,18 @@ class PatientAppointments extends React.Component<
     };
   }
 
-  enterChatRoom = (props: props) => {
+  enterChatRoom = (props: props, email: string | undefined) => {
+    Store.dispatch(join({ email: email }));
+    console.log("email")
+    console.log(email)
     props.history.push("/chat-room");
-    //Store.dispatch(join());
   };
 
   componentDidMount() {
     //until the api is implemented
     this.setState({
       appointments:
-        '[{"id":"1", "doctor" : "Dr.Geller", "Specialty": "Dentist", "Date" : "2019-09-09", "Time" : "5PM", "paid" : "true" }, {"id":"2","doctor" : "Dr.Monica", "Specialty": "Cardiologist", "Date" : "2021-08-07", "Time" : "7PM", "paid" : "false" }]',
+        '[{"id":"1", "doctor" : "Dr.Geller", "email":"doctor@mail.com", "Specialty": "Dentist", "Date" : "2019-09-09", "Time" : "5PM", "paid" : "true" }, {"id":"2","doctor" : "Dr.Monica", "email":"doctor@mail.com", "Specialty": "Cardiologist", "Date" : "2021-08-07", "Time" : "7PM", "paid" : "false" }]',
     });
 
     /*Store.dispatch(actions.apiCalled({
@@ -110,7 +112,7 @@ class PatientAppointments extends React.Component<
                               <button
                                 key={id}
                                 className="btn btn-primary btn-sm"
-                                onClick={() => this.enterChatRoom(this.props)}
+                                onClick={() => this.enterChatRoom(this.props, item["email"])}
                               >
                                 join
                               </button>

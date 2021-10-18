@@ -2,7 +2,29 @@ import { createSlice } from '@reduxjs/toolkit'
 
 let lastIndex = 0;
 
-const initialState = [{}];
+const initialState: appointment[] = [{
+  "id": 1,
+  "description": {
+    "doctor": "Dr.Geller",
+    "email": "doctor@mail.com",
+    "Specialty": "Dentist",
+    "Date": "2019-09-09",
+    "Time": "5PM",
+    "paid": "true"
+  }
+}];
+
+interface appointment {
+  "id": number,
+  "description": {
+    "doctor": string,
+    "email": string,
+    "Specialty": string,
+    "Date": string,
+    "Time": string,
+    "paid": string
+  }
+}
 
 const appointmentsSlice = createSlice({
   name: "appointments",

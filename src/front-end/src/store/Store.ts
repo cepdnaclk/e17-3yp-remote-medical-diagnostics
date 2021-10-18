@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { reducer as loggedUserReducer } from "./globalStates/LoggedUser";
 import { reducer as sidebarReducer } from "./globalStates/SidebarState";
 import { reducer as videoChatReducer } from "./globalStates/VideoChat";
-import { reducer as appointmentsReducer } from "./globalStates/VideoChat";
+import { reducer as appointmentsReducer } from "./globalStates/appointmentsState";
 import { reducer as patientProfileReducer } from "./globalStates/ProfilePatient";
 import { api } from "./middleware/api";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
