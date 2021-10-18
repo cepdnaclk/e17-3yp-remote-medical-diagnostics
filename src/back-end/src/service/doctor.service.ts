@@ -14,6 +14,8 @@ function findDoctor(query: FilterQuery<DoctorDocument>) {
     return Doctor.findOne(query).lean();
 }
 
+
+
 export async function validatePassword({ email, password }: { email: DoctorDocument["email"]; password: string }) {
     const doctor = await Doctor.findOne({ email });
 

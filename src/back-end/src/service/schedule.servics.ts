@@ -8,3 +8,12 @@ export async function createSchedule(input: DocumentDefinition<ScheduleDocument>
         throw new Error(error);
     }
 }
+
+//list all the schedules
+export async function getAllSchedules() {
+    try {
+        return await Schedule.find();
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}

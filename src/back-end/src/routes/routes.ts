@@ -11,7 +11,7 @@ import cors from "cors";
 import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
 import { createScheduleSchema } from "../schema/schedule.schema";
-import { createScheduleHandler } from "../controller/schedule.controller";
+import { createScheduleHandler, getAllSchedulesHandler } from "../controller/schedule.controller";
 
 export default function (app: Express) {
   app.use(express.json());
@@ -36,6 +36,9 @@ export default function (app: Express) {
     validateRequest(createScheduleSchema),
     createScheduleHandler
   )
+
+  //list all schedules
+  app.get("/api/schedules", getAllSchedulesHandler);
 
 
   // get password and email from the client and send access, refresh tokens

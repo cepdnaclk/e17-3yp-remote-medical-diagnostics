@@ -102,7 +102,7 @@ class PatientDoctors extends React.Component<
       });
       //=======================================================================
       if (this.hasMounted) {
-        this.setState({ doctors: doc_list.slice(0, 5) }); //<---- fetched data
+        this.setState({ doctors: doc_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
       }
     } catch (err) {
       console.log(err);
