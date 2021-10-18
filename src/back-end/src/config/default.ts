@@ -1,11 +1,9 @@
-
 import * as dotenv from 'dotenv';
 
 const res = dotenv.config();
 
 export default {
     port: parseInt(process.env.PORT!),
-    socketio_port: parseInt(process.env.SOCKET_IO_PORT!),
     host: process.env.HOST!,
     dbUri: process.env.DB_URI!,
     saltWorkFactor: parseInt(process.env.SALT_WORKER_FACTOR!),

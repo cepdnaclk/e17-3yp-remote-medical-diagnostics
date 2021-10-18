@@ -13,11 +13,11 @@ import PatientAppointments from "./patient/PatientAppointments";
 import PatientDoctors from "./patient/PatientDoctors";
 import PatientPayments from "./patient/PatientPayments";
 import { BrowserRouter as Router } from "react-router-dom";
-// import PatientChatRoom from "./patient/PatientChatRoom";
+import PatientChatRoom from "./patient/PatientChatRoom";
 import Profile from "./patient/Profile";
 
-export interface PatientMetaComponentProps {}
-export interface PatientMetaComponentState {}
+export interface PatientMetaComponentProps { }
+export interface PatientMetaComponentState { }
 
 type props = PropsFromRedux & PatientMetaComponentProps;
 
@@ -53,9 +53,9 @@ class PatientMeta extends React.Component<props, PatientMetaComponentState> {
                 <Route path="/appointments">
                   <PatientAppointments />
                 </Route>
-                {/* <Route path="/chat-room">
+                <Route path="/chat-room">
                   <PatientChatRoom />
-                </Route> */}
+                </Route>
                 <Route path="/doctors">
                   <PatientDoctors />
                 </Route>

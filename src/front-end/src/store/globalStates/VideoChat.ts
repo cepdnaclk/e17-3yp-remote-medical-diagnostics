@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    isJoined: false
+    isJoined: false,
+    doctor: ""
 }
 
 const videoChatSlice = createSlice({
     name: "videoChat",
     initialState,
     reducers: {
-        join: (state) => {
-            state.isJoined = true
+        join: (state, action) => {
+            state.isJoined = true;
+            state.doctor = action.payload.doctor;
         }
     }
 })

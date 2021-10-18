@@ -10,6 +10,7 @@ import authRouter from "./authorizedRoutes";
 import cors from "cors";
 import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
+import { sendSockCredentials } from '../chat/socketCommunication';
 
 export default function (app: Express) {
   app.use(express.json());
@@ -40,6 +41,8 @@ export default function (app: Express) {
     validateRequest(refreshTokenSchema),
     renewAccessTokenHandler
   );
+
+  app.get('/api/socket', (req: Request, res: Response) => { sendSockCredentials(req, res); });
 
   // Routes which need authentication
   /*  /api/me
