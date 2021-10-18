@@ -3,7 +3,6 @@ import Config from "./config/default"
 import log from './logger';
 import connect from './db/connect';
 import routes from './routes/routes';
-import cors from 'cors';
 import createSocketServer from './chat/socketCommunication';
 
 const { port, host } = Config
@@ -12,7 +11,6 @@ async function main() {
     const app = express();
     app.use(express.json());
     app.use(express.urlencoded({ extended: false }));
-    app.use(cors())
     // connect to the database before starting the webserver
     await connect()
     routes(app);
