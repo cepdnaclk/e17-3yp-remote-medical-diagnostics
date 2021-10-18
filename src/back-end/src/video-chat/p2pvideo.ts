@@ -1,29 +1,54 @@
-import { Socket } from 'dgram';
+import cors from 'cors';
 import express from 'express'
-import config from 'config';
+import config from '../config/default';
 import http from 'http';
 import { Server } from 'socket.io'
-import { v4 as uuidV4 } from 'uuid'; // uuid ; A universally unique identifier (for each room)
-import Peer from 'peerjs';
 
 const app = express()
 const server = http.createServer(app);
-const io = new Server(server) // socket.io should be provided with the port on which the socket is going to be established
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+})
+
+// socket.io should be provided with the port on which the socket is going to be established
 /*
 socket.io (on top of TCP)
 real-time, bidirectional and event-based and low-latency channel communication between the browser and the server
 try to establish a WebSocket connection if possible, and will fall back on HTTP long polling if not
 most browsers support websockets 
 */
+app.use(cors())
 
-require('dotenv').config();
+const port = config.socketio_port as number;
+const host = config.host;
 
-const port = config.get("port") as number;
-const host = config.get("host") as string;
+app.get('/', (req, res) => {
+    res.send('Running');
+});
 
-app.set('view-engine', 'ejs') // using ejs as the view engine (to be used temporarily until intergration with React front-end)
-app.use(express.static('public')) // serve static files
+io.on('connection', (socket) => {
+    socket.emit('me', socket.id);
+    console.log("me emmited " + socket.id);
 
-app.listen(port, host, () => {
+    socket.on('disconnect', () => {
+        socket.broadcast.emit('callEnded');
+    })
+
+    socket.on('callUser', ({ userToCall, signalData, from }) => {
+        socket.to(userToCall).emit('callUser', { signal: signalData, from: from });
+        console.log({ userToCall, from })
+    })
+
+    socket.on('answerCall', ({ signalData, to }) => {
+        socket.to(to).emit('answerCall', signalData);
+        console.log("callAnswered revieved and signal emitted to : " + to);
+    })
+
+});
+
+server.listen(port, host, () => {
     console.log(`server running on port ${port} of host ${host}`)
-})
+});

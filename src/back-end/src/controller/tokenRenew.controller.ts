@@ -13,7 +13,6 @@ async function renewAccessTokenHandler(req: Request, res: Response) {
       refreshToken
     );
     if (!isValid) return res.sendStatus(403);
-
     // get the payload from the token
     const userIdentifier = verifyRefreshToken(refreshToken);
     const { email, type } = userIdentifier;

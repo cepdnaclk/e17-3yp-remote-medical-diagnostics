@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as actions from '../api';
+import * as actions from '../actions/api';
 import { Middleware } from 'redux';
 
 export const api: Middleware = ({ dispatch }) => (next) => async (action) => {

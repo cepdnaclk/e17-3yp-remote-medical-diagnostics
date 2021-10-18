@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 
 class Navbar extends React.Component<RouteComponentProps> {
   handleLogin = (): void => {
-    this.props.history.push("/login");
+    this.props.history.push("/login-patient");
   };
 
   render() {
