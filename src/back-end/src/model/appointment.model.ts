@@ -3,7 +3,7 @@ import { ObjectId } from "bson";//mongodb datatype
 
 export interface AppointmentDocument extends mongoose.Document {
     scheduleId: ObjectId,
-    doctor: ObjectId,
+    //doctor: ObjectId,
     paid: boolean,
     patientId: ObjectId,
     createdAt: Date,
@@ -12,7 +12,7 @@ export interface AppointmentDocument extends mongoose.Document {
 
 const AppointmentSchema = new mongoose.Schema({
     schedule: { type: ObjectId, required: true },
-    doctor: { type: ObjectId, required: true },
+    //doctor: { type: ObjectId, required: true },
     paid: { type: Boolean, required: true },
     patientId: { type: ObjectId, required: true },
 },

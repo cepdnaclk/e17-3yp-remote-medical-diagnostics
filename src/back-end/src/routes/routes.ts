@@ -10,6 +10,8 @@ import authRouter from "./authorizedRoutes";
 import cors from "cors";
 import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
+import { createScheduleSchema } from "../schema/schedule.schema";
+import { createScheduleHandler } from "../controller/schedule.controller";
 
 export default function (app: Express) {
   app.use(express.json());
@@ -27,6 +29,14 @@ export default function (app: Express) {
     validateRequest(createDoctorSchema),
     createDoctorHandler
   );
+
+  //create a new schedule
+  app.post(
+    "/api/newSchedule",
+    validateRequest(createScheduleSchema),
+    createScheduleHandler
+  )
+
 
   // get password and email from the client and send access, refresh tokens
   // Login has two endpoints for doctor and patient

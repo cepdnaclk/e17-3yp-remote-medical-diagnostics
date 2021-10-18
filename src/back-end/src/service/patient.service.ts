@@ -6,7 +6,7 @@ import log from "../logger";
 export async function createPatient(input: DocumentDefinition<PatientDocument>) {
     try {
         return await Patient.create(input);
-    } catch (error) {
+    } catch (error: any) {
         throw new Error(error);
     }
 }
@@ -22,7 +22,7 @@ function findPatient(query: FilterQuery<PatientDocument>) {
 export async function validatePassword({ email, password }: { email: PatientDocument["email"]; password: string }) {
     const patient = await Patient.findOne({ email }).exec();
 
-    if (patient==null) {
+    if (patient == null) {
         return null;
     };
 
