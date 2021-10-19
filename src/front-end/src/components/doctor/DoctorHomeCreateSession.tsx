@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect, ConnectedProps } from "react-redux";
-import Store, { RootState } from "../../store/Store";
+import { RootState } from "../../store/Store";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
 import { ReactComponent as Calendar } from "../../icons/calendar.svg";
@@ -31,7 +31,6 @@ class PatientHomeSearchDoctor extends React.Component<
   handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (e) => {
     e.preventDefault();
     const {date, time } = this.state;
-    
     const scheduleData = {
       doctor:this.props.email,
       date: date,

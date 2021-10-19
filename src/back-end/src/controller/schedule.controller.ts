@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import log from "../logger";
-import { createSchedule, getAllSchedules } from "../service/schedule.servics";
+import { createSchedule, getSchedules } from "../service/schedule.servics";
 
 export async function createScheduleHandler(req: Request, res: Response) {
     try {
@@ -15,9 +15,9 @@ export async function createScheduleHandler(req: Request, res: Response) {
 
 };
 
-export async function getAllSchedulesHandler(req: Request, res: Response) {
+export async function getSchedulesHandler(req: Request, res: Response) {
     try {
-        const schedules = await getAllSchedules();
+        const schedules = await getSchedules();
         return res.send(schedules); //an array of schedule documents
     } catch (e: any) {
         log.error(e);

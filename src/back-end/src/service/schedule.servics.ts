@@ -10,9 +10,10 @@ export async function createSchedule(input: DocumentDefinition<ScheduleDocument>
 }
 
 //list all the schedules
-export async function getAllSchedules() {
+export async function getSchedules() {
     try {
         return await Schedule.find();
+
     } catch (error: any) {
         throw new Error(error);
     }
