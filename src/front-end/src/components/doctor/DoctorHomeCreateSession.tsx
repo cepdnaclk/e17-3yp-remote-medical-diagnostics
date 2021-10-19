@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
-import { ReactComponent as SearchIcon } from "../../icons/search.svg";
 import { ReactComponent as Calendar } from "../../icons/calendar.svg";
 import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Clock } from "../../icons/clock.svg";
@@ -56,7 +55,7 @@ class PatientHomeSearchDoctor extends React.Component<
   
 
   render() {
-    const { language, date } = this.state;
+    const { language, date , time} = this.state;
 
     return (
       <div className="find-a-doctor shadow-sm">
@@ -82,7 +81,7 @@ class PatientHomeSearchDoctor extends React.Component<
                 &nbsp;&nbsp;
                 <input
                 type="time"
-                value={date}
+                value={time}
                 onChange={this.handleTimeChange}
                 placeholder="Time"
                 className="find-a-doctor-input"
@@ -107,8 +106,7 @@ class PatientHomeSearchDoctor extends React.Component<
 
          
           <button type="submit" className="find-a-doctor-button">
-            <SearchIcon />
-            &nbsp; Search
+            &nbsp; Create Session
           </button>
         </form>
       </div>

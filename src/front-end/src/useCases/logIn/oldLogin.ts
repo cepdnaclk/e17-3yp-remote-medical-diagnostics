@@ -1,5 +1,6 @@
 import {
   setAccessToken,
+  setEmail,
   setName,
   seType,
 } from "../../store/globalStates/LoggedUser";
@@ -32,6 +33,7 @@ export async function tryToLogin(): Promise<LoggedInState> {
 
   const me = await getCurrentUser();
   Store.dispatch(setAccessToken(accessToken));
+  Store.dispatch(setEmail(me?.email || "mg@gmail.com"));
   Store.dispatch(setName(me?.name || "No Name"));
   Store.dispatch(seType(me?.type || "patient"));
   return LoggedInState.AlreadyLoggedIn;
