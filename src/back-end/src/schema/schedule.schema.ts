@@ -1,4 +1,4 @@
-import { object, string, date, array } from "yup";
+import { object, string, array } from "yup";
 // import ObjectIdSchema from "./ObjectIdSchema";
 
 // const ObjectID = () => new ObjectIdSchema();
@@ -13,8 +13,8 @@ import { object, string, date, array } from "yup";
 export const createScheduleSchema = object({
     body: object({
         doctor: string().required("DoctorID required"),//Doctor's email
-        startTime: date().notRequired(),
-        endTime: date().notRequired(),
+        date: string().notRequired(),
+        time: string().notRequired(),
         patients: array().of(string()).notRequired(), //initially the patients array is empty
     })
 })

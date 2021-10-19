@@ -1,22 +1,25 @@
 import * as React from "react";
-
+import { connect, ConnectedProps } from "react-redux";
+import Store, { RootState } from "../../store/Store";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
 import { ReactComponent as Calendar } from "../../icons/calendar.svg";
 import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Clock } from "../../icons/clock.svg";
+import { addSchedule } from "../../useCases/addSchedule/AddSchedule";
 
 
+type props = RouteComponentProps & PropsFromRedux;
 
-export interface PatientHomeSearchDoctorState {
+export interface DoctorHomeCreateSessionState {
     date: string;
     time: string;
     language: string;
 }
 
 class PatientHomeSearchDoctor extends React.Component<
-  RouteComponentProps,
-  PatientHomeSearchDoctorState
+  props,
+  DoctorHomeCreateSessionState
 > {
   state = {
     date: "",
@@ -25,13 +28,24 @@ class PatientHomeSearchDoctor extends React.Component<
     
   };
 
-  handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (
-    e
-  ) => {
-    alert(
-    `${this.state.date} | ${this.state.language} | ${this.state.time}`
-    );
+  handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (e) => {
     e.preventDefault();
+    const {date, time } = this.state;
+    
+    const scheduleData = {
+      doctor:this.props.email,
+      date: date,
+      time: time,
+      patients: new Array<string>(),
+    }
+
+    try{
+      await addSchedule(scheduleData);
+    }catch(error){
+      console.log(error);
+    }
+
+    alert("Session was successfully created");
     this.props.history.push("/sessions");
   };
 
@@ -114,4 +128,12 @@ class PatientHomeSearchDoctor extends React.Component<
   }
 }
 
-export default withRouter(PatientHomeSearchDoctor);
+const mapStateToProps = (state: RootState) => {
+  return {
+    email: state.user.email,
+  };
+};
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(withRouter(PatientHomeSearchDoctor));

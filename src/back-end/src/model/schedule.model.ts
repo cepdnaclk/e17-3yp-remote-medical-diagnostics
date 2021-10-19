@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 export interface ScheduleDocument extends mongoose.Document {
-    doctor: String, //doctors's email
-    startTime: Date,
-    endTime: Date,
+    doctor: string, //doctors's email
+    date: string,
+    time: string,
     patients: Array<string>,
     createdAt: Date,
     updatedAt: Date,
@@ -11,8 +11,8 @@ export interface ScheduleDocument extends mongoose.Document {
 
 const ScheduleSchema = new mongoose.Schema({
     doctor: { type: String, required: true },
-    startTime: { type: Date, required: false },
-    endTime: { type: Date, required: false },
+    date: { type: String, required: false },
+    time: { type: String, required: false },
     patients: { type: [String], required: false },    //intially, patients array is empty
 },
     { timestamps: true }
