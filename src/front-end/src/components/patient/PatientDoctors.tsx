@@ -2,16 +2,16 @@ import React from "react";
 import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import Card from "react-bootstrap/Card";
-import axios from "axios";
 import { useHistory } from "react-router";
+import {listSchedules} from "../../useCases/listSchedules/ListSchedules";
+import { getOneDoctor } from "../../useCases/getOneDoctor/GetOneDoctor";
 
 export interface DoctorProps {
   doctor: {
     name: string;
     speciality: string;
-    age: number;
-    email: string;
-    rating: number;
+    date: string;
+    time: string;
   };
 }
 
@@ -40,9 +40,8 @@ const Doctor = (props: DoctorProps) => {
 
       <td>{props.doctor.name}</td>
       <td>{props.doctor.speciality}</td>
-      <td>{props.doctor.age}</td>
-      <td>{props.doctor.email}</td>
-      <td>{props.doctor.rating}</td>
+      <td>{props.doctor.date}</td>
+      <td>{props.doctor.time}</td>
       <td>
       <button onClick = {handleAddButton} type="button" className="btn btn-info">Add</button>
       </td>
@@ -56,16 +55,12 @@ export interface PatientDoctorsState {
   doctors: {
     name: string;
     speciality: string;
-    age: number;
-    email: string;
-    rating: number;
+    date: string;
+    time: string;
   }[];
 }
 
-class PatientDoctors extends React.Component<
-  PatientDoctorsProps,
-  PatientDoctorsState
-> {
+class PatientDoctors extends React.Component<PatientDoctorsProps,PatientDoctorsState>{
   hasMounted: boolean = false;
   state = {
     findDoctorPopup: false,
@@ -85,30 +80,41 @@ class PatientDoctors extends React.Component<
 
   getDoctors = async () => {
     try {
-      const doctors = await axios.get(
-        "https://jsonplaceholder.typicode.com/users" //TODO : API
-      );
+      //  get all the schedules to a list
+      const all_schedules = await listSchedules();
+      //console.log(all_schedules);
+      
+      let schedule_list: any[] = [];
 
-      //======================================================================
-      let doc_list: any[] = [];
-      doctors.data.forEach((doc: any) => {
-        doc_list.push({
-          name: doc.name,
-          speciality: doc.username,
-          age: doc.id,
-          email: doc.email,
-          rating: doc.id,
-        });
-      });
-      //=======================================================================
-      if (this.hasMounted) {
-        this.setState({ doctors: doc_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
+      for(const schedule of all_schedules){
+        const {doctor,date,time} = schedule; //doctor - doc's email , date - session date, time - starting time
+      
+          try{
+            //fetch the name and speciality from doctors collection
+            const doc_details =  await getOneDoctor(doctor);
+            //console.log(doc_details.name)
+      
+            schedule_list.push({
+              name: doc_details.name,
+              speciality: doc_details.license, //TODO:
+              date:date,
+              time:time,
+            })
+          }catch(error){
+            console.log(error);
+          }
       }
+      console.log(schedule_list);
+      //  put the data into the table
+      if (this.hasMounted) {
+        this.setState({ doctors: schedule_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
+      }
+      
     } catch (err) {
       console.log(err);
     }
   };
-
+  
   componentDidMount = () => {
     //fetch doctors from the database
     this.hasMounted = true;
@@ -117,7 +123,7 @@ class PatientDoctors extends React.Component<
   componentWillUnmount = () => {
     this.hasMounted = false;
   };
-
+  
   render() {
     return (
       <>
@@ -127,7 +133,7 @@ class PatientDoctors extends React.Component<
             &nbsp;
             <div>
               &nbsp;
-              <h2>DOCTORS</h2> &nbsp;
+              <h2>AVAILABLE DOCTORS</h2> &nbsp;
             </div>
             <div>
               <Card className="rounded shadow p-3 mb-5 bg-white rounded">
@@ -143,14 +149,11 @@ class PatientDoctors extends React.Component<
                       <th key="esp" scope="col">
                         Speciality
                       </th>
-                      <th key="age" scope="col">
-                        Age
+                      <th key="date" scope="col">
+                        Session Date
                       </th>
-                      <th key="email" scope="col">
-                        Email
-                      </th>
-                      <th key="rating" scope="col">
-                        Rating
+                      <th key="time" scope="col">
+                        Sarting Time
                       </th>
                       <th key="add" scope="col">
                       </th>
@@ -168,7 +171,7 @@ class PatientDoctors extends React.Component<
           type="button"
           className="btn btn-primary btn-lg"
           id="btn-1"
-        >
+          >
           Find a Doctor
         </button>
         {/* Modal overlay */}

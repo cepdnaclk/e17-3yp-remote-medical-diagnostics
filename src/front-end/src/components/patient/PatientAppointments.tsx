@@ -68,7 +68,7 @@ class PatientAppointments extends React.Component<
               </button>
             </form>{" "}
             &nbsp;
-            <h2>APPOINTMENTS</h2> &nbsp;
+            <h2>YOUR APPOINTMENTS</h2> &nbsp;
           </div>
           <div>
             <Card className="rounded shadow p-3 mb-5 bg-white rounded">

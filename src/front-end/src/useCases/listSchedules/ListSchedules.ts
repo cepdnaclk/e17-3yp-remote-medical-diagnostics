@@ -4,7 +4,6 @@ import client from "../../httpClient";
 
 /**
  * Registers a new doctor to the system
- * @param data of type `scheduleData`
  * @returns a 200 axios response
  */
 export const listSchedules = async () => {

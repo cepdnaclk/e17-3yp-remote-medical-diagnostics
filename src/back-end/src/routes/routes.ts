@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import { createPatientHandler } from "../controller/patient.controller";
-import { createDoctorHandler } from "../controller/doctor.controller";
+import { createDoctorHandler, getOneDoctorHandler } from "../controller/doctor.controller";
 import logoutHandler from "../controller/commonLogout.controller";
 import validateRequest from "../middleware/validateRequests";
 import { createPatientSchema } from "../schema/patient.schema";
@@ -30,6 +30,9 @@ export default function (app: Express) {
     createDoctorHandler
   );
 
+  //get one doctor
+  app.get("/api/doctors/:email", getOneDoctorHandler);
+
   //create a new schedule
   app.post(
     "/api/newSchedule",
@@ -39,6 +42,8 @@ export default function (app: Express) {
 
   //list all schedules
   app.get("/api/schedules", getSchedulesHandler);
+
+
 
 
   // get password and email from the client and send access, refresh tokens

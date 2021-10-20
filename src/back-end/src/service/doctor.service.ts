@@ -10,11 +10,14 @@ export async function createDoctor(input: DocumentDefinition<DoctorDocument>) {
     }
 }
 
-function findDoctor(query: FilterQuery<DoctorDocument>) {
-    return Doctor.findOne(query).lean();
+export async function findOneDoctor(email: DoctorDocument["email"]) {
+    try {
+        return await Doctor.findOne({ email }, 'name license'); //TODO: replace license with specialization
+    }
+    catch (error: any) {
+        throw new Error(error);
+    }
 }
-
-
 
 export async function validatePassword({ email, password }: { email: DoctorDocument["email"]; password: string }) {
     const doctor = await Doctor.findOne({ email });
