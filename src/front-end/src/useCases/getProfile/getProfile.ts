@@ -9,7 +9,9 @@ export type profileResponse = {
   age: number;
   gender: string;
   mobileNo: string;
-  homeAddress: string;
+  homeAddress?: string;
+  availability?: string;
+  license?: string;
 };
 
 /**
