@@ -1,55 +1,127 @@
 import { Dictionary } from "@reduxjs/toolkit";
 import React, { Fragment } from "react";
 import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../store/Store";
 import Card from "react-bootstrap/Card";
-import { RouteComponentProps, withRouter } from "react-router";
+import { useHistory } from "react-router";
+import { getAppointmentsOfUser } from "../../useCases/getAppointmentsOfUser/GetAppointmentsOfUser";
 // import { join } from '../../store/globalStates/VideoChat';
 // import Store from "../../store/Store";
 // import * as actions from '../../store/api';
 
-export interface PatientAppointmentsProps extends RouteComponentProps { }
 
-type props = PatientAppointmentsProps & PropsFromRedux;
-export interface PatientAppointmentsState {
-  appointments: string;
+export interface AppointmentProps {
+  appointment: {
+    // scheduleId: string; //ObjectID
+    doctorName: string,
+    doctorSpeciality: string,
+    paid: boolean,
+    // patient: String, //patient's email
+    date: string, //session date
+    time: string, //session starting time
+  };
 }
 
-class PatientAppointments extends React.Component<
-  props,
-  PatientAppointmentsState
-> {
-  constructor(props: props) {
-    super(props);
-    this.state = {
-      appointments:
-        '[{"doctor" : "name", "Specialty": "specilaty", "Date" : "xxxx-xx-xx", "Time" : "xxPM" }]',
-    };
+const Appointment = (props: AppointmentProps) => {
+  const history = useHistory();
+  const handleButton = ():void => {
+    // The appointment should be created
+    // Patient should be added to the particular session of the doctor
+    history.push(props.appointment.paid? "/chat-room" : "/payments");
   }
 
-  enterChatRoom = (props: props) => {
-    props.history.push("/chat-room");
-    //Store.dispatch(join());
+
+  //A doctor component to be put in the list
+  return (
+    <tr>
+      <td>{props.appointment.doctorName}</td>
+      <td>{props.appointment.doctorSpeciality}</td>
+      <td>{props.appointment.date}</td>
+      <td>{props.appointment.time}</td>
+      <td>
+        {
+         props.appointment.paid ? 
+        <button onClick ={()=> history.push("/chat-room")} type="button" className="btn btn-primary">Join</button>:
+        <button onClick ={()=> history.push("/payments")} type="button" className="btn btn-success">Pay</button>
+        }
+      </td>
+      <td>
+        {
+          props.appointment.paid && (<span className="badge bg-secondary">Paid</span>)
+        }
+      </td>
+
+      <td>
+      <button type="button" className="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+  );
+};
+
+
+
+export interface PatientAppointmentsProps { }
+
+type props = PatientAppointmentsProps & PropsFromRedux;
+
+export interface PatientAppointmentsState {
+  appointments: {
+    doctorName : string;
+    doctorSpeciality: string,
+    paid:boolean
+    date: string;
+    time: string;
+  }[];
+}
+
+class PatientAppointments extends React.Component<props,PatientAppointmentsState> {
+  
+  hasMounted: boolean = false;
+  state = {
+    appointments: [],
   };
 
-  componentDidMount() {
-    //until the api is implemented
-    this.setState({
-      appointments:
-        '[{"id":"1", "doctor" : "Dr.Geller", "Specialty": "Dentist", "Date" : "2019-09-09", "Time" : "5PM", "paid" : "true" }, {"id":"2","doctor" : "Dr.Monica", "Specialty": "Cardiologist", "Date" : "2021-08-07", "Time" : "7PM", "paid" : "false" }]',
+  appointmentList = () => {
+    return this.state.appointments.map((appointment) => {
+      return <Appointment appointment={appointment} key={Math.random()} />; // *****Change the Key*******
     });
+  };
 
-    /*Store.dispatch(actions.apiCalled({
-      url: "/appointments",
-      onSuccess: "",
-      onError: ""
-    }))*/
-  }
+  getAppointments = async () => {
+    try {
+      let appointments = await getAppointmentsOfUser(this.props.email) //this.props.email
+      
+      let appointment_list: any[] = [];
+
+      appointments.forEach((appointment: any) => {
+        appointment_list.push({
+          doctorName : appointment.doctorName,
+          doctorSpeciality : appointment.doctorSpeciality,
+          paid:appointment.paid,
+          date:appointment.date,
+          time:appointment.time,
+        }
+        );
+      });   
+      if (this.hasMounted) {
+        this.setState({ appointments: appointment_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
+      }
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  componentDidMount = () => {
+    //fetch doctors from the database
+    this.hasMounted = true;
+    this.getAppointments();
+  };
+  componentWillUnmount = () => {
+    this.hasMounted = false;
+  };
 
   render() {
-    const valuesArray: Array<Dictionary<string>> = JSON.parse(
-      this.state.appointments
-    );
-    let i = 1;
     return (
       <div className="d-flex mb-auto mt-5">
         <div>
@@ -87,56 +159,13 @@ class PatientAppointments extends React.Component<
                     <th key="time" scope="col">
                       Time
                     </th>
-                    <th key="num" scope="col">
-                      #
-                    </th>
+                    <th key="join-pay" scope="col"></th>
+                    <th key="paid" scope="col"></th>
+                    <th key="delete" scope="col"></th>
+
                   </tr>
                 </thead>
-                <tbody>
-                  {valuesArray.map((item: Dictionary<string>) => {
-                    const id = item["id"];
-                    return (
-                      <tr key={id}>
-                        <td key={"doctor"}>{item["doctor"]}</td>
-                        <td key={"specialty"}>{item["Specialty"]}</td>
-                        <td key={"date"}>{item["Date"]}</td>
-                        <td key={"time"}>{item["Time"]}</td>
-                        <th scope="row" key={id}>
-                          {i++}
-                        </th>
-                        {item["paid"] === "true" && (
-                          <Fragment key={id}>
-                            <td key="join">
-                              <button
-                                key={id}
-                                className="btn btn-primary btn-sm"
-                                onClick={() => this.enterChatRoom(this.props)}
-                              >
-                                join
-                              </button>
-                            </td>
-                            <td>
-                              <span className="badge bg-secondary">PAID</span>
-                            </td>
-                          </Fragment>
-                        )}
-                        {item["paid"] === "false" && (
-                          <td key="pay">
-                            <button
-                              key={id}
-                              className="btn btn-success btn-sm"
-                              onClick={() =>
-                                this.props.history.push("/payments")
-                              }
-                            >
-                              pay
-                            </button>
-                          </td>
-                        )}
-                      </tr>
-                    );
-                  })}
-                </tbody>
+                <tbody>{this.appointmentList()}</tbody>
               </table>
             </Card>
           </div>
@@ -146,6 +175,12 @@ class PatientAppointments extends React.Component<
   }
 }
 
-const connector = connect();
+const mapStateToProps = (state: RootState) => {
+  return {
+    email: state.user.email,
+  };
+};
+
+const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-export default withRouter(connector(PatientAppointments));
+export default connector(PatientAppointments);

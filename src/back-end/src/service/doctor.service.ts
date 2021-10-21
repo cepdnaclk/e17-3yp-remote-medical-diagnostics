@@ -1,4 +1,4 @@
-import { DocumentDefinition, FilterQuery } from "mongoose";
+import { DocumentDefinition } from "mongoose";
 import Doctor, { DoctorDocument } from "../model/doctor.model";
 import { omit } from "lodash";
 

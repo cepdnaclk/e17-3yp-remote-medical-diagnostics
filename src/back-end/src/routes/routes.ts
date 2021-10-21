@@ -12,6 +12,7 @@ import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
 import { createScheduleSchema } from "../schema/schedule.schema";
 import { createScheduleHandler, getSchedulesHandler } from "../controller/schedule.controller";
+import { createAppointmentHandler, getAppointmentsOfUserHandler } from "../controller/appointment.controller";
 
 export default function (app: Express) {
   app.use(express.json());
@@ -42,6 +43,13 @@ export default function (app: Express) {
 
   //list all schedules
   app.get("/api/schedules", getSchedulesHandler);
+
+
+  //create a new appointment
+  app.post("/api/newAppointment", createAppointmentHandler) //TODO: validateRequest
+
+  //list all appointments of a particular user
+  app.get("/api/appointments/:patient", getAppointmentsOfUserHandler)
 
 
 

@@ -104,7 +104,6 @@ class PatientDoctors extends React.Component<PatientDoctorsProps,PatientDoctorsS
             console.log(error);
           }
       }
-      console.log(schedule_list);
       //  put the data into the table
       if (this.hasMounted) {
         this.setState({ doctors: schedule_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
