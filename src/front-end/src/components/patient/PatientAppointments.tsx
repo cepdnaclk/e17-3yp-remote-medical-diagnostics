@@ -1,14 +1,9 @@
-import { Dictionary } from "@reduxjs/toolkit";
-import React, { Fragment } from "react";
+import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/Store";
 import Card from "react-bootstrap/Card";
 import { useHistory } from "react-router";
 import { getAppointmentsOfUser } from "../../useCases/getAppointmentsOfUser/GetAppointmentsOfUser";
-// import { join } from '../../store/globalStates/VideoChat';
-// import Store from "../../store/Store";
-// import * as actions from '../../store/api';
-
 
 export interface AppointmentProps {
   appointment: {
@@ -24,14 +19,8 @@ export interface AppointmentProps {
 
 const Appointment = (props: AppointmentProps) => {
   const history = useHistory();
-  const handleButton = ():void => {
-    // The appointment should be created
-    // Patient should be added to the particular session of the doctor
-    history.push(props.appointment.paid? "/chat-room" : "/payments");
-  }
 
-
-  //A doctor component to be put in the list
+  //An appointment component to be put in the list
   return (
     <tr>
       <td>{props.appointment.doctorName}</td>
@@ -75,7 +64,10 @@ export interface PatientAppointmentsState {
 }
 
 class PatientAppointments extends React.Component<props,PatientAppointmentsState> {
-  
+  constructor(props : props){
+    super(props);
+
+  }
   hasMounted: boolean = false;
   state = {
     appointments: [],
@@ -93,16 +85,15 @@ class PatientAppointments extends React.Component<props,PatientAppointmentsState
       
       let appointment_list: any[] = [];
 
-      appointments.forEach((appointment: any) => {
-        appointment_list.push({
+      appointment_list = appointments.map((appointment : any) => {
+        return ({
           doctorName : appointment.doctorName,
           doctorSpeciality : appointment.doctorSpeciality,
           paid:appointment.paid,
           date:appointment.date,
           time:appointment.time,
-        }
-        );
-      });   
+        })
+      })
       if (this.hasMounted) {
         this.setState({ appointments: appointment_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
       }
