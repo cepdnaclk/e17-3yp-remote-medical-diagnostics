@@ -10,8 +10,9 @@ import DoctorChatRoom from "./doctor/DoctorChatRoom";
 import { BrowserRouter as Router } from "react-router-dom";
 import Store, { RootState } from "../store/Store";
 import { connect, ConnectedProps, Provider } from "react-redux";
+import Profile from "./doctor/Profile";
 
-export interface DoctorMetaComponentProps { }
+export interface DoctorMetaComponentProps {}
 
 type props = DoctorMetaComponentProps & PropsFromRedux;
 
@@ -44,10 +45,10 @@ class DoctorMeta extends React.Component<props> {
                 <Route path="/chat-room">
                   <DoctorChatRoom />
                 </Route>
-                {/*
-              <Route path="/profile">
-                <Profile />
-              </Route> */}
+
+                <Route path="/profile">
+                  <Profile />
+                </Route>
               </Switch>
             </div>
           </div>

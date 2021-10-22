@@ -1,9 +1,9 @@
 import { Request, Response, Router } from "express";
 import { handleProfileGet } from "../controller/patientProfile.controller";
 
-const patientAuthRouter = Router();
+const doctorAuthRouter = Router();
 
 // handles /api/patient/profile
-patientAuthRouter.get("/profile", handleProfileGet);
+doctorAuthRouter.get("/profile", handleProfileGet);
 
-export default patientAuthRouter;
+export default doctorAuthRouter;
