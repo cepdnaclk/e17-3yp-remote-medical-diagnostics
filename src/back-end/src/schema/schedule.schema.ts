@@ -13,6 +13,8 @@ import { object, string, array } from "yup";
 export const createScheduleSchema = object({
     body: object({
         doctor: string().required("DoctorID required"),//Doctor's email
+        doctorName: string().required("Dotor's name is required"),
+        doctorSpecialization: string().required("Doctor's specialization is required"),
         date: string().notRequired(),
         time: string().notRequired(),
         patients: array().of(string()).notRequired(), //initially the patients array is empty

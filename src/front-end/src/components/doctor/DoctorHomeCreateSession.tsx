@@ -7,6 +7,7 @@ import { ReactComponent as Calendar } from "../../icons/calendar.svg";
 import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Clock } from "../../icons/clock.svg";
 import { addSchedule } from "../../useCases/addSchedule/AddSchedule";
+import { getOneDoctor } from "../../useCases/getOneDoctor/GetOneDoctor";
 
 
 type props = RouteComponentProps & PropsFromRedux;
@@ -31,8 +32,16 @@ class PatientHomeSearchDoctor extends React.Component<
   handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (e) => {
     e.preventDefault();
     const {date, time } = this.state;
+
+    //fetch doc's name, and specialization from the database
+    const doc_name_and_specialization = await getOneDoctor(this.props.email);
+
+
+
     const scheduleData = {
       doctor:this.props.email,
+      doctorName:doc_name_and_specialization.name,
+      doctorSpecialization:doc_name_and_specialization.license,
       date: date,
       time: time,
       patients: new Array<string>(),

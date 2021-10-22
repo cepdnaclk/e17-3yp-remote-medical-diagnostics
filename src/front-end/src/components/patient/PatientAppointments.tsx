@@ -64,10 +64,7 @@ export interface PatientAppointmentsState {
 }
 
 class PatientAppointments extends React.Component<props,PatientAppointmentsState> {
-  constructor(props : props){
-    super(props);
-
-  }
+  
   hasMounted: boolean = false;
   state = {
     appointments: [],

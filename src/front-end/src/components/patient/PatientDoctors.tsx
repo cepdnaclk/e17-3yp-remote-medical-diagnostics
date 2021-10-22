@@ -4,7 +4,6 @@ import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import Card from "react-bootstrap/Card";
 import { useHistory } from "react-router";
 import {listSchedules} from "../../useCases/listSchedules/ListSchedules";
-import { getOneDoctor } from "../../useCases/getOneDoctor/GetOneDoctor";
 
 export interface DoctorProps {
   doctor: {
@@ -20,7 +19,7 @@ const Doctor = (props: DoctorProps) => {
   const handleAddButton = ():void => {
     // The appointment should be created
     // Patient should be added to the particular session of the doctor
-    alert(`An appointment to Dr.${props.doctor.name} made`);
+    alert(`An appointment to ${props.doctor.name} made`);
     history.push("/appointments");
   }
 
@@ -80,30 +79,19 @@ class PatientDoctors extends React.Component<PatientDoctorsProps,PatientDoctorsS
 
   getDoctors = async () => {
     try {
-      //  get all the schedules to a list
-      const all_schedules = await listSchedules();
-      //console.log(all_schedules);
-      
+      const all_schedules = await listSchedules();   
       let schedule_list: any[] = [];
-
-      for(const schedule of all_schedules){
-        const {doctor,date,time} = schedule; //doctor - doc's email , date - session date, time - starting time
-      
-          try{
-            //fetch the name and speciality from doctors collection
-            const doc_details =  await getOneDoctor(doctor);
-            //console.log(doc_details.name)
-      
+      all_schedules.map((schedule:any)=>{
+        const {doctorName,doctorSpecialization,date,time} = schedule; //date - session date, time - starting time
+  
             schedule_list.push({
-              name: doc_details.name,
-              speciality: doc_details.license, //TODO:
+              name: doctorName,
+              speciality: doctorSpecialization,
               date:date,
               time:time,
             })
-          }catch(error){
-            console.log(error);
-          }
-      }
+      })
+
       //  put the data into the table
       if (this.hasMounted) {
         this.setState({ doctors: schedule_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
