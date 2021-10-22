@@ -4,7 +4,6 @@ import { RootState } from "../../store/Store";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
 import { ReactComponent as Calendar } from "../../icons/calendar.svg";
-import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Clock } from "../../icons/clock.svg";
 import { addSchedule } from "../../useCases/addSchedule/AddSchedule";
 import { getOneDoctor } from "../../useCases/getOneDoctor/GetOneDoctor";
@@ -15,7 +14,6 @@ type props = RouteComponentProps & PropsFromRedux;
 export interface DoctorHomeCreateSessionState {
     date: string;
     time: string;
-    language: string;
 }
 
 class PatientHomeSearchDoctor extends React.Component<
@@ -25,7 +23,6 @@ class PatientHomeSearchDoctor extends React.Component<
   state = {
     date: "",
     time:"",
-    language: "sinhala",
     
   };
 
@@ -68,16 +65,9 @@ class PatientHomeSearchDoctor extends React.Component<
       time: e.currentTarget.value,
     });
   };
-  handleLanguageChange = (e: React.FormEvent<HTMLSelectElement>): void => {
-    this.setState({
-      language: e.currentTarget.value,
-    });
-  };
-
-  
 
   render() {
-    const { language, date , time} = this.state;
+    const { date , time} = this.state;
 
     return (
       <div className="find-a-doctor shadow-sm">
@@ -109,23 +99,6 @@ class PatientHomeSearchDoctor extends React.Component<
                 className="find-a-doctor-input"
                 />
             </label>
-
-        {/* Language */}
-          <label className="find-a-doctor-input-field">
-            &nbsp;&nbsp;
-            <Globe />
-            &nbsp;&nbsp;
-            <select
-              className="find-a-doctor-input"
-              value={language}
-              onChange={this.handleLanguageChange}
-            >
-              <option value="sinhala">සිංහල​​</option>
-              <option value="tamil">தமிழ்</option>
-              <option value="english">English</option>
-            </select>
-          </label>
-
          
           <button type="submit" className="find-a-doctor-button">
             &nbsp; Create Session

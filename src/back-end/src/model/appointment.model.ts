@@ -14,7 +14,7 @@ export interface AppointmentDocument extends mongoose.Document {
 }
 
 const AppointmentSchema = new mongoose.Schema({
-    schedule: { type: ObjectId, required: true },
+    scheduleId: { type: ObjectId, required: true },
     doctorName: { type: String, required: true },
     doctorSpeciality: { type: String, required: true },
     paid: { type: Boolean, required: false },

@@ -11,7 +11,7 @@ import cors from "cors";
 import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
 import { createScheduleSchema } from "../schema/schedule.schema";
-import { createScheduleHandler, getSchedulesHandler } from "../controller/schedule.controller";
+import { addPatientToScheduleHandler, createScheduleHandler, getSchedulesHandler } from "../controller/schedule.controller";
 import { createAppointmentHandler, getAppointmentsOfUserHandler } from "../controller/appointment.controller";
 
 export default function (app: Express) {
@@ -43,6 +43,9 @@ export default function (app: Express) {
 
   //list all schedules
   app.get("/api/schedules", getSchedulesHandler);
+
+  //update the patients list in a schedule
+  app.put("/api/schedules/:id", addPatientToScheduleHandler);
 
 
   //create a new appointment

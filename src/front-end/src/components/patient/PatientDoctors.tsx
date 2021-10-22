@@ -3,10 +3,15 @@ import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import Card from "react-bootstrap/Card";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
 import {listSchedules} from "../../useCases/listSchedules/ListSchedules";
+import {makeAppointment} from "../../useCases/makeAppointment/MakeAppointment"
+import { RootState } from "../../store/Store";
+import { addPatientToSchedule } from "../../useCases/addPatientToSchedule/AddPatientToSchedule";
 
 export interface DoctorProps {
   doctor: {
+    _id : string;
     name: string;
     speciality: string;
     date: string;
@@ -15,10 +20,33 @@ export interface DoctorProps {
 }
 
 const Doctor = (props: DoctorProps) => {
+  const user = useSelector((state :RootState) => state.user.email)
   const history = useHistory();
-  const handleAddButton = ():void => {
-    // The appointment should be created
+  const handleAddButton = async () => {
+    // Create the appointment
+    const appointmentData = {
+      scheduleId: props.doctor._id,
+      doctorName: props.doctor.name,
+      doctorSpeciality: props.doctor.speciality,
+      paid: true,
+      patient: user, //patient's email
+      date: props.doctor.date, //session date
+      time: props.doctor.time, //session starting time
+    }
+
+    try{
+      await makeAppointment(appointmentData);
+    }catch(error){
+      console.log(error);
+    }
+
     // Patient should be added to the particular session of the doctor
+    try{
+      await addPatientToSchedule(appointmentData.scheduleId,user)
+    }catch(error){
+      console.log(error)
+    }
+
     alert(`An appointment to ${props.doctor.name} made`);
     history.push("/appointments");
   }
@@ -52,6 +80,7 @@ export interface PatientDoctorsProps {}
 export interface PatientDoctorsState {
   findDoctorPopup: boolean;
   doctors: {
+    _id: string;
     name: string;
     speciality: string;
     date: string;
@@ -81,10 +110,11 @@ class PatientDoctors extends React.Component<PatientDoctorsProps,PatientDoctorsS
     try {
       const all_schedules = await listSchedules();   
       let schedule_list: any[] = [];
-      all_schedules.map((schedule:any)=>{
-        const {doctorName,doctorSpecialization,date,time} = schedule; //date - session date, time - starting time
+      all_schedules.forEach((schedule:any)=>{
+        const {_id,doctorName,doctorSpecialization,date,time} = schedule; //date - session date, time - starting time
   
             schedule_list.push({
+              _id: _id,
               name: doctorName,
               speciality: doctorSpecialization,
               date:date,
