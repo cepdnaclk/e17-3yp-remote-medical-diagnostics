@@ -3,14 +3,14 @@ import Patient, { PatientDocument } from "../model/patient.model";
 import { omit } from "lodash";
 import log from "../logger";
 
-export async function createPatient(
-  input: DocumentDefinition<PatientDocument>
-) {
-  try {
-    return await Patient.create(input);
-  } catch (error) {
-    throw error;
-  }
+
+export async function createPatient(input: DocumentDefinition<PatientDocument>) {
+    try {
+        return await Patient.create(input);
+    } catch (error: any) {
+        throw new Error(error);
+    }
+
 }
 function findPatient(query: FilterQuery<PatientDocument>) {
   return Patient.findOne(query).lean();
@@ -30,9 +30,11 @@ export async function validatePassword({
 }) {
   const patient = await Patient.findOne({ email }).exec();
 
-  if (patient == null) {
-    return null;
-  }
+
+    if (patient == null) {
+        return null;
+    };
+
 
   const isValid = await patient.comparePassword(password);
 
