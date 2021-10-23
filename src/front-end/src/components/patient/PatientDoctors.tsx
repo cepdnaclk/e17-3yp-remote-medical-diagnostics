@@ -2,25 +2,54 @@ import React from "react";
 import PatientHomeSearchDoctor from "./PatientHomeSearchDoctor";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import Card from "react-bootstrap/Card";
-import axios from "axios";
 import { useHistory } from "react-router";
+import { useSelector } from "react-redux";
+import {listSchedules} from "../../useCases/listSchedules/ListSchedules";
+import {makeAppointment} from "../../useCases/makeAppointment/MakeAppointment"
+import { RootState } from "../../store/Store";
+import { addPatientToSchedule } from "../../useCases/addPatientToSchedule/AddPatientToSchedule";
 
 export interface DoctorProps {
   doctor: {
+    _id : string;
+    doctor:string; //doctor's email
     name: string;
     speciality: string;
-    age: number;
-    email: string;
-    rating: number;
+    date: string;
+    time: string;
   };
 }
 
 const Doctor = (props: DoctorProps) => {
+  const user = useSelector((state :RootState) => state.user.email)
   const history = useHistory();
-  const handleAddButton = ():void => {
-    // The appointment should be created
+  const handleAddButton = async () => {
+    // Create the appointment
+    const appointmentData = {
+      scheduleId: props.doctor._id,
+      doctor:props.doctor.doctor,
+      doctorName: props.doctor.name,
+      doctorSpeciality: props.doctor.speciality,
+      paid: true,
+      patient: user, //patient's email
+      date: props.doctor.date, //session date
+      time: props.doctor.time, //session starting time
+    }
+
+    try{
+      await makeAppointment(appointmentData);
+    }catch(error){
+      console.log(error);
+    }
+
     // Patient should be added to the particular session of the doctor
-    alert(`An appointment to Dr.${props.doctor.name} made`);
+    try{
+      await addPatientToSchedule(appointmentData.scheduleId,user)
+    }catch(error){
+      console.log(error)
+    }
+
+    alert(`An appointment to ${props.doctor.name} made`);
     history.push("/appointments");
   }
 
@@ -40,9 +69,8 @@ const Doctor = (props: DoctorProps) => {
 
       <td>{props.doctor.name}</td>
       <td>{props.doctor.speciality}</td>
-      <td>{props.doctor.age}</td>
-      <td>{props.doctor.email}</td>
-      <td>{props.doctor.rating}</td>
+      <td>{props.doctor.date}</td>
+      <td>{props.doctor.time}</td>
       <td>
       <button onClick = {handleAddButton} type="button" className="btn btn-info">Add</button>
       </td>
@@ -54,18 +82,16 @@ export interface PatientDoctorsProps {}
 export interface PatientDoctorsState {
   findDoctorPopup: boolean;
   doctors: {
+    _id: string;
+    doctor:string;
     name: string;
     speciality: string;
-    age: number;
-    email: string;
-    rating: number;
+    date: string;
+    time: string;
   }[];
 }
 
-class PatientDoctors extends React.Component<
-  PatientDoctorsProps,
-  PatientDoctorsState
-> {
+class PatientDoctors extends React.Component<PatientDoctorsProps,PatientDoctorsState>{
   hasMounted: boolean = false;
   state = {
     findDoctorPopup: false,
@@ -85,30 +111,31 @@ class PatientDoctors extends React.Component<
 
   getDoctors = async () => {
     try {
-      const doctors = await axios.get(
-        "https://jsonplaceholder.typicode.com/users" //TODO : API
-      );
+      const all_schedules = await listSchedules();   
+      let schedule_list: any[] = [];
+      all_schedules.forEach((schedule:any)=>{
+        const {_id,doctor,doctorName,doctorSpecialization,date,time} = schedule; //date - session date, time - starting time
+  
+            schedule_list.push({
+              _id: _id,
+              doctor:doctor,
+              name: doctorName,
+              speciality: doctorSpecialization,
+              date:date,
+              time:time,
+            })
+      })
 
-      //======================================================================
-      let doc_list: any[] = [];
-      doctors.data.forEach((doc: any) => {
-        doc_list.push({
-          name: doc.name,
-          speciality: doc.username,
-          age: doc.id,
-          email: doc.email,
-          rating: doc.id,
-        });
-      });
-      //=======================================================================
+      //  put the data into the table
       if (this.hasMounted) {
-        this.setState({ doctors: doc_list.slice(0, 5) }); //<---- fetched data
+        this.setState({ doctors: schedule_list.slice(0, 7) }); //<---- limit fetched data to 7 entries
       }
+      
     } catch (err) {
       console.log(err);
     }
   };
-
+  
   componentDidMount = () => {
     //fetch doctors from the database
     this.hasMounted = true;
@@ -117,7 +144,7 @@ class PatientDoctors extends React.Component<
   componentWillUnmount = () => {
     this.hasMounted = false;
   };
-
+  
   render() {
     return (
       <>
@@ -127,7 +154,7 @@ class PatientDoctors extends React.Component<
             &nbsp;
             <div>
               &nbsp;
-              <h2>DOCTORS</h2> &nbsp;
+              <h2>AVAILABLE DOCTORS</h2> &nbsp;
             </div>
             <div>
               <Card className="rounded shadow p-3 mb-5 bg-white rounded">
@@ -143,14 +170,11 @@ class PatientDoctors extends React.Component<
                       <th key="esp" scope="col">
                         Speciality
                       </th>
-                      <th key="age" scope="col">
-                        Age
+                      <th key="date" scope="col">
+                        Session Date
                       </th>
-                      <th key="email" scope="col">
-                        Email
-                      </th>
-                      <th key="rating" scope="col">
-                        Rating
+                      <th key="time" scope="col">
+                        Sarting Time
                       </th>
                       <th key="add" scope="col">
                       </th>
@@ -168,7 +192,7 @@ class PatientDoctors extends React.Component<
           type="button"
           className="btn btn-primary btn-lg"
           id="btn-1"
-        >
+          >
           Find a Doctor
         </button>
         {/* Modal overlay */}
