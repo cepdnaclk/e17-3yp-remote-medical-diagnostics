@@ -22,8 +22,8 @@ export interface AppointmentProps {
 const Appointment = (props: AppointmentProps) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const handleJoin = () =>{
-    dispatch(join({ email: props.appointment.doctor }));
+  const handleJoin = (doctorEmail : string) =>{
+    dispatch(join({ email: doctorEmail }));
     history.push("/chat-room");
   }
   //An appointment component to be put in the list
@@ -36,7 +36,7 @@ const Appointment = (props: AppointmentProps) => {
       <td>
         {
          props.appointment.paid ? 
-        <button onClick = {handleJoin} type="button" className="btn btn-primary">Join</button>:
+        <button onClick = {handleJoin(props.appointment.doctor)} type="button" className="btn btn-primary">Join</button>:
         <button onClick ={()=> history.push("/payments")} type="button" className="btn btn-success">Pay</button>
         }
       </td>
