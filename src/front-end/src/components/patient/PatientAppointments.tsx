@@ -1,7 +1,8 @@
 import React from "react";
-import { connect, ConnectedProps, useDispatch } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/Store";
 import Card from "react-bootstrap/Card";
+import {useDispatch} from "react-redux"
 //import { join } from '../../store/globalStates/VideoChat';
 //import Store from "../../store/Store";
 import { useHistory } from "react-router";
@@ -30,7 +31,7 @@ const Appointment = (props: AppointmentProps) => {
   //   dispatch(join({ email: doctorEmail }));
   //   history.push("/chat-room");
   // }
-  
+
   //========================================================================================
 
   //An appointment component to be put in the list
