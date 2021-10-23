@@ -12,6 +12,7 @@ import { addPatientToSchedule } from "../../useCases/addPatientToSchedule/AddPat
 export interface DoctorProps {
   doctor: {
     _id : string;
+    doctor:string; //doctor's email
     name: string;
     speciality: string;
     date: string;
@@ -26,6 +27,7 @@ const Doctor = (props: DoctorProps) => {
     // Create the appointment
     const appointmentData = {
       scheduleId: props.doctor._id,
+      doctor:props.doctor.doctor,
       doctorName: props.doctor.name,
       doctorSpeciality: props.doctor.speciality,
       paid: true,
@@ -81,6 +83,7 @@ export interface PatientDoctorsState {
   findDoctorPopup: boolean;
   doctors: {
     _id: string;
+    doctor:string;
     name: string;
     speciality: string;
     date: string;
@@ -111,10 +114,11 @@ class PatientDoctors extends React.Component<PatientDoctorsProps,PatientDoctorsS
       const all_schedules = await listSchedules();   
       let schedule_list: any[] = [];
       all_schedules.forEach((schedule:any)=>{
-        const {_id,doctorName,doctorSpecialization,date,time} = schedule; //date - session date, time - starting time
+        const {_id,doctor,doctorName,doctorSpecialization,date,time} = schedule; //date - session date, time - starting time
   
             schedule_list.push({
               _id: _id,
+              doctor:doctor,
               name: doctorName,
               speciality: doctorSpecialization,
               date:date,

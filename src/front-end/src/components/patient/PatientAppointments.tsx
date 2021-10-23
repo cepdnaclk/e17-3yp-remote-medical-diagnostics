@@ -1,7 +1,8 @@
 import React from "react";
-import { connect, ConnectedProps } from "react-redux";
+import { connect, ConnectedProps, useDispatch } from "react-redux";
 import { RootState } from "../../store/Store";
 import Card from "react-bootstrap/Card";
+import { join } from '../../store/globalStates/VideoChat';
 import { useHistory } from "react-router";
 import { getAppointmentsOfUser } from "../../useCases/getAppointmentsOfUser/GetAppointmentsOfUser";
 
@@ -9,6 +10,7 @@ export interface AppointmentProps {
   appointment: {
     // scheduleId: string; //ObjectID
     doctorName: string,
+    doctor:string, //doctor's email
     doctorSpeciality: string,
     paid: boolean,
     // patient: String, //patient's email
@@ -19,7 +21,11 @@ export interface AppointmentProps {
 
 const Appointment = (props: AppointmentProps) => {
   const history = useHistory();
-
+  const dispatch = useDispatch();
+  const handleJoin = () =>{
+    dispatch(join({ email: props.appointment.doctor }));
+    history.push("/chat-room");
+  }
   //An appointment component to be put in the list
   return (
     <tr>
@@ -30,7 +36,7 @@ const Appointment = (props: AppointmentProps) => {
       <td>
         {
          props.appointment.paid ? 
-        <button onClick ={()=> history.push("/chat-room")} type="button" className="btn btn-primary">Join</button>:
+        <button onClick = {handleJoin} type="button" className="btn btn-primary">Join</button>:
         <button onClick ={()=> history.push("/payments")} type="button" className="btn btn-success">Pay</button>
         }
       </td>
@@ -56,6 +62,7 @@ type props = PatientAppointmentsProps & PropsFromRedux;
 export interface PatientAppointmentsState {
   appointments: {
     doctorName : string;
+    doctor: string; //doctor's email
     doctorSpeciality: string,
     paid:boolean
     date: string;
@@ -85,6 +92,7 @@ class PatientAppointments extends React.Component<props,PatientAppointmentsState
       appointment_list = appointments.map((appointment : any) => {
         return ({
           doctorName : appointment.doctorName,
+          doctor: appointment.doctor,
           doctorSpeciality : appointment.doctorSpeciality,
           paid:appointment.paid,
           date:appointment.date,
