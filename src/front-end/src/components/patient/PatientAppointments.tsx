@@ -2,7 +2,7 @@ import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/Store";
 import Card from "react-bootstrap/Card";
-import {useDispatch} from "react-redux"
+//import {useDispatch} from "react-redux"
 //import { join } from '../../store/globalStates/VideoChat';
 //import Store from "../../store/Store";
 import { useHistory } from "react-router";
