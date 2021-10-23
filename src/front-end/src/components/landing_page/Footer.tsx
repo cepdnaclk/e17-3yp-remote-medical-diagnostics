@@ -10,7 +10,7 @@ class Footer extends React.Component {
 
         <ul className="nav col-md-4 justify-content-end">
           <li className="nav-item">
-            <Link to="/admin-login" className="nav-link px-2 text-muted">
+            <Link to="/login-admin" className="nav-link px-2 text-muted">
               Admin
             </Link>
           </li>

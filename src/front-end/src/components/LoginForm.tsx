@@ -5,7 +5,7 @@ import { useAuth } from "./AuthContext";
 import logo from "../logo.svg";
 
 interface LoginFormProps {
-  type: "patient" | "doctor";
+  type: "patient" | "doctor" | "admin";
 }
 
 const LoginForm: FunctionComponent<LoginFormProps> = (props) => {

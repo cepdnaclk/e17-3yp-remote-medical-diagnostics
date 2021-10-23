@@ -10,7 +10,10 @@ import authRouter from "./authorizedRoutes";
 import cors from "cors";
 import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
-import { sendSockCredentials } from '../chat/socketCommunication';
+import { sendSockCredentials } from "../chat/socketCommunication";
+import { createAdminSchema } from "../schema/admin.schema";
+import { createAdminHandler } from "../controller/admin.controller";
+import adminRouter from "./adminRoutes";
 
 export default function (app: Express) {
   app.use(express.json());
@@ -28,6 +31,11 @@ export default function (app: Express) {
     validateRequest(createDoctorSchema),
     createDoctorHandler
   );
+  app.post(
+    "/api/newAdmin",
+    validateRequest(createAdminSchema),
+    createAdminHandler
+  );
 
   // get password and email from the client and send access, refresh tokens
   // Login has two endpoints for doctor and patient
@@ -42,11 +50,10 @@ export default function (app: Express) {
     renewAccessTokenHandler
   );
 
-  app.get('/api/socket', (req: Request, res: Response) => { sendSockCredentials(req, res); });
+  app.get("/api/socket", sendSockCredentials);
+
+  app.use("/api/admin", adminRouter);
 
   // Routes which need authentication
-  /*  /api/me
-   *
-   */
   app.use("/api", authRouter);
 }
