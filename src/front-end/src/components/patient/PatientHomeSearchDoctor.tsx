@@ -4,14 +4,12 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
 import { ReactComponent as SearchIcon } from "../../icons/search.svg";
 import { ReactComponent as Calendar } from "../../icons/calendar.svg";
-import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Specialization } from "../../icons/specialization.svg";
 import { ReactComponent as Person } from "../../icons/person.svg";
 
 export interface PatientHomeSearchDoctorState {
   name: string;
   specialization: string;
-  language: string;
   date: string;
 }
 
@@ -22,7 +20,6 @@ class PatientHomeSearchDoctor extends React.Component<
   state = {
     name: "",
     specialization: "general-practitioner",
-    language: "sinhala",
     date: "",
   };
 
@@ -30,7 +27,7 @@ class PatientHomeSearchDoctor extends React.Component<
     e
   ) => {
     alert(
-      `${this.state.name} | ${this.state.specialization} | ${this.state.language} | ${this.state.date}`
+      `${this.state.name} | ${this.state.specialization} | ${this.state.date}`
     );
     e.preventDefault();
     this.props.history.push("/doctors");
@@ -50,11 +47,7 @@ class PatientHomeSearchDoctor extends React.Component<
     });
   };
 
-  handleLanguageChange = (e: React.FormEvent<HTMLSelectElement>): void => {
-    this.setState({
-      language: e.currentTarget.value,
-    });
-  };
+
 
   handleDateChange = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
@@ -63,7 +56,7 @@ class PatientHomeSearchDoctor extends React.Component<
   };
 
   render() {
-    const { name, specialization, language, date } = this.state;
+    const { name, specialization,  date } = this.state;
 
     return (
       <div className="find-a-doctor shadow-sm">
@@ -94,21 +87,6 @@ class PatientHomeSearchDoctor extends React.Component<
               <option value="general-practitioner">General Practitioner</option>
               <option value="cardiologist">Cardiologist</option>
               <option value="Allergist">Allergist</option>
-            </select>
-          </label>
-
-          <label className="find-a-doctor-input-field">
-            &nbsp;&nbsp;
-            <Globe />
-            &nbsp;&nbsp;
-            <select
-              className="find-a-doctor-input"
-              value={language}
-              onChange={this.handleLanguageChange}
-            >
-              <option value="sinhala">සිංහල​​</option>
-              <option value="tamil">தமிழ்</option>
-              <option value="english">English</option>
             </select>
           </label>
 

@@ -1,38 +1,56 @@
 import * as React from "react";
-
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../store/Store";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import "../../App.css";
-import { ReactComponent as SearchIcon } from "../../icons/search.svg";
 import { ReactComponent as Calendar } from "../../icons/calendar.svg";
-import { ReactComponent as Globe } from "../../icons/globe.svg";
 import { ReactComponent as Clock } from "../../icons/clock.svg";
+import { addSchedule } from "../../useCases/addSchedule/AddSchedule";
+import { getOneDoctor } from "../../useCases/getOneDoctor/GetOneDoctor";
 
 
+type props = RouteComponentProps & PropsFromRedux;
 
-export interface PatientHomeSearchDoctorState {
+export interface DoctorHomeCreateSessionState {
     date: string;
     time: string;
-    language: string;
 }
 
 class PatientHomeSearchDoctor extends React.Component<
-  RouteComponentProps,
-  PatientHomeSearchDoctorState
+  props,
+  DoctorHomeCreateSessionState
 > {
   state = {
     date: "",
     time:"",
-    language: "sinhala",
     
   };
 
-  handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (
-    e
-  ) => {
-    alert(
-    `${this.state.date} | ${this.state.language} | ${this.state.time}`
-    );
+  handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined = async (e) => {
     e.preventDefault();
+    const {date, time } = this.state;
+
+    //fetch doc's name, and specialization from the database
+    const doc_name_and_specialization = await getOneDoctor(this.props.email);
+
+
+
+    const scheduleData = {
+      doctor:this.props.email,
+      doctorName:doc_name_and_specialization.name,
+      doctorSpecialization:doc_name_and_specialization.license,
+      date: date,
+      time: time,
+      patients: new Array<string>(),
+    }
+
+    try{
+      await addSchedule(scheduleData);
+    }catch(error){
+      console.log(error);
+    }
+
+    alert("Session was successfully created");
     this.props.history.push("/sessions");
   };
 
@@ -47,16 +65,9 @@ class PatientHomeSearchDoctor extends React.Component<
       time: e.currentTarget.value,
     });
   };
-  handleLanguageChange = (e: React.FormEvent<HTMLSelectElement>): void => {
-    this.setState({
-      language: e.currentTarget.value,
-    });
-  };
-
-  
 
   render() {
-    const { language, date } = this.state;
+    const { date , time} = this.state;
 
     return (
       <div className="find-a-doctor shadow-sm">
@@ -82,33 +93,15 @@ class PatientHomeSearchDoctor extends React.Component<
                 &nbsp;&nbsp;
                 <input
                 type="time"
-                value={date}
+                value={time}
                 onChange={this.handleTimeChange}
                 placeholder="Time"
                 className="find-a-doctor-input"
                 />
             </label>
-
-        {/* Language */}
-          <label className="find-a-doctor-input-field">
-            &nbsp;&nbsp;
-            <Globe />
-            &nbsp;&nbsp;
-            <select
-              className="find-a-doctor-input"
-              value={language}
-              onChange={this.handleLanguageChange}
-            >
-              <option value="sinhala">සිංහල​​</option>
-              <option value="tamil">தமிழ்</option>
-              <option value="english">English</option>
-            </select>
-          </label>
-
          
           <button type="submit" className="find-a-doctor-button">
-            <SearchIcon />
-            &nbsp; Search
+            &nbsp; Create Session
           </button>
         </form>
       </div>
@@ -116,4 +109,12 @@ class PatientHomeSearchDoctor extends React.Component<
   }
 }
 
-export default withRouter(PatientHomeSearchDoctor);
+const mapStateToProps = (state: RootState) => {
+  return {
+    email: state.user.email,
+  };
+};
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(withRouter(PatientHomeSearchDoctor));

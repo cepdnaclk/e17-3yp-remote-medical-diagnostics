@@ -5,7 +5,7 @@ import Login_Doctor from "./components/doctor/Login";
 import Login_Admin from "./components/admin/Login";
 import { MemoryRouter, Switch } from "react-router";
 import { Provider } from "react-redux";
-import { Route } from "react-router-dom";
+import {  Route } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
 import React from "react";
 import Loading from "./components/Loading";
@@ -19,7 +19,7 @@ import Contact from "./components/landing_page/Contact";
 
 interface props {}
 const App: React.FunctionComponent<props> = () => {
-  return (
+  return ( 
     <>
       <AuthProvider>
         <Provider store={Store}>

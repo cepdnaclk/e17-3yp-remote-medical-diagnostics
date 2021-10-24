@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { omit } from 'lodash';
-import { createDoctor } from "../service/doctor.service";
+import { createDoctor, findOneDoctor } from "../service/doctor.service";
 import log from "../logger";
 
 export async function createDoctorHandler(req: Request, res: Response) {
@@ -15,3 +15,13 @@ export async function createDoctorHandler(req: Request, res: Response) {
     }
 
 };
+
+export async function getOneDoctorHandler(req: Request, res: Response) {
+    try {
+        const doctor = await findOneDoctor(req.params.email); //returns {name : Doctor's Name, specialization : Doc's specialization}
+        return res.send(doctor?.toJSON());
+    } catch (e: any) {
+        log.error(e);
+        return res.status(400).send(e.message);
+    }
+}

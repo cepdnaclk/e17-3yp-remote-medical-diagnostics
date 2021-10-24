@@ -1,9 +1,11 @@
 import React from "react";
 import DoctorHomeCreateSession from "./DoctorHomeCreateSession";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../../store/Store";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import { useHistory } from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import axios from "axios";
+import {listSchedules} from "../../useCases/listSchedules/ListSchedules";
 
 export interface SessionProps {
   session: {
@@ -38,7 +40,9 @@ export interface DoctorSessionsState {
   }[];
 }
 
-class DoctorSessions extends React.Component<DoctorSessionsProps, DoctorSessionsState> {
+type props = DoctorSessionsProps & PropsFromRedux;
+
+class DoctorSessions extends React.Component<props, DoctorSessionsState> {
   hasMounted: boolean = false;
   state = {
     createSessionPopup: false,
@@ -58,22 +62,18 @@ class DoctorSessions extends React.Component<DoctorSessionsProps, DoctorSessions
 
   getSessions = async () => {
     try {
-      const sessions = await axios.get(
-        "https://jsonplaceholder.typicode.com/users" //TODO : API
-      );
-
-      //======================================================================
+      const all_sessions = await listSchedules();
+      const sessions = all_sessions.filter((schedule:any) => schedule.doctor === this.props.email);
       let session_list: any[] = [];
-      sessions.data.forEach((doc: any) => {
+      sessions.forEach((doc: any) => {
         session_list.push({
-          date: doc.name,
-          time: doc.username,
-          timeRemaining: doc.email,
+          date: doc.date,
+          time: doc.time,
+          timeRemaining: doc.time,
         });
       });
-      //=======================================================================
       if (this.hasMounted) {
-        this.setState({ sessions: session_list.slice(0, 8) }); //<---- fetched data
+        this.setState({ sessions: session_list.slice(0, 8) }); //<---- fetched data : TODO : Implement Pagination
       }
     } catch (err) {
       console.log(err);
@@ -153,4 +153,13 @@ class DoctorSessions extends React.Component<DoctorSessionsProps, DoctorSessions
   }
 }
 
-export default DoctorSessions;
+
+const mapStateToProps = (state: RootState) => {
+  return {
+    email: state.user.email,
+  };
+};
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(DoctorSessions);
