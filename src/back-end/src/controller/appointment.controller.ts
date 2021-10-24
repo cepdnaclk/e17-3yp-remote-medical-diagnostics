@@ -5,7 +5,7 @@ import { createAppointment, getAppointmentsOfUser } from "../service/appointment
 export async function createAppointmentHandler(req: Request, res: Response) {
     try {
         const appointment = await createAppointment(req.body);
-        return res.send(appointment.toJSON());
+        return res.status(201).send(appointment.toJSON());
 
     } catch (e: any) {
         log.error(e);

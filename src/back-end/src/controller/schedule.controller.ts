@@ -6,7 +6,7 @@ export async function createScheduleHandler(req: Request, res: Response) {
     try {
         const schedule = await createSchedule(req.body);
 
-        return res.send(schedule.toJSON());
+        return res.status(201).send(schedule.toJSON());
 
     } catch (e: any) {
         log.error(e);

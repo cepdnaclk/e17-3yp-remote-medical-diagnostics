@@ -1,0 +1,819 @@
+{
+	"info": {
+		"_postman_id": "231995b4-e2b0-448d-b009-8d8d3582e38a",
+		"name": "MedGenie",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a Patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"const res = pm.response.json() //parse the response body\r",
+							"\r",
+							"//get variables\r",
+							"const patient_email = pm.collectionVariables.get(\"patient_email\");\r",
+							"const patient_name = pm.collectionVariables.get(\"patient_name\");\r",
+							"\r",
+							"//verify the name\r",
+							"pm.test(\"Name is correct\", ()=>{\r",
+							"    pm.expect(res.name).to.eql(patient_name);\r",
+							"})\r",
+							"\r",
+							"//verify the email\r",
+							"pm.test(\"Email is correct\", ()=>{\r",
+							"    pm.expect(res.email).to.eql(patient_email);\r",
+							"})\r",
+							"\r",
+							"//test the availability of content type\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"  pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"//test the data types of the response body\r",
+							"pm.test(\"Test data types of the response body\", ()=> {\r",
+							"    pm.expect(res).to.be.an(\"object\");\r",
+							"    pm.expect(res.name).to.be.a(\"string\");\r",
+							"    pm.expect(res.age).to.be.a(\"number\");\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "John Doe",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "johndoe123",
+							"type": "text"
+						},
+						{
+							"key": "passwordConfirmation",
+							"value": "johndoe123",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "johndoe@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "M",
+							"type": "text"
+						},
+						{
+							"key": "mobileNo",
+							"value": "0715446985",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/newPatient",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"newPatient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token of a Patient",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"//set the access token as a collection variable\r",
+							"pm.collectionVariables.set(\"patient_token\", response.accessToken);\r",
+							"\r",
+							"//test the availability of content type\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"  pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Tokens available\", () =>{\r",
+							"    pm.expect(response).to.be.an(\"object\");\r",
+							"    pm.expect(Object.keys(response).length).to.eql(2);\r",
+							"    pm.expect(response.accessToken).to.be.a(\"string\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "{{patient_email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{patient_password}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/login/patient",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login",
+						"patient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Patient details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"//get variables\r",
+							"const patient_email = pm.collectionVariables.get(\"patient_email\");\r",
+							"const patient_name = pm.collectionVariables.get(\"patient_name\");\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response).to.be.an(\"object\");\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Name is Correct\", ()=>{\r",
+							"    pm.expect(response.name).to.eql(patient_name)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"User type is correct\", ()=>{\r",
+							"    pm.expect(response.type).to.eql(\"patient\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Email is correct\", ()=>{\r",
+							"    pm.expect(response.email).to.eql(patient_email)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{patient_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/me",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Doctor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"const res = pm.response.json() //parse the response body\r",
+							"\r",
+							"//get variables\r",
+							"const doctor_email = pm.collectionVariables.get(\"doctor_email\");\r",
+							"const doctor_name = pm.collectionVariables.get(\"doctor_name\");\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(res).to.be.an(\"object\")\r",
+							"})\r",
+							"\r",
+							"//verify the name\r",
+							"pm.test(\"Name is correct\", ()=>{\r",
+							"    pm.expect(res.name).to.eql(doctor_name);\r",
+							"})\r",
+							"\r",
+							"//verify the email\r",
+							"pm.test(\"Email is correct\", ()=>{\r",
+							"    pm.expect(res.email).to.eql(doctor_email);\r",
+							"})\r",
+							"\r",
+							"//test the availability of content type\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"  pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"//test the data types of the response body\r",
+							"pm.test(\"Test data types of the response body\", ()=> {\r",
+							"    pm.expect(res).to.be.an(\"object\");\r",
+							"    pm.expect(res.name).to.be.a(\"string\");\r",
+							"    pm.expect(res.age).to.be.a(\"number\");\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "name",
+							"value": "{{doctor_name}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "{{doctor_email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{doctor_password}}",
+							"type": "text"
+						},
+						{
+							"key": "passwordConfirmation",
+							"value": "{{doctor_password}}",
+							"type": "text"
+						},
+						{
+							"key": "mobileNo",
+							"value": "0715465987",
+							"type": "text"
+						},
+						{
+							"key": "license",
+							"value": "1231234",
+							"type": "text"
+						},
+						{
+							"key": "gender",
+							"value": "F",
+							"type": "text"
+						},
+						{
+							"key": "isAvailable",
+							"value": "true",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/newDoctor",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"newDoctor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get one doctor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"const doctor_name = pm.collectionVariables.get(\"doctor_name\");\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response).to.be.an(\"object\")\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Name is correct\" , ()=>{ //check whether the name is correct\r",
+							"    pm.expect(response.name).to.eql(doctor_name);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/doctors/:email",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"doctors",
+						":email"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "email",
+							"value": "{{doctor_email}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Schedule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"//get variables\r",
+							"const doctor_email = pm.collectionVariables.get(\"doctor_email\");\r",
+							"const doctor_name = pm.collectionVariables.get(\"doctor_name\");\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response).to.be.an(\"object\");\r",
+							"})\r",
+							"\r",
+							"//Check doctor details\r",
+							"pm.test(\"Doctor's is correct\",()=>{\r",
+							"    pm.expect(response.doctorName).to.eql(doctor_name);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Doctor's email is correct\", ()=>{\r",
+							"    pm.expect(response.doctor).to.eql(doctor_email)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Patient list is initially empty\", ()=>{\r",
+							"    pm.expect(response.patients.length).to.eql(0);\r",
+							"})\r",
+							"\r",
+							"//test the availability of content type\r",
+							"pm.test(\"Content-Type header is present\", () => {\r",
+							"  pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"//set the schedule_Id as a collection variable\r",
+							"pm.collectionVariables.set(\"schedule_Id\", response._id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "doctor",
+							"value": "{{doctor_email}}",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "{{schedule_date}}",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "{{schedule_time}}",
+							"type": "text"
+						},
+						{
+							"key": "doctorName",
+							"value": "{{doctor_name}}",
+							"type": "text"
+						},
+						{
+							"key": "doctorSpecialization",
+							"value": "{{doctor_specialization}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/newSchedule",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"newSchedule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all schedules",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"//content-type header check\r",
+							"pm.test(\"Content-Type is present\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"response = pm.response.json();\r",
+							"\r",
+							"const doctor_email = pm.collectionVariables.get(\"doctor_email\");\r",
+							"\r",
+							"//check whether the response body is an array\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response).to.be.an(\"array\");\r",
+							"})\r",
+							"\r",
+							"//check whether the schedule created exists on the schedule list\r",
+							"const required_schedule = response.filter(entry => entry.doctor === doctor_email)\r",
+							"\r",
+							"pm.test(\"Schedule has been created properly\", ()=>{\r",
+							"    pm.expect(required_schedule[0].doctor).to.eql(doctor_email);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/schedules",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"schedules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make an appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"\r",
+							"//get variables\r",
+							"const patient_email = pm.collectionVariables.get(\"patient_email\");\r",
+							"const doctor_email = pm.collectionVariables.get(\"doctor_email\");\r",
+							"const schedule_Id = pm.collectionVariables.get(\"schedule_Id\");\r",
+							"\r",
+							"//verify the patient\r",
+							"pm.test(\"Patient is correct\", ()=>{\r",
+							"    pm.expect(response.patient).to.eql(patient_email);\r",
+							"})\r",
+							"\r",
+							"//doctor is correct\r",
+							"pm.test(\"Doctor is correct\", ()=>{\r",
+							"    pm.expect(response.doctor).to.eql(doctor_email);\r",
+							"})\r",
+							"\r",
+							"//verify that the appointment has been made to the correct schedule\r",
+							"pm.test(\"Schedule is correct\",()=>{\r",
+							"    pm.expect(response.scheduleId).to.eql(schedule_Id);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "doctorName",
+							"value": "{{doctor_name}}",
+							"type": "text"
+						},
+						{
+							"key": "doctorSpeciality",
+							"value": "{{doctor_specialization}}",
+							"type": "text"
+						},
+						{
+							"key": "paid",
+							"value": "true",
+							"type": "text"
+						},
+						{
+							"key": "patient",
+							"value": "{{patient_email}}",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "{{schedule_date}}",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "{{schedule_time}}",
+							"type": "text"
+						},
+						{
+							"key": "scheduleId",
+							"value": "{{schedule_Id}}",
+							"type": "text"
+						},
+						{
+							"key": "doctor",
+							"value": "{{doctor_email}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/newAppointment",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"newAppointment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Appointments of a user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response[0]).to.be.an(\"object\");\r",
+							"})\r",
+							"\r",
+							"const doctor_email = pm.collectionVariables.get(\"doctor_email\");\r",
+							"\r",
+							"pm.test(\"Doctor is Correct\", ()=>{\r",
+							"    pm.expect(response[0].doctor).to.eql(doctor_email)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "{{base_url}}/appointments/:patient",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"appointments",
+						":patient"
+					],
+					"variable": [
+						{
+							"key": "patient",
+							"value": "{{patient_email}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a patient to a schedule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response).to.be.an(\"object\");\r",
+							"})\r",
+							"\r",
+							"//verify the modification was done properly\r",
+							"pm.test(\"Patient added properly\", ()=>{\r",
+							"    pm.expect(response.n).to.eql(1);\r",
+							"    pm.expect(response.nModified).to.eql(1);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/schedules/:id?patient={{patient_email}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"schedules",
+						":id"
+					],
+					"query": [
+						{
+							"key": "patient",
+							"value": "{{patient_email}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{schedule_Id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/api"
+		},
+		{
+			"key": "patient_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwidHlwZSI6InBhdGllbnQiLCJpYXQiOjE2MzUwNTE5NDQsImV4cCI6MTYzNTA1MzE0NH0.r_PfPCjDEKUHaY3-Wb5XGSGldG9gp4EcwLtxeWBsFCg"
+		},
+		{
+			"key": "patient_name",
+			"value": "John Doe"
+		},
+		{
+			"key": "patient_email",
+			"value": "johndoe@gmail.com"
+		},
+		{
+			"key": "doctor_name",
+			"value": "Jane Doe"
+		},
+		{
+			"key": "doctor_email",
+			"value": "janedoe@gmail.com"
+		},
+		{
+			"key": "patient_password",
+			"value": "johndoe123"
+		},
+		{
+			"key": "doctor_password",
+			"value": "janedoe123"
+		},
+		{
+			"key": "schedule_date",
+			"value": "2021-10-13"
+		},
+		{
+			"key": "schedule_time",
+			"value": "09:50"
+		},
+		{
+			"key": "doctor_specialization",
+			"value": "Cardiologist"
+		},
+		{
+			"key": "schedule_Id",
+			"value": "6174ead25aff6c0082725889"
+		}
+	]
+}

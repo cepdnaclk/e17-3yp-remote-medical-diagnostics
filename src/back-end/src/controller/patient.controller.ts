@@ -7,7 +7,7 @@ export async function createPatientHandler(req: Request, res: Response) {
     try {
         const patient = await createPatient(req.body);
 
-        return res.send(omit(patient.toJSON(), "password"));
+        return res.status(201).send(omit(patient.toJSON(), "password"));
 
     } catch (e: any) {
         log.error(e)
