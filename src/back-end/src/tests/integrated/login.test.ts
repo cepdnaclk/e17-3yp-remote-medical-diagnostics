@@ -33,7 +33,7 @@ describe("Login related tests", () => {
     });
     it("Create a new account", async () => {
       const res = await request(app).post("/api/newPatient").send(userInfo);
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(201);
     });
     it("Login to the new account and then call /me endpoint with the token", async () => {
       const res = await request(app)
@@ -72,7 +72,7 @@ describe("Login related tests", () => {
           license: "someStringForTheLicense",
           isAvailable: "yes",
         });
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(201);
     });
     it("Login to the new account and then call /me endpoint with the token", async () => {
       const res = await request(app)
