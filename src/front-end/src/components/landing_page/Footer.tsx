@@ -1,22 +1,41 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import "../../Styles/landingPage.css";
 
 class Footer extends React.Component {
   render() {
     return (
-      <div className="ftr">
-        <footer className="bg-light text-center text-lg-start">
-          <div className="text-center p-3" style={{ backgroundColor: "white" }}>
-            © 2021 MedGenie:
-            <a
-              className="text-dark"
-              href="https://cepdnaclk.github.io/e17-3yp-remote-medical-diagnostics/"
-            >
-              Visit
-            </a>
-          </div>
-        </footer>
-      </div>
+      <footer className="d-flex flex-wrap justify-content-between align-items-center py-3 my-4  ps-3 pe-3">
+        <p className="col-md-4 mb-0 text-muted">© 2021 Medgenie, Inc</p>
+
+        <ul className="nav col-md-4 justify-content-end">
+          <li className="nav-item">
+            <Link to="/login-admin" className="nav-link px-2 text-muted">
+              Admin
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/" className="nav-link px-2 text-muted">
+              Features
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/" className="nav-link px-2 text-muted">
+              Pricing
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/" className="nav-link px-2 text-muted">
+              FAQs
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/about" className="nav-link px-2 text-muted">
+              About
+            </Link>
+          </li>
+        </ul>
+      </footer>
     );
   }
 }

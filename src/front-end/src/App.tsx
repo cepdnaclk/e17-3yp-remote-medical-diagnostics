@@ -2,6 +2,7 @@ import "./App.css";
 import Store from "./store/Store";
 import Login_Patient from "./components/patient/Login";
 import Login_Doctor from "./components/doctor/Login";
+import Login_Admin from "./components/admin/Login";
 import { MemoryRouter, Switch } from "react-router";
 import { Provider } from "react-redux";
 import {  Route } from "react-router-dom";
@@ -32,6 +33,7 @@ const App: React.FunctionComponent<props> = () => {
               <Route path="/" exact component={Landing} />
               <Route path="/login-patient" component={Login_Patient} />
               <Route path="/login-doctor" component={Login_Doctor} />
+              <Route path="/login-admin" component={Login_Admin} />
               <Route path="/signup" component={Signup} />
               <Route path="/about" component={About} />
               <Route path="/contact" component={Contact} />

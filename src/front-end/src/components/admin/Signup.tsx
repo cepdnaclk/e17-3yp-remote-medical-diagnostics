@@ -1,42 +1,26 @@
 import { FunctionComponent, useState } from "react";
-import { useHistory } from "react-router";
-import { freshLogin } from "../useCases/logIn/freshLogin";
-import { useAuth } from "./AuthContext";
-import logo from "../logo.svg";
+import registerAdmin from "../../useCases/createAdmin/registerAdmin";
+import logo from "../../logo.svg";
 
-interface LoginFormProps {
-  type: "patient" | "doctor" | "admin";
+interface SignupFormProps {
+  onRegister: () => void;
 }
 
-const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
+const SignupForm: FunctionComponent<SignupFormProps> = (props) => {
   const [formDisabled, setFormDisabled] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const auth = useAuth();
-  const history = useHistory();
-  const loginDetailsAreCorrect = async () => {
-    try {
-      await freshLogin({
-        email,
-        password,
-        userType: props.type,
-      });
-      return true;
-    } catch (error) {
-      if (error instanceof Error)
-        alert(error.message || "Connection error. Check your internet");
-      return false;
-    }
-  };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> | undefined =
     async (e) => {
       e.preventDefault();
       setFormDisabled(true);
-      if (await loginDetailsAreCorrect()) {
-        auth.markAuthSuccess();
-        history.push("/home");
-      } else {
+      try {
+        await registerAdmin({ name: "admin", email, password });
+        alert("Account created");
+        props.onRegister();
+      } catch (error) {
+        if (error instanceof Error) alert(error.message);
         setFormDisabled(false);
       }
     };
@@ -61,7 +45,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
           width="100"
           height="100"
         />
-        <h1 className="h3 mb-3 fw-normal">Sign in to MedGenie</h1>
+        <h1 className="h3 mb-3 fw-normal">Create admin account</h1>
 
         <div className="form-floating">
           <input
@@ -84,22 +68,16 @@ const LoginForm: FunctionComponent<LoginFormProps> = (props) => {
           <label htmlFor="floatingPassword">Password</label>
         </div>
 
-        <div className="checkbox mb-3">
-          <label>
-            Remember me
-            <input className="m-2" type="checkbox" value="remember-me" />
-          </label>
-        </div>
         <button
           className="w-100 btn btn-lg btn-primary"
           type="submit"
           disabled={!isEmailCorrect()}
         >
-          {formDisabled ? "Signing in" : "Sign in"}
+          {formDisabled ? "Processing..." : "Register"}
         </button>
       </fieldset>
     </form>
   );
 };
 
-export default LoginForm;
+export default SignupForm;
