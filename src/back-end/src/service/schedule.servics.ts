@@ -1,4 +1,4 @@
-import { DocumentDefinition, UpdateQuery } from "mongoose";
+import { DocumentDefinition } from "mongoose";
 import Schedule, { ScheduleDocument } from "../model/schedule.model";
 
 export async function createSchedule(input: DocumentDefinition<ScheduleDocument>) {
@@ -22,7 +22,16 @@ export async function getSchedules() {
 //add a patient to the patients list of a schedule
 export async function addPatientToSchedule(scheduleId: string, patient: any) {
     try {
-        return await Schedule.updateOne({ _id: scheduleId }, { $push: { patients: [patient] } });
+        return await Schedule.updateOne({ _id: scheduleId }, { $push: { patients: patient } });
+    } catch (error: any) {
+        throw new Error(error);
+    }
+}
+
+//remove a patient from the patient list of a schedule
+export async function removePatientFromSchedule(scheduleId: string, patient: any) {
+    try {
+        return await Schedule.updateOne({ _id: scheduleId }, { $pull: { patients: patient } })
     } catch (error: any) {
         throw new Error(error);
     }

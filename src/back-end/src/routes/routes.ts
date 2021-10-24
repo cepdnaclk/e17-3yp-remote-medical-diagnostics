@@ -12,8 +12,8 @@ import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
 import { sendSockCredentials } from '../chat/socketCommunication';
 import { createScheduleSchema } from "../schema/schedule.schema";
-import { addPatientToScheduleHandler, createScheduleHandler, getSchedulesHandler } from "../controller/schedule.controller";
-import { createAppointmentHandler, getAppointmentsOfUserHandler } from "../controller/appointment.controller";
+import { addPatientToScheduleHandler, createScheduleHandler, getSchedulesHandler, removePatientFromScheduleHandler } from "../controller/schedule.controller";
+import { createAppointmentHandler, deleteAppointmentHandler, getAppointmentsOfUserHandler } from "../controller/appointment.controller";
 
 
 export default function (app: Express) {
@@ -49,12 +49,17 @@ export default function (app: Express) {
   //update the patients list in a schedule
   app.put("/api/schedules/:id", addPatientToScheduleHandler);
 
+  //remove a patient from the patient list of a schedule
+  app.put("/api/schedules/removePatient/:schedule_id", removePatientFromScheduleHandler);
 
   //create a new appointment
   app.post("/api/newAppointment", createAppointmentHandler) //TODO: validateRequest
 
   //list all appointments of a particular user
   app.get("/api/appointments/:patient", getAppointmentsOfUserHandler)
+
+  //delete an appointment when the appointment id is given
+  app.delete("/api/appointments/:id", deleteAppointmentHandler)
 
 
 

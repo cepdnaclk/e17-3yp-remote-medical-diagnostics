@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import log from "../logger";
-import { addPatientToSchedule, createSchedule, getSchedules } from "../service/schedule.servics";
+import { addPatientToSchedule, createSchedule, getSchedules, removePatientFromSchedule } from "../service/schedule.servics";
 
 export async function createScheduleHandler(req: Request, res: Response) {
     try {
@@ -36,4 +36,16 @@ export async function addPatientToScheduleHandler(req: Request, res: Response) {
         log.error(e);
         return res.status(400).send(e.message);
     }
+}
+
+//remove patient from the patient list of a schedule
+export async function removePatientFromScheduleHandler(req: Request, res: Response) {
+    try {
+        const updatedSchedule = await removePatientFromSchedule(req.params.schedule_id, req.query.patient);
+        return res.send(updatedSchedule)
+    } catch (e: any) {
+        log.error(e);
+        return res.status(400).send(e.message);
+    }
+
 }

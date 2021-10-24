@@ -2,23 +2,29 @@ import React from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/Store";
 import Card from "react-bootstrap/Card";
+import { ReactComponent as Trash } from "../../icons/trash.svg";
 //import {useDispatch} from "react-redux"
 //import { join } from '../../store/globalStates/VideoChat';
 //import Store from "../../store/Store";
 import { useHistory } from "react-router";
 import { getAppointmentsOfUser } from "../../useCases/getAppointmentsOfUser/GetAppointmentsOfUser";
+import { deleteAppointment } from "../../useCases/deleteAppointment/DeleteAppointment";
+import { removePatientFromSchedule } from "../../useCases/removePatientFromSchedule/RemovePatientFromSchedule";
 
 export interface AppointmentProps {
   appointment: {
-    // scheduleId: string; //ObjectID
+    appointment_id:string;
+    schedule_id: string; //ObjectID
     doctorName: string,
     doctor:string, //doctor's email
     doctorSpeciality: string,
+    patient: string, //patient's email
     paid: boolean,
-    // patient: String, //patient's email
     date: string, //session date
     time: string, //session starting time
   };
+
+  deleteAppointment: any;
 }
 
 const Appointment = (props: AppointmentProps) => {
@@ -33,6 +39,20 @@ const Appointment = (props: AppointmentProps) => {
   // }
 
   //========================================================================================
+
+
+  const handleDelete = async (appointment_id:string, schedule_id:string, patient: string) =>{
+    //  1. Delete the appointment from the appointments collection
+    //  2. Remove the patient from the patient list of the schedule
+    try{
+      await deleteAppointment(appointment_id);
+      await removePatientFromSchedule(schedule_id,patient);
+    }catch(error){
+      console.log(error);
+    }
+
+    props.deleteAppointment(appointment_id);
+  }
 
   //An appointment component to be put in the list
   return (
@@ -55,7 +75,9 @@ const Appointment = (props: AppointmentProps) => {
       </td>
 
       <td>
-      <button type="button" className="btn btn-danger">Delete</button>
+      <button onClick = {() => handleDelete(props.appointment.appointment_id,props.appointment.schedule_id,props.appointment.patient)} type="button" className="btn btn-danger">
+        <Trash/>
+        </button>
       </td>
     </tr>
   );
@@ -69,9 +91,12 @@ type props = PatientAppointmentsProps & PropsFromRedux;
 
 export interface PatientAppointmentsState {
   appointments: {
+    appointment_id : string,
+    schedule_id : string,
     doctorName : string;
     doctor: string; //doctor's email
     doctorSpeciality: string,
+    patient:string, //patient's email
     paid:boolean
     date: string;
     time: string;
@@ -85,11 +110,18 @@ class PatientAppointments extends React.Component<props,PatientAppointmentsState
     appointments: [],
   };
 
+  deleteAppointment= (id :string) =>{
+    this.setState({
+      appointments : this.state.appointments.filter((appointment:any) => appointment.appointment_id !== id)
+    })
+  }
+  
   appointmentList = () => {
-    return this.state.appointments.map((appointment) => {
-      return <Appointment appointment={appointment} key={Math.random()} />; // *****Change the Key*******
+    return this.state.appointments.map((appointment:any) => {
+      return <Appointment appointment={appointment} key={appointment.appointment_id} deleteAppointment = {this.deleteAppointment}/>;
     });
   };
+
 
   getAppointments = async () => {
     try {
@@ -99,9 +131,12 @@ class PatientAppointments extends React.Component<props,PatientAppointmentsState
 
       appointment_list = appointments.map((appointment : any) => {
         return ({
+          appointment_id : appointment._id,
+          schedule_id : appointment.scheduleId,
           doctorName : appointment.doctorName,
           doctor: appointment.doctor,
           doctorSpeciality : appointment.doctorSpeciality,
+          patient:appointment.patient,
           paid:appointment.paid,
           date:appointment.date,
           time:appointment.time,
