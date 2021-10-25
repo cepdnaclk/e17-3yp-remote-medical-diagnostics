@@ -4,6 +4,7 @@ services:
       context: ./front-end/
       args:
         REACT_APP_USE_MOCK_API: ${REACT_APP_USE_MOCK_API}
+        REACT_APP_ICE_CONFIGURATION: ${REACT_APP_ICE_CONFIGURATION}
     ports:
       - "8081:80"
     depends_on:

@@ -14,8 +14,10 @@ COPY . .
 
 # Get the passed backend api FQDN
 ARG REACT_APP_USE_MOCK_API
+ARG REACT_APP_ICE_CONFIGURATION
 # Set the backend url before build
 ENV REACT_APP_USE_MOCK_API $REACT_APP_USE_MOCK_API
+ENV REACT_APP_ICE_CONFIGURATION $REACT_APP_ICE_CONFIGURATION
 
 # Build the project
 RUN npm run build
