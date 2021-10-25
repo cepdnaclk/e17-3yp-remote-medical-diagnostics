@@ -16,6 +16,7 @@ People have to face a lot of challenges when they want to see a doctor, from hav
 - [Front-end tests](src/front-end/src/tests)
 - [Back-end tests](src/back-end/src/tests)
 - [API documentation](https://cepdnaclk.github.io/e17-3yp-remote-medical-diagnostics/api-docs)
+- [API Test report](https://cepdnaclk.github.io/e17-3yp-remote-medical-diagnostics/MedGenie_API_Test_Report)
 
 ### More Information
 

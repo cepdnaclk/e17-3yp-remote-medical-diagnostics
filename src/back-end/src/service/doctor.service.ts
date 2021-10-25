@@ -12,7 +12,7 @@ export async function createDoctor(input: DocumentDefinition<DoctorDocument>) {
 
 export async function findOneDoctor(email: DoctorDocument["email"]) {
     try {
-        return await Doctor.findOne({ email }, 'name license'); //TODO: replace license with specialization
+        return await Doctor.findOne({ email }, 'name specialization'); //TODO: replace license with specialization
     }
     catch (error: any) {
         throw new Error(error);
