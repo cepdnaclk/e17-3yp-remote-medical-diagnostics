@@ -327,6 +327,11 @@
 							"key": "isAvailable",
 							"value": "true",
 							"type": "text"
+						},
+						{
+							"key": "specialization",
+							"value": "{{doctor_specialization}}",
+							"type": "text"
 						}
 					]
 				},
@@ -570,7 +575,9 @@
 							"//verify that the appointment has been made to the correct schedule\r",
 							"pm.test(\"Schedule is correct\",()=>{\r",
 							"    pm.expect(response.scheduleId).to.eql(schedule_Id);\r",
-							"})"
+							"})\r",
+							"\r",
+							"pm.collectionVariables.set(\"appointment_id\", response._id);"
 						],
 						"type": "text/javascript"
 					}
@@ -710,7 +717,6 @@
 							"//verify the modification was done properly\r",
 							"pm.test(\"Patient added properly\", ()=>{\r",
 							"    pm.expect(response.n).to.eql(1);\r",
-							"    pm.expect(response.nModified).to.eql(1);\r",
 							"})"
 						],
 						"type": "text/javascript"
@@ -720,6 +726,10 @@
 			"request": {
 				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
 				"url": {
 					"raw": "{{base_url}}/schedules/:id?patient={{patient_email}}",
 					"host": [
@@ -738,6 +748,103 @@
 					"variable": [
 						{
 							"key": "id",
+							"value": "{{schedule_Id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an appointment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response).to.be.an(\"object\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/appointments/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"appointments",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{appointment_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove  patient from a schedule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Response body received\", ()=>{\r",
+							"    pm.expect(response).to.be.an(\"object\");\r",
+							"})\r",
+							"\r",
+							"//verify the modification was done properly\r",
+							"pm.test(\"Patient properly removed from the schedule\", ()=>{\r",
+							"    pm.expect(response.n).to.eql(1);\r",
+							"    pm.expect(response.nModified).to.eql(1);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/schedules/removePatient/:schedule_id?patient=johndoe@gmail.com",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"schedules",
+						"removePatient",
+						":schedule_id"
+					],
+					"query": [
+						{
+							"key": "patient",
+							"value": "johndoe@gmail.com"
+						}
+					],
+					"variable": [
+						{
+							"key": "schedule_id",
 							"value": "{{schedule_Id}}"
 						}
 					]
@@ -773,7 +880,7 @@
 		},
 		{
 			"key": "patient_token",
-			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwidHlwZSI6InBhdGllbnQiLCJpYXQiOjE2MzUwNTE5NDQsImV4cCI6MTYzNTA1MzE0NH0.r_PfPCjDEKUHaY3-Wb5XGSGldG9gp4EcwLtxeWBsFCg"
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5kb2VAZ21haWwuY29tIiwidHlwZSI6InBhdGllbnQiLCJpYXQiOjE2MzUxMzkxMjYsImV4cCI6MTYzNTE0MDMyNn0.BAkcqS-OfvX1XgrWXX7hLD_ODjU1i5J-LbTHSaN_oXc"
 		},
 		{
 			"key": "patient_name",
@@ -813,7 +920,11 @@
 		},
 		{
 			"key": "schedule_Id",
-			"value": "6174ead25aff6c0082725889"
+			"value": "61763edfa801f502431e3d22"
+		},
+		{
+			"key": "appointment_id",
+			"value": "61763f3aa801f502431e3d2a"
 		}
 	]
 }
