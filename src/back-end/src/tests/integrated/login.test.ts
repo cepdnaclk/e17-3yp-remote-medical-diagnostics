@@ -69,6 +69,7 @@ describe("Login related tests", () => {
         .post("/api/newDoctor")
         .send({
           ...userInfo,
+          specialization: "doctorSpecialization",
           license: "someStringForTheLicense",
           isAvailable: "yes",
         });
