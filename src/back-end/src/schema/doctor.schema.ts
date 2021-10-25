@@ -13,6 +13,7 @@ export const createDoctorSchema = object({
     ),
     email: string().email("Must be a valid email").required("Email required"),
     isAvailable: string().notRequired(), //
+    specialization: string().required("Specialization is required"),
     license: string().required("license details are needed"),
     age: number().min(3, "invalid age").max(100, "too old").required(),
     gender: string()

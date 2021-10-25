@@ -11,6 +11,7 @@ export interface AddDoctorState {
   gender: string;
   password: string;
   passwordConfirmation: string;
+  specialization:string;
   license:string;
   mobileNo:string;
   errors: {
@@ -33,6 +34,7 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
     gender: "male",
     password: "",
     passwordConfirmation: "",
+    specialization: "",
     license:"",
     mobileNo:"",
     errors: {
@@ -47,8 +49,30 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
 
   handleSignup = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+
+    // "general" : "General Practitioner",
+    // "cardiologist" : "Cardiologist",
+    // "dermatologist":"Dermatologist",
+    // "neurologist" : "Neurologist",
+    const specialization_value = (specialization_key : string) => {
+      switch(specialization_key){
+        case("general"):
+          return "General Practitioner";
+        case("cardiologist"):
+          return "Cardiologist";
+        case("dermatologist"):
+          return "Dermatologist";
+        case("neurologist"):
+          return "Neurologist";
+        default:
+          return "General Practitioner";
+      }
+    }
+
     const name = "Dr."+this.state.firstName + " " + this.state.lastName;
     const gender = this.state.gender === "male" ? "M" : "F";
+    const specialization_key = this.state.specialization;
+    const specialization = specialization_value(specialization_key)
 
     const userData = {
       name: name,
@@ -57,6 +81,7 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
       gender: gender,
       password: this.state.password,
       passwordConfirmation: this.state.passwordConfirmation,
+      specialization : specialization,
       license:this.state.license,
       mobileNo:this.state.mobileNo,
     };
@@ -79,6 +104,7 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
           gender: "male",
           password: "",
           passwordConfirmation: "",
+          specialization: "general",
           license:"",
           mobileNo:"",
           errors: {
@@ -144,6 +170,12 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
     });
   };
 
+  handleSpecializationChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    this.setState({
+      specialization: e.currentTarget.value,
+    });
+  };
+
   handleLicenseChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({
       license: e.currentTarget.value,
@@ -167,10 +199,11 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
   };
 
   areFieldsFilled = (): boolean => {
-    const { firstName, lastName, age, gender,license,mobileNo } = this.state;
+    const { firstName, lastName, age, gender,specialization,license,mobileNo } = this.state;
     return (
       (firstName.length > 0 || lastName.length > 0) &&
       gender.length > 0 &&
+      specialization.length > 0 &&
       parseInt(age) > 3 &&
       this.isEmailCorrect() &&
       this.arePasswordsMatching() &&
@@ -245,6 +278,25 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="form-group col-md-12">
+                  <select
+                      className="form-control"
+                      id="specialization"
+                      onChange={this.handleSpecializationChange}
+                    >
+                      <option defaultValue="general" disabled hidden>
+                        {/*WARNING!!!!!*/}
+                        Specialization
+                      </option>
+                      <option value="general">General Practitioner</option>
+                      <option value="cardiologist">Cardiologist</option>
+                      <option value="dermatologist">Dermatologist</option>
+                      <option value="neurologist">Neurologist</option>
+                    </select>
                 </div>
               </div>
 

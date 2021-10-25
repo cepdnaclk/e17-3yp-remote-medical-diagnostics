@@ -53,6 +53,7 @@ describe("Profile related tests", () => {
       await doctorModel.create({
         ...userInfo,
         license,
+        specialization: "doctorSpecialization",
         isAvailable: "yes",
       });
     });

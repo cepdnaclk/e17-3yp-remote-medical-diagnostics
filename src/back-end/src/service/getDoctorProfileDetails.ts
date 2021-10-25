@@ -3,7 +3,7 @@ import Doctor from "../model/doctor.model";
 export async function getDoctorProfileDetails(email: string) {
   const document = await Doctor.findOne(
     { email },
-    "name email age gender mobileNo availability license"
+    "name email age gender mobileNo availability license specialization"
   ).exec();
   return {
     name: document?.name,
@@ -13,5 +13,6 @@ export async function getDoctorProfileDetails(email: string) {
     mobileNo: document?.mobileNo,
     availability: document?.isAvailable,
     license: document?.license,
+    specialization: document?.specialization,
   };
 }
