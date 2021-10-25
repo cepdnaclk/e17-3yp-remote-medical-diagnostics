@@ -13,6 +13,7 @@ authRouter.get("/me", handleMe);
 //handles authorized requests to the patient
 authRouter.use("/patient", patientAuthRouter);
 
-//handles authorized requests to the patient
+//handles authorized requests to the doctor
 authRouter.use("/doctor", doctorAuthRouter);
+
 export default authRouter;
