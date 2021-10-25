@@ -163,7 +163,7 @@ const PatientChatRoom = () => {
     setBlockNavigation(false);
     setCallEnded(true);
     if (peerRef?.current) peerRef.current.destroy();
-    history.replace("/home");
+    history.replace("/");
     // window.location.reload();
   };
 
