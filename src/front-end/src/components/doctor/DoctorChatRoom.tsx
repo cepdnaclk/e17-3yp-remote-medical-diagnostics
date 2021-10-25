@@ -15,6 +15,7 @@ import UserType from "../../model/userType";
 import { getSocket } from "../../socket";
 import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
+import { parseIceConfig } from "../../model/IceServer";
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -148,6 +149,12 @@ const DoctorChatRoom = () => {
       },
       trickle: false,
       stream: myVideoStream,
+      //custom iceServer:
+      config: {
+        iceServers: parseIceConfig(
+          process.env.REACT_APP_ICE_CONFIGURATION as string
+        ),
+      },
     });
 
     peer.on("signal", (data) => {

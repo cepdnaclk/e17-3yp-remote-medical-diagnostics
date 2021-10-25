@@ -14,6 +14,7 @@ import getProfile from "../../useCases/getProfile/getProfile";
 import UserType from "../../model/userType";
 import { getSocket } from "../../socket";
 import { History } from "history";
+import { parseIceConfig } from "../../model/IceServer";
 
 interface CallInterface {
   from: string;
@@ -135,15 +136,11 @@ const PatientChatRoom = () => {
       trickle: false,
       stream: myVideoStream,
       //custom iceServer:
-      /* config: {
-                iceServers: [
-                    {
-                        urls: ["turn:<EC2 instance public IP>:3478?transport=tcp"],//replace with turn server IP
-                        username: "<USERNAME>",//leave as <USERNAME>
-                        credential: "<PASSWORD>",//leave as <PASSWORD>
-                    }
-                ]
-            } */
+      config: {
+        iceServers: parseIceConfig(
+          process.env.REACT_APP_ICE_CONFIGURATION as string
+        ),
+      },
     });
     const socket = getSocket();
     peer.on("signal", (data) => {
