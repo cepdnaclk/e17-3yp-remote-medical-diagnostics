@@ -38,7 +38,7 @@ class PatientHomeSearchDoctor extends React.Component<
     const scheduleData = {
       doctor:this.props.email,
       doctorName:doc_name_and_specialization.name,
-      doctorSpecialization:doc_name_and_specialization.license,
+      doctorSpecialization:doc_name_and_specialization.specialization,
       date: date,
       time: time,
       patients: new Array<string>(),

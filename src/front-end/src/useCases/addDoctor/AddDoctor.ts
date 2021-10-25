@@ -7,6 +7,7 @@ interface doctorData {
     gender: string;
     password: string;
     passwordConfirmation: string;
+    specialization: string;
     license: string;
     mobileNo: string;
 }

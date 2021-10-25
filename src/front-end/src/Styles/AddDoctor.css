@@ -25,6 +25,10 @@
   #gender {
     color: gray;
   }
+
+  #specialization {
+    color: gray;
+  }
   
   .create-account-label {
     margin-top: 10px;
