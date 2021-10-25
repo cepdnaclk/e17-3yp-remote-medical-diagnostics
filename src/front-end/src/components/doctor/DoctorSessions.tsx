@@ -19,12 +19,38 @@ const Session = (props: SessionProps) => {
     const handleStartBtn = () =>{
         history.push("/chat-room");
     }
+
+  const calculateTimeDiff = (date:string,time:string) =>{
+    const now = new Date(); //UTC current date and time
+    const time_utc = now.getTime(); //current time in ms (from 1970)
+
+    const offset = (5.5 * 60 * 60 * 1000) //+5:30 TimeZone
+    const time_sl = time_utc + offset //current time in ms(SL time)
+    const date_2 = new Date(date+"T"+time+":00Z");  //appointment date & time
+    const appointment_time = date_2.getTime();  //time in ms
+    const time_diff_ms = appointment_time - time_sl //remaining time in ms
+    return time_diff_ms; //return time remaining in ms
+  }
+
+  const getRemainingTime = (remaining_time:number)=>{
+    const time_diff_hrs = remaining_time/(1000*60*60);
+    const days = Math.floor(time_diff_hrs/24);
+    const hrs = Math.floor(time_diff_hrs - days*24)
+    const mins = Math.floor((time_diff_hrs-Math.floor(time_diff_hrs))*60)
+
+    return (days+"d "+hrs+"h "+mins+"m")
+  }
+
+  const remaining_time_ms = calculateTimeDiff(props.session.date, props.session.time);
+
+  const remaining_time = getRemainingTime(remaining_time_ms);
+
   //A doctor component to be put in the list
   return (
     <tr>
       <td>{props.session.date}</td>
       <td>{props.session.time}</td>
-      <td>{props.session.timeRemaining}</td>
+      <td>{remaining_time}</td>
       <td key="join"><button className="btn btn-primary btn-sm" onClick = {handleStartBtn}>Start</button></td>
     </tr>
   );
