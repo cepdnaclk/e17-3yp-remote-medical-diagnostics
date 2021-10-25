@@ -8,13 +8,14 @@
     left: 50%;
     top: 5%;
     align-items: center;
-    height: 480px;
+    height: auto;
     width: 350px;
     margin: 0 auto;
     text-align: center;
     padding-top: 4px;
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 20px;
     background: rgba(86, 108, 128, 0.5);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     backdrop-filter: blur(3.5px);
