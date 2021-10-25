@@ -12,7 +12,7 @@ import { collapse } from "../../store/globalStates/SidebarState";
 import { useAppSelector } from "../../store/Store";
 import getProfile from "../../useCases/getProfile/getProfile";
 import UserType from "../../model/userType";
-import { useSocket } from "../../socket";
+import { getSocket } from "../../socket";
 import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 
@@ -38,8 +38,8 @@ const DoctorChatRoom = () => {
   const socketCredentials = useRef<{ key: string; value: string }[]>([]);
 
   useEffect(() => {
+    const socket = getSocket();
     dispatch(collapse());
-    const socket = useSocket();
     fetchSocketIds();
     const fetchProfile = async () => {
       const profileReq = new getProfile(UserType.patient); // TODO: chnage to doctor
@@ -138,7 +138,7 @@ const DoctorChatRoom = () => {
     window.location.reload();
   };
   const callUser = (id: string) => {
-    const socket = useSocket();
+    const socket = getSocket();
     setCallingUser(true);
     const peer = new Peer({
       initiator: true,

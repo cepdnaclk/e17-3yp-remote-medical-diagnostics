@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Prompt } from "react-router";
+import { Prompt, useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
@@ -12,7 +12,8 @@ import { collapse } from "../../store/globalStates/SidebarState";
 import { useAppSelector } from "../../store/Store";
 import getProfile from "../../useCases/getProfile/getProfile";
 import UserType from "../../model/userType";
-import { useSocket } from "../../socket";
+import { getSocket } from "../../socket";
+import { History } from "history";
 
 interface CallInterface {
   from: string;
@@ -40,10 +41,12 @@ const PatientChatRoom = () => {
   const myVideo = useRef<HTMLVideoElement>(null);
   const callerVideo = useRef<HTMLVideoElement>(null);
   const peerRef = useRef<Peer.Instance>();
+  const history = useHistory();
 
   useEffect(() => {
+    const socket = getSocket();
     dispatch(collapse());
-    const socket = useSocket();
+
     const fetchProfile = async () => {
       const profileReq = new getProfile(UserType.patient);
       await profileReq.execute();
@@ -64,7 +67,7 @@ const PatientChatRoom = () => {
     });
 
     socket.on("callEnded", () => {
-      leaveCall();
+      leaveCall(history);
     });
 
     if (callerVideo.current && callerVideoStream) {
@@ -75,7 +78,7 @@ const PatientChatRoom = () => {
     } else {
       window.onbeforeunload = null;
     }
-  }, [callerVideoStream, blockNavigation, profile, dispatch, doctor]);
+  }, [callerVideoStream, blockNavigation, profile, dispatch, doctor, history]);
 
   const turnOnCamera = () => {
     setCamOn(true);
@@ -142,9 +145,9 @@ const PatientChatRoom = () => {
                 ]
             } */
     });
-
+    const socket = getSocket();
     peer.on("signal", (data) => {
-      useSocket().emit("answerCall", { signalData: data, to: call.from });
+      socket.emit("answerCall", { signalData: data, to: call.from });
     });
 
     peer.on("stream", (currentStream) => {
@@ -159,12 +162,12 @@ const PatientChatRoom = () => {
     peerRef.current = peer;
   };
 
-  const leaveCall = () => {
+  const leaveCall = (history: History<unknown>) => {
     setBlockNavigation(false);
     setCallEnded(true);
     if (peerRef?.current) peerRef.current.destroy();
-
-    window.location.reload();
+    history.replace("/home");
+    // window.location.reload();
   };
 
   return (
@@ -231,7 +234,7 @@ const PatientChatRoom = () => {
       </Grid>
       <Grid item xs={12} md={6}>
         {callAccepted && !callEnded && (
-          <Button className="btn btn-danger" onClick={leaveCall}>
+          <Button className="btn btn-danger" onClick={() => leaveCall(history)}>
             Leave Room
           </Button>
         )}
