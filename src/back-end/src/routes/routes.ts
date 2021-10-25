@@ -1,6 +1,9 @@
 import express, { Express, Request, Response } from "express";
 import { createPatientHandler } from "../controller/patient.controller";
-import { createDoctorHandler, getOneDoctorHandler } from "../controller/doctor.controller";
+import {
+  createDoctorHandler,
+  getOneDoctorHandler,
+} from "../controller/doctor.controller";
 import logoutHandler from "../controller/commonLogout.controller";
 import validateRequest from "../middleware/validateRequests";
 import { createPatientSchema } from "../schema/patient.schema";
@@ -10,11 +13,13 @@ import authRouter from "./authorizedRoutes";
 import cors from "cors";
 import renewAccessTokenHandler from "../controller/tokenRenew.controller";
 import { refreshTokenSchema } from "../schema/refreshToken.schema";
-import { sendSockCredentials } from '../chat/socketCommunication';
+import { sendSockCredentials } from "../chat/socketCommunication";
+import { createAdminSchema } from "../schema/admin.schema";
+import { createAdminHandler } from "../controller/admin.controller";
+import adminRouter from "./adminRoutes";
 import { createScheduleSchema } from "../schema/schedule.schema";
 import { addPatientToScheduleHandler, createScheduleHandler, getSchedulesHandler, removePatientFromScheduleHandler } from "../controller/schedule.controller";
 import { createAppointmentHandler, deleteAppointmentHandler, getAppointmentsOfUserHandler } from "../controller/appointment.controller";
-
 
 export default function (app: Express) {
   app.use(express.json());
@@ -32,6 +37,11 @@ export default function (app: Express) {
     validateRequest(createDoctorSchema),
     createDoctorHandler
   );
+  app.post(
+    "/api/newAdmin",
+    validateRequest(createAdminSchema),
+    createAdminHandler
+  );
 
   //get one doctor
   app.get("/api/doctors/:email", getOneDoctorHandler);
@@ -41,7 +51,7 @@ export default function (app: Express) {
     "/api/newSchedule",
     validateRequest(createScheduleSchema),
     createScheduleHandler
-  )
+  );
 
   //list all schedules
   app.get("/api/schedules", getSchedulesHandler);
@@ -53,7 +63,7 @@ export default function (app: Express) {
   app.put("/api/schedules/removePatient/:schedule_id", removePatientFromScheduleHandler);
 
   //create a new appointment
-  app.post("/api/newAppointment", createAppointmentHandler) //TODO: validateRequest
+  app.post("/api/newAppointment", createAppointmentHandler); //TODO: validateRequest
 
   //list all appointments of a particular user
   app.get("/api/appointments/:patient", getAppointmentsOfUserHandler)
@@ -63,6 +73,7 @@ export default function (app: Express) {
 
 
 
+  app.get("/api/appointments/:patient", getAppointmentsOfUserHandler);
 
   // get password and email from the client and send access, refresh tokens
   // Login has two endpoints for doctor and patient
@@ -77,11 +88,10 @@ export default function (app: Express) {
     renewAccessTokenHandler
   );
 
-  app.get('/api/socket', (req: Request, res: Response) => { sendSockCredentials(req, res); });
+  app.get("/api/socket", sendSockCredentials);
+
+  app.use("/api/admin", adminRouter);
 
   // Routes which need authentication
-  /*  /api/me
-   *
-   */
   app.use("/api", authRouter);
 }
