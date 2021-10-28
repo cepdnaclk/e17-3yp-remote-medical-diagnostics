@@ -1,6 +1,7 @@
 import React from "react";
 import DoctorHomeCreateSession from "./DoctorHomeCreateSession";
 import { connect, ConnectedProps } from "react-redux";
+import { ReactComponent as Trash } from "../../icons/trash.svg";
 import { RootState } from "../../store/Store";
 import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import { useHistory } from "react-router-dom";
@@ -51,7 +52,10 @@ const Session = (props: SessionProps) => {
       <td>{props.session.date}</td>
       <td>{props.session.time}</td>
       <td>{remaining_time}</td>
-      <td key="join"><button className="btn btn-primary btn-sm" onClick = {handleStartBtn}>Start</button></td>
+      <td key="join"><button className="btn btn-primary" onClick = {handleStartBtn}>Start</button></td>
+      <td>
+      <button type="button" id = "del-btn" className="btn btn-danger"><Trash/></button>
+      </td>
     </tr>
   );
 };
@@ -142,6 +146,9 @@ class DoctorSessions extends React.Component<props, DoctorSessionsState> {
                         Time Remaining
                       </th>
                       <th key="start" scope="col">
+                        {" "}
+                      </th>
+                      <th key="del" scope="col">
                         {" "}
                       </th>
                     </tr>
