@@ -191,7 +191,7 @@ const DoctorChatRoom = () => {
       />
       <Grid container>
       
-      {callAccepted ?(
+      {!callAccepted ?(
         <Card style={{ width: "650px", height: "510px" }}>
           <Card.Title>You</Card.Title>
           {!camOn ? (
