@@ -16,6 +16,7 @@ import { getSocket } from "../../socket";
 import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 import { parseIceConfig } from "../../model/IceServer";
+import "../../Styles/DoctorChatRoom.css"
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -189,14 +190,8 @@ const DoctorChatRoom = () => {
         message="Are you sure you want to leave the room?"
       />
       <Grid container>
-        {callAccepted && (
-          <Card>
-            <Grid item xs={12} md={6}>
-              <Card.Title>Patient</Card.Title>
-              {<video id="myVideo" ref={callerVideo} autoPlay />}
-            </Grid>
-          </Card>
-        )}
+      <div className = "vid-local">
+        
         <Card style={{ width: "650px", height: "510px" }}>
           <Card.Title>You</Card.Title>
           {!camOn ? (
@@ -242,7 +237,19 @@ const DoctorChatRoom = () => {
               </Grid>
             </Card>
           )}
+
+          <div className = "vid-remote">
+            {callAccepted && (
+              <Card>
+                <Grid item xs={12} md={6}>
+                  <Card.Title>Patient</Card.Title>
+                  {<video id="myVideo" ref={callerVideo} autoPlay />}
+                </Grid>
+              </Card>
+             )}
+          </div>
         </Card>
+        </div>
         {callAccepted && !callEnded && (
           <Card>
             <TextField></TextField>
