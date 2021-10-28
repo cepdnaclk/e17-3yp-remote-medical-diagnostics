@@ -163,6 +163,11 @@ An on/off switch is available to power down the device
   - Features excellent power supply rejection ratio (112 dB)
   - Excellent common-mode rejection ratio (126 dB)
 
+- **Cell Fuel Gauge**
+  - To measure battery level
+  - Accurate battery level as a precentage
+  - Uses I2C protocol
+
 ### Circuit Designs
 
 The following diagrams show the proposed designs for the prototype device:
