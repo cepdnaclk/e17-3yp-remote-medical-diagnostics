@@ -190,7 +190,7 @@ const PatientChatRoom = () => {
           ) : (
             <Card>
               <Grid>
-                <video id="callerVideo" muted ref={myVideo} autoPlay />
+                <video id="callerVideo-p" muted ref={myVideo} autoPlay />
                 <Button
                   style={{ width: "60px", height: "50px" }}
                   className="btn-secondary"
@@ -221,12 +221,12 @@ const PatientChatRoom = () => {
               </Grid>
             </Card>
           )}
-        <div className = "vid-remote">
+        <div className = "vid-remote-p">
             {callAccepted && (
               <Card >
                 <Grid item xs={12} md={6}>
                   <Card.Title>Doctor</Card.Title>
-                  {<video id="myVideo" ref={callerVideo} autoPlay />}
+                  {<video id="myVideo-p" ref={callerVideo} autoPlay />}
                 </Grid>
               </Card>
             )}

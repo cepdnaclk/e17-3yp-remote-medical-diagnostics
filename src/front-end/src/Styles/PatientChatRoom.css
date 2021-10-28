@@ -1,10 +1,10 @@
-.vid-remote{
+.vid-remote-p{
     position: absolute;
     top: 0px;
     right: 0px;
 }
 
-#myVideo{
+#myVideo-p{
     width: 150px;
     height:75px;
 }

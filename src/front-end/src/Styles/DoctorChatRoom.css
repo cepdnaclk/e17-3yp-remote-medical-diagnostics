@@ -1,10 +1,16 @@
-.vid-remote{
+.vid-local-d{
     position: absolute;
     top: 0px;
     right: 0px;
 }
 
-#myVideo{
-    width: 150px;
-    height:75px;
+#myVideo-d{
+    width: 136px;
+    height:100px;
 }
+
+.video-on-btns-doc{
+    text-align: center;
+    
+}
+
