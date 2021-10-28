@@ -7,6 +7,7 @@ import { ReactComponent as Closebutton } from "../../icons/close-button.svg";
 import { useHistory } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import {listSchedules} from "../../useCases/listSchedules/ListSchedules";
+import "../../Styles/DoctorSessions.css"
 
 export interface SessionProps {
   session: {
@@ -52,10 +53,10 @@ const Session = (props: SessionProps) => {
       <td>{props.session.date}</td>
       <td>{props.session.time}</td>
       <td>{remaining_time}</td>
+      <td>{""}</td>
+      {/* <td key="view=patients"><button className="btn btn-success">View Patients</button></td> */}
       <td key="join"><button className="btn btn-primary" onClick = {handleStartBtn}>Start</button></td>
-      <td>
-      <button type="button" id = "del-btn" className="btn btn-danger"><Trash/></button>
-      </td>
+      <td><button type="button" id = "del-btn" className="btn btn-danger"><Trash/></button></td>
     </tr>
   );
 };
@@ -144,6 +145,9 @@ class DoctorSessions extends React.Component<props, DoctorSessionsState> {
                       </th>
                       <th key="timeRem" scope="col">
                         Time Remaining
+                      </th>
+                      <th key="view" scope="col">
+                        {" "}
                       </th>
                       <th key="start" scope="col">
                         {" "}
