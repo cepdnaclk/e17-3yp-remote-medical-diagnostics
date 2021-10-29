@@ -173,7 +173,7 @@ An on/off switch is available to power down the device
 The following diagrams show the proposed designs for the prototype device:
 
 - **Schematic Diagram**
-  ![circuit-schematic](./images/schematic-diagram.svg)
+  ![circuit-schematic](./images/schematic-diagram.png)
   LM53: temprature sensor
   &nbsp;  
    CAO106: electret condenser microphone
@@ -182,7 +182,7 @@ The following diagrams show the proposed designs for the prototype device:
   &nbsp;
 - **PCB Layout**
 
-  ![pcb-layout](./images/pcb-design.svg)
+  ![pcb-layout](./images/pcb-design.png)
 
 - **3D Circuit Model**
   ![circuit-3d-model](./images/3D-model.png)
