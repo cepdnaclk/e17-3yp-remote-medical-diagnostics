@@ -137,11 +137,11 @@ const PatientChatRoom = () => {
       trickle: false,
       stream: myVideoStream,
       //custom iceServer:
-      config: {
-        iceServers: parseIceConfig(
-          process.env.REACT_APP_ICE_CONFIGURATION as string
-        ),
-      },
+      // config: {
+      //   iceServers: parseIceConfig(
+      //     process.env.REACT_APP_ICE_CONFIGURATION as string
+      //   ),
+      // },
     });
     const socket = getSocket();
     peer.on("signal", (data) => {

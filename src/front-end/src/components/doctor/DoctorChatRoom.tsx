@@ -33,6 +33,8 @@ const DoctorChatRoom = () => {
   const [myVideoStream, setMyStream] = useState<MediaStream>();
   const [callerVideoStream, setCallerVideoStream] = useState<MediaStream>();
 
+  const [fetchTemperature, setFetchTemperature] = useState(false);
+
   const myVideo = useRef<HTMLVideoElement>(null);
   const callerVideo = useRef<HTMLVideoElement>(null);
   const peerRef = useRef<Peer.Instance>();
@@ -150,12 +152,12 @@ const DoctorChatRoom = () => {
       },
       trickle: false,
       stream: myVideoStream,
-      //custom iceServer:
-      config: {
-        iceServers: parseIceConfig(
-          process.env.REACT_APP_ICE_CONFIGURATION as string
-        ),
-      },
+      // //custom iceServer:
+      // config: {
+      //   iceServers: parseIceConfig(
+      //     process.env.REACT_APP_ICE_CONFIGURATION as string
+      //   ),
+      // },
     });
 
     peer.on("signal", (data) => {
@@ -193,7 +195,6 @@ const DoctorChatRoom = () => {
       
       {!callAccepted ?(
         <Card style={{ width: "650px", height: "510px" }}>
-          <Card.Title>You</Card.Title>
           {!camOn ? (
             <Button
               style={{ width: "60px", height: "50px" }}
@@ -260,6 +261,7 @@ const DoctorChatRoom = () => {
                       <Card>
                         {/* <Grid> */}
                           <video id="myVideo-d" muted ref={myVideo} autoPlay />
+                          {console.log(myVideo)}
                           <div className = "video-on-btns-doc">
                           <Button
                             style={{ width: "40px", height: "40px" }}
@@ -339,6 +341,35 @@ const DoctorChatRoom = () => {
                 })}
               </tbody>
             </table>
+
+            {/* Temperature Sensing */}
+            <table>
+            <thead>
+                <tr>
+                  <th key="temp" scope="col">
+                    Temperature
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <Button className = "btn btn-primary btn-sm" onClick = {()=>{setFetchTemperature(true)}}>Fetch</Button>
+                  </td>
+                  <td>
+                    {
+                      fetchTemperature && (
+                        <label>
+
+                        </label>
+                      )
+                  }
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
           </Card>
         )}
         {callingUser && !callAccepted && (
