@@ -5,6 +5,7 @@ const client = mqtt.connect(Config.MQTT_BROKER_URL, {
   username: Config.MQTT_USERNAME,
   password: Config.MQTT_PASSWORD,
 });
+client.subscribe("medgenie/#");
 
 client.on("connect", function () {
   console.log("Back-end connected with mqtt broker");

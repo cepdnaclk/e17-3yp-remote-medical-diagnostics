@@ -32,6 +32,7 @@ const DoctorChatRoom = () => {
   const [callEnded, setCallEnded] = useState(false);
   const [myVideoStream, setMyStream] = useState<MediaStream>();
   const [callerVideoStream, setCallerVideoStream] = useState<MediaStream>();
+  const [temperature, setTemperature] = useState<string>();
 
   const myVideo = useRef<HTMLVideoElement>(null);
   const callerVideo = useRef<HTMLVideoElement>(null);
@@ -68,6 +69,9 @@ const DoctorChatRoom = () => {
 
     socket.on("newPatient", () => {
       fetchSocketIds();
+    });
+    socket.on("temperature", (payload) => {
+      setTemperature(payload);
     });
   }, [callerVideoStream, blockNavigation, profile, dispatch]);
 
@@ -336,16 +340,21 @@ const DoctorChatRoom = () => {
               </tbody>
               <tr>
                 <td>
-                  <Button className="btn btn-primary">Get Temperature</Button>
+                  <Button
+                    onClick={() => getSocket().emit("temperature", {})}
+                    className="btn btn-primary"
+                  >
+                    Get Temperature
+                  </Button>
                 </td>
               </tr>
             </table>
 
-            {/* Temperature */}
+            {/* Temperature*/}
             <table>
               <thead>
                 <tr>
-                  <th scope="col">Temperature</th>
+                  <th scope="col">Temperature {temperature || 0}</th>
                 </tr>
               </thead>
             </table>
