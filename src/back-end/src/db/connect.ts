@@ -13,7 +13,7 @@ export default async function connect() {
     });
     log.info("connected to database");
   } catch (error: any) {
-    log.error("database error", error);
+    log.error(error);
     process.exit(1);
   }
 }
