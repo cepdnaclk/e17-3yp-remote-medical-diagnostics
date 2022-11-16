@@ -16,7 +16,7 @@ import { getSocket } from "../../socket";
 import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 import { parseIceConfig } from "../../model/IceServer";
-import "../../Styles/DoctorChatRoom.css"
+import "../../Styles/DoctorChatRoom.css";
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -190,114 +190,110 @@ const DoctorChatRoom = () => {
         message="Are you sure you want to leave the room?"
       />
       <Grid container>
-      
-      {!callAccepted ?(
-        <Card style={{ width: "650px", height: "510px" }}>
-          <Card.Title>You</Card.Title>
-          {!camOn ? (
-            <Button
-              style={{ width: "60px", height: "50px" }}
-              className="btn-secondary"
-              onClick={() => turnOnCamera()}
-            >
-              {" "}
-              <CamOff />{" "}
-            </Button>
-          ) : (
-            <Card>
-              <Grid>
-                <video id="callerVideo" muted ref={myVideo} autoPlay />
-                <Button
-                  style={{ width: "60px", height: "50px" }}
-                  className="btn-secondary"
-                  onClick={() => turnOffCamera()}
-                >
-                  {" "}
-                  <Camera />{" "}
-                </Button>
-                {muted ? (
+        {!callAccepted ? (
+          <Card style={{ width: "650px", height: "510px" }}>
+            <Card.Title>You</Card.Title>
+            {!camOn ? (
+              <Button
+                style={{ width: "60px", height: "50px" }}
+                className="btn-secondary"
+                onClick={() => turnOnCamera()}
+              >
+                {" "}
+                <CamOff />{" "}
+              </Button>
+            ) : (
+              <Card>
+                <Grid>
+                  <video id="callerVideo" muted ref={myVideo} autoPlay />
                   <Button
                     style={{ width: "60px", height: "50px" }}
                     className="btn-secondary"
-                    onClick={() => toggleAudio()}
+                    onClick={() => turnOffCamera()}
                   >
                     {" "}
-                    <Mute />{" "}
+                    <Camera />{" "}
                   </Button>
-                ) : (
-                  <Button
-                    style={{ width: "60px", height: "50px" }}
-                    className="btn-secondary"
-                    onClick={() => toggleAudio()}
-                  >
-                    {" "}
-                    <Mic />{" "}
-                  </Button>
-                )}
-              </Grid>
-            </Card>
-          )}
-        </Card>
-        
+                  {muted ? (
+                    <Button
+                      style={{ width: "60px", height: "50px" }}
+                      className="btn-secondary"
+                      onClick={() => toggleAudio()}
+                    >
+                      {" "}
+                      <Mute />{" "}
+                    </Button>
+                  ) : (
+                    <Button
+                      style={{ width: "60px", height: "50px" }}
+                      className="btn-secondary"
+                      onClick={() => toggleAudio()}
+                    >
+                      {" "}
+                      <Mic />{" "}
+                    </Button>
+                  )}
+                </Grid>
+              </Card>
+            )}
+          </Card>
+        ) : (
+          <div className="vid-remote-d">
+            <Card style={{ width: "650px", height: "510px" }}>
+              <Card.Title>Patient</Card.Title>
+              {<video id="callerVideo-d" ref={callerVideo} autoPlay />}
 
-             ):(
-            <div className = "vid-remote-d">
-              <Card style={{ width: "650px", height: "510px" }} >
-                  <Card.Title>Patient</Card.Title>
-                  {<video id="callerVideo-d" ref={callerVideo} autoPlay />}
-
-                <div className = "vid-local-d">
-                  <Card >
-                    {/* <Card.Title style={{width:"50px"}}>You</Card.Title> */}
-                    {!camOn ? (
-                      <Button
-                        style={{ width: "40px", height: "40px" }}
-                        className="btn-secondary"
-                        onClick={() => turnOnCamera()}
-                      ><CamOff />
-                      </Button>
-                    ) : (
-                      <Card>
-                        {/* <Grid> */}
-                          <video id="myVideo-d" muted ref={myVideo} autoPlay />
-                          <div className = "video-on-btns-doc">
+              <div className="vid-local-d">
+                <Card>
+                  {/* <Card.Title style={{width:"50px"}}>You</Card.Title> */}
+                  {!camOn ? (
+                    <Button
+                      style={{ width: "40px", height: "40px" }}
+                      className="btn-secondary"
+                      onClick={() => turnOnCamera()}
+                    >
+                      <CamOff />
+                    </Button>
+                  ) : (
+                    <Card>
+                      {/* <Grid> */}
+                      <video id="myVideo-d" muted ref={myVideo} autoPlay />
+                      <div className="video-on-btns-doc">
+                        <Button
+                          style={{ width: "40px", height: "40px" }}
+                          className="btn-secondary"
+                          onClick={() => turnOffCamera()}
+                        >
+                          {" "}
+                          <Camera />{" "}
+                        </Button>
+                        {muted ? (
                           <Button
                             style={{ width: "40px", height: "40px" }}
                             className="btn-secondary"
-                            onClick={() => turnOffCamera()}
+                            onClick={() => toggleAudio()}
+                          >
+                            <Mute />
+                          </Button>
+                        ) : (
+                          <Button
+                            style={{ width: "40px", height: "40px" }}
+                            className="btn-secondary"
+                            onClick={() => toggleAudio()}
                           >
                             {" "}
-                            <Camera />{" "}
+                            <Mic />{" "}
                           </Button>
-                          {muted ? (
-                            <Button
-                              style={{ width: "40px", height: "40px" }}
-                              className="btn-secondary"
-                              onClick={() => toggleAudio()}
-                            >
-                             
-                              <Mute />
-                            </Button>
-                          ) : (
-                            <Button
-                              style={{ width: "40px", height: "40px" }}
-                              className="btn-secondary"
-                              onClick={() => toggleAudio()}
-                            >
-                              {" "}
-                              <Mic />{" "}
-                            </Button>
-                          )}
-                          </div>
-                        {/* </Grid> */}
-                      </Card>
-                    )}
-                  </Card>
-                  </div>
-              </Card>
-
-            </div>
-             )}
+                        )}
+                      </div>
+                      {/* </Grid> */}
+                    </Card>
+                  )}
+                </Card>
+              </div>
+            </Card>
+          </div>
+        )}
         {callAccepted && !callEnded && (
           <Card>
             <TextField></TextField>
@@ -338,6 +334,20 @@ const DoctorChatRoom = () => {
                   );
                 })}
               </tbody>
+              <tr>
+                <td>
+                  <Button className="btn btn-primary">Get Temperature</Button>
+                </td>
+              </tr>
+            </table>
+
+            {/* Temperature */}
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Temperature</th>
+                </tr>
+              </thead>
             </table>
           </Card>
         )}
