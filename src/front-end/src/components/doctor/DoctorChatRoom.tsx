@@ -16,6 +16,7 @@ import { getSocket } from "../../socket";
 import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 import { parseIceConfig } from "../../model/IceServer";
+import "../../Styles/DoctorChatRoom.css"
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -189,14 +190,8 @@ const DoctorChatRoom = () => {
         message="Are you sure you want to leave the room?"
       />
       <Grid container>
-        {callAccepted && (
-          <Card>
-            <Grid item xs={12} md={6}>
-              <Card.Title>Patient</Card.Title>
-              {<video id="myVideo" ref={callerVideo} autoPlay />}
-            </Grid>
-          </Card>
-        )}
+      
+      {!callAccepted ?(
         <Card style={{ width: "650px", height: "510px" }}>
           <Card.Title>You</Card.Title>
           {!camOn ? (
@@ -243,6 +238,66 @@ const DoctorChatRoom = () => {
             </Card>
           )}
         </Card>
+        
+
+             ):(
+            <div className = "vid-remote-d">
+              <Card style={{ width: "650px", height: "510px" }} >
+                  <Card.Title>Patient</Card.Title>
+                  {<video id="callerVideo-d" ref={callerVideo} autoPlay />}
+
+                <div className = "vid-local-d">
+                  <Card >
+                    {/* <Card.Title style={{width:"50px"}}>You</Card.Title> */}
+                    {!camOn ? (
+                      <Button
+                        style={{ width: "40px", height: "40px" }}
+                        className="btn-secondary"
+                        onClick={() => turnOnCamera()}
+                      ><CamOff />
+                      </Button>
+                    ) : (
+                      <Card>
+                        {/* <Grid> */}
+                          <video id="myVideo-d" muted ref={myVideo} autoPlay />
+                          <div className = "video-on-btns-doc">
+                          <Button
+                            style={{ width: "40px", height: "40px" }}
+                            className="btn-secondary"
+                            onClick={() => turnOffCamera()}
+                          >
+                            {" "}
+                            <Camera />{" "}
+                          </Button>
+                          {muted ? (
+                            <Button
+                              style={{ width: "40px", height: "40px" }}
+                              className="btn-secondary"
+                              onClick={() => toggleAudio()}
+                            >
+                             
+                              <Mute />
+                            </Button>
+                          ) : (
+                            <Button
+                              style={{ width: "40px", height: "40px" }}
+                              className="btn-secondary"
+                              onClick={() => toggleAudio()}
+                            >
+                              {" "}
+                              <Mic />{" "}
+                            </Button>
+                          )}
+                          </div>
+                        {/* </Grid> */}
+                      </Card>
+                    )}
+                  </Card>
+                  </div>
+              </Card>
+
+            </div>
+             )}
         {callAccepted && !callEnded && (
           <Card>
             <TextField></TextField>

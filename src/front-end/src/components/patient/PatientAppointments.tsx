@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/Store";
 import Card from "react-bootstrap/Card";
 import { ReactComponent as Trash } from "../../icons/trash.svg";
+import "../../Styles/PatientAppointments.css";
 //import {useDispatch} from "react-redux"
 //import { join } from '../../store/globalStates/VideoChat';
 //import Store from "../../store/Store";
@@ -63,19 +64,19 @@ const Appointment = (props: AppointmentProps) => {
       <td>{props.appointment.time}</td>
       <td>
         {
+          props.appointment.paid && (<label id = "paid-badge"> &#10003; Paid</label>)
+        }
+      </td>
+      <td>
+        {
          props.appointment.paid ? 
         <button onClick = {()=> history.push("/chat-room")} type="button" className="btn btn-primary">Join</button>:
         <button onClick ={()=> history.push("/payments")} type="button" className="btn btn-success">Pay</button>
         }
       </td>
-      <td>
-        {
-          props.appointment.paid && (<span className="badge bg-secondary">Paid</span>)
-        }
-      </td>
 
       <td>
-      <button onClick = {() => handleDelete(props.appointment.appointment_id,props.appointment.schedule_id,props.appointment.patient)} type="button" className="btn btn-danger">
+      <button onClick = {() => handleDelete(props.appointment.appointment_id,props.appointment.schedule_id,props.appointment.patient)} type="button" id = "del-btn" className="btn btn-danger">
         <Trash/>
         </button>
       </td>
