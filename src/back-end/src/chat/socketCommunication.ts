@@ -5,6 +5,7 @@ import send_pair_to_device from "../mqtt/send_pair_to_device";
 import { add_listener } from "../mqtt/client";
 
 let socketCredentials: { [key: string]: string } = {};
+const email_device_mapping: { [key: string]: string } = {};
 
 interface credential {
   id: string;
@@ -70,13 +71,22 @@ export default function createSocketServer(server: http.Server) {
         `Received pair request for device id ${device_id} from ${user_email}`
       );
       // add an on confirm mqtt handler
-      add_listener(`/medgenie/${device_id}/pair`, (msg) => {
+      add_listener(`/medgenie/${device_id}/confirm`, (msg) => {
         // emit to the browser, that pairing is successful
         socket.emit("confirm", "connected");
+        email_device_mapping[user_email] = device_id;
       });
 
       //send the pair request to device
       send_pair_to_device(user_email, device_id);
+    });
+
+    // when doctor asks for the temperature
+    socket.on("temperature", () => {
+      add_listener("/medgenie/1234/temperature", (msg) => {
+        // emit to the browser, that pairing is successful
+        socket.emit("temperature", msg);
+      });
     });
   });
 }
