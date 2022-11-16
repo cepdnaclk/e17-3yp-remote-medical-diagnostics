@@ -71,7 +71,7 @@ export default function createSocketServer(server: http.Server) {
         `Received pair request for device id ${device_id} from ${user_email}`
       );
       // add an on confirm mqtt handler
-      add_listener(`/medgenie/${device_id}/confirm`, (msg) => {
+      add_listener(`medgenie/${device_id}/confirm`, (msg) => {
         // emit to the browser, that pairing is successful
         socket.emit("confirm", "connected");
         email_device_mapping[user_email] = device_id;
@@ -83,8 +83,12 @@ export default function createSocketServer(server: http.Server) {
 
     // when doctor asks for the temperature
     socket.on("temperature", () => {
-      add_listener("/medgenie/1234/temperature", (msg) => {
+      console.log("doctor asking for temperature");
+
+      add_listener("medgenie/1234/temperature", (msg) => {
         // emit to the browser, that pairing is successful
+        console.log("new temperature from patient");
+
         socket.emit("temperature", msg);
       });
     });
