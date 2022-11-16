@@ -17,6 +17,7 @@ import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 import { parseIceConfig } from "../../model/IceServer";
 import "../../Styles/DoctorChatRoom.css"
+import mqtt from 'mqtt';
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -34,12 +35,15 @@ const DoctorChatRoom = () => {
   const [callerVideoStream, setCallerVideoStream] = useState<MediaStream>();
 
   const [fetchTemperature, setFetchTemperature] = useState(false);
+  const [temperature, setTemperature] = useState(0);
 
   const myVideo = useRef<HTMLVideoElement>(null);
   const callerVideo = useRef<HTMLVideoElement>(null);
   const peerRef = useRef<Peer.Instance>();
 
   const socketCredentials = useRef<{ key: string; value: string }[]>([]);
+
+
 
   useEffect(() => {
     const socket = getSocket();
@@ -71,6 +75,25 @@ const DoctorChatRoom = () => {
     socket.on("newPatient", () => {
       fetchSocketIds();
     });
+
+    //mqtt-temperature
+    const mqttClient = mqtt.connect("52.184.1658.84:1883", {username : "co326a", password: "safety"})
+
+    mqttClient.subscribe("patient/temp", (err,granted)=>{
+      if(err){
+        console.log('Subscribe to topic error',err);
+      }
+      else{
+        console.log("Subscription successful");
+      }
+    })
+
+    mqttClient.on('message',(topic,message)=>{
+      console.log(topic)
+      console.log("MSG ", message.toString())
+    });
+
+
   }, [callerVideoStream, blockNavigation, profile, dispatch]);
 
   const fetchSocketIds = () => {
