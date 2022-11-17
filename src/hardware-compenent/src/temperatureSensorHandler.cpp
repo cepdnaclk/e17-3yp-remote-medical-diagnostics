@@ -2,7 +2,7 @@
 
 #define ADC_VREF_mV 3300.0 // in millivolt
 #define ADC_RESOLUTION 4096.0
-#define PIN_LM35 A0
+#define PIN_LM35 36
 
 float getTemperature()
 {

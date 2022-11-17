@@ -1,12 +1,14 @@
 #include <EEPROM.h>
+#include <WiFiClientSecure.h>
 
 void connectWiFi()
 {
 
-    EEPROM.begin(512); //Initialasing EEPROM
+    EEPROM.begin(512); // Initialasing EEPROM
     delay(10);
+    Serial.begin(115200);
 
-    //Read eeprom for ssid and password
+    // Read eeprom for ssid and password
     Serial.println("Reading stored ssid");
 
     String storedSsid;
@@ -17,7 +19,7 @@ void connectWiFi()
         storedSsid += char(EEPROM.read(i));
     }
     Serial.print("SSID: ");
-    Serial.println(storedSsid.length());
+    Serial.println(storedSsid);
     Serial.println();
     Serial.println("Reading stored password");
 
@@ -26,12 +28,14 @@ void connectWiFi()
         storedPassword += char(EEPROM.read(i));
     }
     Serial.print("password: ");
-    Serial.println(storedPassword.length());
+    Serial.println(storedPassword);
+    Serial.println("trying with the stored credentials");
 
     WiFi.begin(storedSsid.c_str(), storedPassword.c_str());
-    for (int i = 0; i < 5 && WiFi.status() != WL_CONNECTED && storedSsid.length() != 0; i++)
+    for (int i = 0; i < 150 && WiFi.status() != WL_CONNECTED && storedSsid.length() != 0; i++)
     {
-        delay(1000);
+        delay(500);
+        Serial.print(".");
     }
 
     if (WiFi.status() == WL_CONNECTED)
@@ -42,11 +46,11 @@ void connectWiFi()
     {
         Serial.println("Failed to connect with the stored WiFi credentials!");
 
-        //Init WiFi as Station, start SmartConfig
+        // Init WiFi as Station, start SmartConfig
         WiFi.mode(WIFI_AP_STA);
         WiFi.beginSmartConfig();
 
-        //Wait for SmartConfig packet from mobile
+        // Wait for SmartConfig packet from mobile
         Serial.println("Waiting for SmartConfig.");
         while (!WiFi.smartConfigDone())
         {
@@ -65,7 +69,7 @@ void connectWiFi()
         Serial.print("password: ");
         Serial.println(password);
 
-        //storing in EEPROM
+        // storing in EEPROM
         Serial.println("writing ssid to eeprom:");
         for (int i = 0; i < ssid.length(); ++i)
         {
@@ -91,7 +95,7 @@ void connectWiFi()
         }
         EEPROM.commit();
 
-        //Wait for WiFi to connect to AP
+        // Wait for WiFi to connect to AP
         Serial.println("Waiting for WiFi");
         while (WiFi.status() != WL_CONNECTED)
         {
