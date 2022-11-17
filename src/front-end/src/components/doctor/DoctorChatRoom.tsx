@@ -6,6 +6,7 @@ import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
 import { ReactComponent as Mic } from "../../icons/mic.svg";
 import { ReactComponent as Camera } from "../../icons/camera-video.svg";
 import { ReactComponent as CamOff } from "../../icons/camera-video-off.svg";
+import {ReactComponent as Thermometer} from "../../icons/thermometer.svg"
 import Peer from "simple-peer";
 import { Card, Button } from "react-bootstrap";
 import { collapse } from "../../store/globalStates/SidebarState";
@@ -341,8 +342,8 @@ const DoctorChatRoom = () => {
               <tr>
                 <td>
                   <Button
+                    className="btn btn-outline-primary"
                     onClick={() => getSocket().emit("temperature", {})}
-                    className="btn btn-primary"
                   >
                     Get Temperature
                   </Button>
@@ -354,7 +355,7 @@ const DoctorChatRoom = () => {
             <table>
               <thead>
                 <tr>
-                  <th scope="col">Temperature {temperature || 0}</th>
+                  <th scope="col"><Thermometer /> - {temperature || 0} °C</th>
                 </tr>
               </thead>
             </table>
