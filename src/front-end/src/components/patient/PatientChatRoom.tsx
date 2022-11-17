@@ -15,6 +15,7 @@ import UserType from "../../model/userType";
 import { getSocket } from "../../socket";
 import { History } from "history";
 import { parseIceConfig } from "../../model/IceServer";
+import "../../Styles/PatientChatRoom.css"
 
 interface CallInterface {
   from: string;
@@ -174,15 +175,8 @@ const PatientChatRoom = () => {
         message="Are you sure you want to leave the room?"
       />
       <Grid container>
-        {callAccepted && (
-          <Card>
-            <Grid item xs={12} md={6}>
-              <Card.Title>Doctor</Card.Title>
-              {<video id="myVideo" ref={callerVideo} autoPlay />}
-            </Grid>
-          </Card>
-        )}
-        <Card style={{ width: "650px", height: "510px" }}>
+        <div className = "vid-local">
+        <Card  style={{ width: "650px", height: "510px" }}>
           <Card.Title>You</Card.Title>
           {!camOn ? (
             <Button
@@ -196,7 +190,7 @@ const PatientChatRoom = () => {
           ) : (
             <Card>
               <Grid>
-                <video id="callerVideo" muted ref={myVideo} autoPlay />
+                <video id="callerVideo-p" muted ref={myVideo} autoPlay />
                 <Button
                   style={{ width: "60px", height: "50px" }}
                   className="btn-secondary"
@@ -227,7 +221,18 @@ const PatientChatRoom = () => {
               </Grid>
             </Card>
           )}
+        <div className = "vid-remote-p">
+            {callAccepted && (
+              <Card >
+                <Grid item xs={12} md={6}>
+                  <Card.Title>Doctor</Card.Title>
+                  {<video id="myVideo-p" ref={callerVideo} autoPlay />}
+                </Grid>
+              </Card>
+            )}
+            </div>
         </Card>
+        </div>
       </Grid>
       <Grid item xs={12} md={6}>
         {callAccepted && !callEnded && (

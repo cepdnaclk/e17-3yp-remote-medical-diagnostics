@@ -6,6 +6,7 @@ import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
 import { ReactComponent as Mic } from "../../icons/mic.svg";
 import { ReactComponent as Camera } from "../../icons/camera-video.svg";
 import { ReactComponent as CamOff } from "../../icons/camera-video-off.svg";
+import {ReactComponent as Thermometer} from "../../icons/thermometer.svg"
 import Peer from "simple-peer";
 import { Card, Button } from "react-bootstrap";
 import { collapse } from "../../store/globalStates/SidebarState";
@@ -16,6 +17,7 @@ import { getSocket } from "../../socket";
 import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 import { parseIceConfig } from "../../model/IceServer";
+import "../../Styles/DoctorChatRoom.css";
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,7 @@ const DoctorChatRoom = () => {
   const [callEnded, setCallEnded] = useState(false);
   const [myVideoStream, setMyStream] = useState<MediaStream>();
   const [callerVideoStream, setCallerVideoStream] = useState<MediaStream>();
+  const [temperature, setTemperature] = useState<string>();
 
   const myVideo = useRef<HTMLVideoElement>(null);
   const callerVideo = useRef<HTMLVideoElement>(null);
@@ -67,6 +70,9 @@ const DoctorChatRoom = () => {
 
     socket.on("newPatient", () => {
       fetchSocketIds();
+    });
+    socket.on("temperature", (payload) => {
+      setTemperature(payload);
     });
   }, [callerVideoStream, blockNavigation, profile, dispatch]);
 
@@ -189,60 +195,110 @@ const DoctorChatRoom = () => {
         message="Are you sure you want to leave the room?"
       />
       <Grid container>
-        {callAccepted && (
-          <Card>
-            <Grid item xs={12} md={6}>
-              <Card.Title>Patient</Card.Title>
-              {<video id="myVideo" ref={callerVideo} autoPlay />}
-            </Grid>
+        {!callAccepted ? (
+          <Card style={{ width: "650px", height: "510px" }}>
+            <Card.Title>You</Card.Title>
+            {!camOn ? (
+              <Button
+                style={{ width: "60px", height: "50px" }}
+                className="btn-secondary"
+                onClick={() => turnOnCamera()}
+              >
+                {" "}
+                <CamOff />{" "}
+              </Button>
+            ) : (
+              <Card>
+                <Grid>
+                  <video id="callerVideo" muted ref={myVideo} autoPlay />
+                  <Button
+                    style={{ width: "60px", height: "50px" }}
+                    className="btn-secondary"
+                    onClick={() => turnOffCamera()}
+                  >
+                    {" "}
+                    <Camera />{" "}
+                  </Button>
+                  {muted ? (
+                    <Button
+                      style={{ width: "60px", height: "50px" }}
+                      className="btn-secondary"
+                      onClick={() => toggleAudio()}
+                    >
+                      {" "}
+                      <Mute />{" "}
+                    </Button>
+                  ) : (
+                    <Button
+                      style={{ width: "60px", height: "50px" }}
+                      className="btn-secondary"
+                      onClick={() => toggleAudio()}
+                    >
+                      {" "}
+                      <Mic />{" "}
+                    </Button>
+                  )}
+                </Grid>
+              </Card>
+            )}
           </Card>
-        )}
-        <Card style={{ width: "650px", height: "510px" }}>
-          <Card.Title>You</Card.Title>
-          {!camOn ? (
-            <Button
-              style={{ width: "60px", height: "50px" }}
-              className="btn-secondary"
-              onClick={() => turnOnCamera()}
-            >
-              {" "}
-              <CamOff />{" "}
-            </Button>
-          ) : (
-            <Card>
-              <Grid>
-                <video id="callerVideo" muted ref={myVideo} autoPlay />
-                <Button
-                  style={{ width: "60px", height: "50px" }}
-                  className="btn-secondary"
-                  onClick={() => turnOffCamera()}
-                >
-                  {" "}
-                  <Camera />{" "}
-                </Button>
-                {muted ? (
-                  <Button
-                    style={{ width: "60px", height: "50px" }}
-                    className="btn-secondary"
-                    onClick={() => toggleAudio()}
-                  >
-                    {" "}
-                    <Mute />{" "}
-                  </Button>
-                ) : (
-                  <Button
-                    style={{ width: "60px", height: "50px" }}
-                    className="btn-secondary"
-                    onClick={() => toggleAudio()}
-                  >
-                    {" "}
-                    <Mic />{" "}
-                  </Button>
-                )}
-              </Grid>
+        ) : (
+          <div className="vid-remote-d">
+            <Card style={{ width: "650px", height: "510px" }}>
+              <Card.Title>Patient</Card.Title>
+              {<video id="callerVideo-d" ref={callerVideo} autoPlay />}
+
+              <div className="vid-local-d">
+                <Card>
+                  {/* <Card.Title style={{width:"50px"}}>You</Card.Title> */}
+                  {!camOn ? (
+                    <Button
+                      style={{ width: "40px", height: "40px" }}
+                      className="btn-secondary"
+                      onClick={() => turnOnCamera()}
+                    >
+                      <CamOff />
+                    </Button>
+                  ) : (
+                    <Card>
+                      {/* <Grid> */}
+                      <video id="myVideo-d" muted ref={myVideo} autoPlay />
+                      <div className="video-on-btns-doc">
+                        <Button
+                          style={{ width: "40px", height: "40px" }}
+                          className="btn-secondary"
+                          onClick={() => turnOffCamera()}
+                        >
+                          {" "}
+                          <Camera />{" "}
+                        </Button>
+                        {muted ? (
+                          <Button
+                            style={{ width: "40px", height: "40px" }}
+                            className="btn-secondary"
+                            onClick={() => toggleAudio()}
+                          >
+                            <Mute />
+                          </Button>
+                        ) : (
+                          <Button
+                            style={{ width: "40px", height: "40px" }}
+                            className="btn-secondary"
+                            onClick={() => toggleAudio()}
+                          >
+                            {" "}
+                            <Mic />{" "}
+                          </Button>
+                        )}
+                      </div>
+                      {/* </Grid> */}
+                    </Card>
+                  )}
+                </Card>
+              </div>
             </Card>
-          )}
-        </Card>
+          </div>
+        )}
         {callAccepted && !callEnded && (
           <Card>
             <TextField></TextField>
@@ -283,6 +339,25 @@ const DoctorChatRoom = () => {
                   );
                 })}
               </tbody>
+              <tr>
+                <td>
+                  <Button
+                    className="btn btn-outline-primary"
+                    onClick={() => getSocket().emit("temperature", {})}
+                  >
+                    Get Temperature
+                  </Button>
+                </td>
+              </tr>
+            </table>
+
+            {/* Temperature*/}
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col"><Thermometer /> - {temperature || 0} °C</th>
+                </tr>
+              </thead>
             </table>
           </Card>
         )}

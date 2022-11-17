@@ -1,48 +1,95 @@
-#include "WiFi.h"
 #include "secrets.h"
-#include <WiFiClientSecure.h>
-#include <MQTTClient.h>
+#include <PubSubClient.h>
 #include <ArduinoJson.h>
+#include <WiFiClientSecure.h>
 
-// The MQTT topics that this device should publish/subscribe
-#define AWS_IOT_PUBLISH_TOPIC "esp32/pub"
-#define AWS_IOT_SUBSCRIBE_TOPIC "esp32/sub"
-#define THINGNAME "esp32"
+extern const int PIN_led = 26;
 
-WiFiClientSecure net = WiFiClientSecure();
-MQTTClient client = MQTTClient(256);
+extern int is_paired;
+WiFiClient net;
+PubSubClient client(net);
 
-void connectAWS()
+int parse(char *message)
 {
-    // Configure WiFiClientSecure to use the AWS IoT device credentials
-    net.setCACert(AWS_CERT_CA);
-    net.setCertificate(AWS_CERT_CRT);
-    net.setPrivateKey(AWS_CERT_PRIVATE);
+    Serial.println("parser started");
+    StaticJsonDocument<200> doc;
+    // Deserialize the JSON document
+    DeserializationError error = deserializeJson(doc, message);
+    Serial.println("deserialized");
 
-    // Connect to the MQTT broker on the AWS endpoint we defined earlier
-    client.begin(AWS_IOT_ENDPOINT, 8883, net);
-
-    // Create a message handler
-    client.onMessage(messageHandler);
-
-    Serial.print("Connecting to AWS IOT");
-
-    while (!client.connect(THINGNAME))
+    // Test if parsing succeeds.
+    if (error)
     {
-        Serial.print(".");
-        delay(100);
+        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(error.f_str());
+        return 0;
     }
 
-    if (!client.connected())
+    Serial.println("acessing state");
+    const int state = doc["state"];
+    Serial.println(state);
+    Serial.println("state accessed");
+    return state;
+}
+
+void controller(char *topic, char *message)
+{
+    if (strcmp(topic, topic_pair) == 0)
     {
-        Serial.println("AWS IoT Timeout!");
-        return;
+        is_paired = parse(message);
+        Serial.println("paired");
+        digitalWrite(PIN_led, HIGH);
+    }
+}
+
+void callback(char *topic, byte *payload, unsigned int length)
+{
+    char *message = new char[length];
+
+    Serial.print("Message arrived in topic: ");
+    Serial.println(topic);
+    Serial.print("Message:");
+
+    for (int i = 0; i < length; i++)
+    {
+        message[i] = (char)payload[i];
     }
 
-    // Subscribe to a topic
-    client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC);
+    Serial.println(message);
+    Serial.println();
+    Serial.println("-----------------------");
 
-    Serial.println("AWS IoT Connected!");
+    controller(topic, message);
+}
+
+PubSubClient connectAWS()
+{
+    // connecting to an mqtt broker
+    client.setServer(mqtt_broker, mqtt_port);
+    client.setCallback(callback);
+    while (!client.connected())
+    {
+        String client_id = "esp32-client-";
+        client_id += String(WiFi.macAddress());
+        Serial.printf("The client %s connects to the mqtt broker\n", client_id.c_str());
+
+        if (client.connect(client_id.c_str(), mqtt_username, mqtt_password))
+        {
+            Serial.println("mqtt broker connected");
+        }
+        else
+        {
+            Serial.print("failed with state ");
+            Serial.print(client.state());
+            delay(2000);
+        }
+    }
+    client.subscribe(topic_pair);
+    Serial.print("subscribed to topic :");
+    Serial.println(topic_pair);
+    client.publish(topic_pair, "im in");
+
+    return client;
 }
 
 void publishMessage(float temperature)
@@ -54,14 +101,17 @@ void publishMessage(float temperature)
     char jsonBuffer[512];
     serializeJson(doc, jsonBuffer);
 
-    client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
+    client.publish(topic_temperature, jsonBuffer);
 }
 
-void messageHandler(String &topic, String &payload)
+void confirm()
 {
-    Serial.println("incoming: " + topic + " - " + payload);
+    DynamicJsonDocument doc(1024);
+    doc["state"] = 1;
+    char buffer[256];
+    serializeJson(doc, buffer);
 
-    //  StaticJsonDocument<200> doc;
-    //  deserializeJson(doc, payload);
-    //  const char* message = doc["message"];
+    // Publish an MQTT message on topic esp32/OutputControl
+    uint16_t packetIdPub1 = client.publish(topic_confirm, buffer);
+    Serial.printf("Publishing on topic %s at QoS 1, packetId: %i", topic_confirm, packetIdPub1);
 }
