@@ -6,6 +6,7 @@ import patientModel from "../../model/patient.model";
 import doctorModel from "../../model/doctor.model";
 import { getPatientProfileDetails } from "../../service/getPatientProfileDetails";
 import { getDoctorProfileDetails } from "../../service/getDoctorProfileDetails";
+import { closeMqttConnection } from "../../mqtt/client";
 
 jest.setTimeout(10000);
 
@@ -18,6 +19,7 @@ describe("Profile related tests", () => {
   });
   afterAll(async () => {
     await disconnect();
+    closeMqttConnection();
   });
 
   const userInfo = {
@@ -33,6 +35,7 @@ describe("Profile related tests", () => {
   describe("For the patient", () => {
     afterAll(async () => {
       await patientModel.remove({ email }).exec();
+      closeMqttConnection();
     });
     beforeAll(async () => {
       await patientModel.create(userInfo);
@@ -48,6 +51,7 @@ describe("Profile related tests", () => {
     const license = "someStringForTheLicense";
     afterAll(async () => {
       await doctorModel.remove({ email }).exec();
+      closeMqttConnection();
     });
     beforeAll(async () => {
       await doctorModel.create({

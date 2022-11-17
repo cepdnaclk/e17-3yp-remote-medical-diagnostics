@@ -4,6 +4,7 @@ import { Express } from "express";
 import { disconnect } from "../../db/connect";
 import patientModel from "../../model/patient.model";
 import doctorModel from "../../model/doctor.model";
+import { closeMqttConnection } from "../../mqtt/client";
 
 jest.setTimeout(10000);
 
@@ -16,6 +17,7 @@ describe("Login related tests", () => {
   });
   afterAll(async () => {
     await disconnect();
+    closeMqttConnection();
   });
   const userInfo = {
     name: "udith",
@@ -30,6 +32,7 @@ describe("Login related tests", () => {
   describe("For the patient", () => {
     afterAll(async () => {
       await patientModel.remove({ email }).exec();
+      closeMqttConnection();
     });
     it("Create a new account", async () => {
       const res = await request(app).post("/api/newPatient").send(userInfo);
@@ -63,6 +66,7 @@ describe("Login related tests", () => {
   describe("For the doctor", () => {
     afterAll(async () => {
       await doctorModel.remove({ email }).exec();
+      closeMqttConnection();
     });
     it("Create a new account", async () => {
       const res = await request(app)
