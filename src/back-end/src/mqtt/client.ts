@@ -29,4 +29,8 @@ client.on("message", function (topic, message) {
   }
 });
 
+export function closeMqttConnection() {
+  client.end(true);
+}
+
 export default client;
