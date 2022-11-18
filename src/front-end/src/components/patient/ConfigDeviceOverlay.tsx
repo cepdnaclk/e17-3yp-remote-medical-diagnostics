@@ -1,30 +1,40 @@
 import * as React from "react";
 import { setupMedicalDevice } from "../../model/configureDevice";
 import "../../Styles/ConfigDeviceOverlay.css";
+import Store from "../../store/Store"
 
 export interface ConfigDeviceOverlayProps {
   st: boolean;
   closePopup: () => void;
 }
 
-export interface ConfigDeviceOverlayState {}
+export interface ConfigDeviceOverlayState {
+  deviceID : string;
+  settingUpDevice: boolean;
+}
 
 
 class ConfigDeviceOverlay extends React.Component<
   ConfigDeviceOverlayProps,
   ConfigDeviceOverlayState
 > {
-
-  private deviceIdInput:React.RefObject<HTMLInputElement>;
-
-  constructor(props:ConfigDeviceOverlayProps){
-    super(props);
-    this.deviceIdInput = React.createRef();
-  }
-
-  const getDeviceId = this.deviceIdInput.current.value;
   
+  state = {
+    deviceID : "",
+    settingUpDevice : false,
+  };
+
+
+  handleDeviceIdChange = (e: React.FormEvent<HTMLInputElement>): void => {
+    this.setState({
+      deviceID: e.currentTarget.value,
+    });
+  };
+
   render() {
+
+    const {deviceID, settingUpDevice} = this.state;
+    const deviceStatus = Store.getState().device.setupComplete;
     return (
       this.props.st && (
         <div className="modl">
@@ -35,12 +45,22 @@ class ConfigDeviceOverlay extends React.Component<
               <p>
                 It seems like you haven't configured your device yet.{" "}
               </p>
-              Enter Device ID : <input id="device-id" type="text" ref = {ref => this.deviceIdInput}/>
+              <div className = "device-id-setup">
+                <div id="device-id-float">
+                  Enter Device ID : <input id="device-id" type="text" onChange={this.handleDeviceIdChange} />
+                </div>
+                {settingUpDevice && !deviceStatus && <div className="device-id-float" id="loader"></div>}
+              </div>
             </div>
 
             <div className="btns">
               <button
-                onClick = {() => setupMedicalDevice(this.deviceIdInput.current.value)}
+                onClick = {
+                  () => {
+                    this.setState({settingUpDevice:true})
+                    setupMedicalDevice(deviceID)
+                  }
+                }
                 className="overlay-btns" 
                 id="now"
               >
