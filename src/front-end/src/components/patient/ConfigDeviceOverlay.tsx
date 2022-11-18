@@ -1,4 +1,5 @@
 import * as React from "react";
+import { setupMedicalDevice } from "../../model/configureDevice";
 import "../../Styles/ConfigDeviceOverlay.css";
 
 export interface ConfigDeviceOverlayProps {
@@ -8,10 +9,21 @@ export interface ConfigDeviceOverlayProps {
 
 export interface ConfigDeviceOverlayState {}
 
+
 class ConfigDeviceOverlay extends React.Component<
   ConfigDeviceOverlayProps,
   ConfigDeviceOverlayState
 > {
+
+  private deviceIdInput:React.RefObject<HTMLInputElement>;
+
+  constructor(props:ConfigDeviceOverlayProps){
+    super(props);
+    this.deviceIdInput = React.createRef();
+  }
+
+  const getDeviceId = this.deviceIdInput.current.value;
+  
   render() {
     return (
       this.props.st && (
@@ -21,13 +33,17 @@ class ConfigDeviceOverlay extends React.Component<
             <label className="b4-u-continue">Before you continue...</label>
             <div className="text-message">
               <p>
-                It seems like you haven't configured your device yet. Would you
-                like to set it up now?{" "}
+                It seems like you haven't configured your device yet.{" "}
               </p>
+              Enter Device ID : <input id="device-id" type="text" ref = {ref => this.deviceIdInput}/>
             </div>
 
             <div className="btns">
-              <button className="overlay-btns" id="now">
+              <button
+                onClick = {() => setupMedicalDevice(this.deviceIdInput.current.value)}
+                className="overlay-btns" 
+                id="now"
+              >
                 Setup Now
               </button>{" "}
               &nbsp;

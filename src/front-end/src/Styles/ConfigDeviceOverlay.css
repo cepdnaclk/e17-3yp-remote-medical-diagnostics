@@ -23,6 +23,10 @@
   background: rgba(49, 49, 49, 0.8);
 }
 
+.config-device {
+  height: 33%
+}
+
 .b4-u-continue {
   height: 50px;
   width: 370px;
@@ -48,6 +52,7 @@
   position: relative;
   top: 36px;
   left: 200px;
+  padding-top: 10px;
 }
 
 .overlay-btns {
@@ -66,3 +71,6 @@
   color: #2671e9;
   background-color: white;
 }
+
+
+/*Config device textbox*/
