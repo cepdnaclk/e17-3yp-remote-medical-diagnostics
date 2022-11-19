@@ -39,7 +39,7 @@ class ConfigDeviceOverlay extends React.Component<
     this.setState({
       deviceConnectedStatus: true,
     });
-    setTimeout(() => this.props.closePopup(), 3000);
+    setTimeout(() => this.props.closePopup(), 2000);
   };
 
   render() {
