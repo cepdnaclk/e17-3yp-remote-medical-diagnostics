@@ -21,6 +21,9 @@ services:
       - REFRESH_TOKEN_TTL
       - PRIVATE_KEY
       - PUBLIC_KEY
+      - MQTT_BROKER_URL
+      - MQTT_USERNAME
+      - MQTT_PASSWORD
     depends_on:
       - mongo
     restart: on-failure
