@@ -17,6 +17,8 @@ float getTemperature()
     Serial.print("Temperature: ");
     Serial.print(tempC); // print the temperature
     Serial.print("°C");
+    Serial.print("  adc val: ");
+    Serial.print(adcVal); // print the temperature
 
     return tempC;
 }

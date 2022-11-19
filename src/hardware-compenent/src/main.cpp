@@ -1,45 +1,65 @@
 #include "mqttHandler.h"
 #include "wifiConnectionHandler.h"
-#include "temperatureSensorHandler.h"
+// #include <HTTPClient.h>
 
-const int temperatureSensorTriggerPin = 2; // the number of the pushbutton pin
-const int PIN_push_button = 13;            // the number of the pushbutton pin
+// const int temperatureSensorTriggerPin = 2; // the number of the pushbutton pin
+const int PIN_push_button = 13; // the number of the pushbutton pin
 const int PIN_led = 26;
+const int PIN_LM35 = 36;
 
 extern PubSubClient client;
-
+// HTTPClient http;
+// String backend = "http://medgenie.uaudith.eu.org";
+String backend = "http://10.30.5.28:3000/";
 int is_paired = 0;
-void temperatureSensor_ISR()
-{
-  publishMessage(getTemperature());
-}
+int take_tempertaure = 0;
+// void temperatureSensor_ISR()
+// {
+// }
 
-void pushButton_ISR()
+void handlePushButton()
 {
-  if (is_paired == 1)
+  static unsigned long last_interrupt_time = 0;
+  unsigned long interrupt_time = millis();
+  // If interrupts come faster than 200ms, assume it's a bounce and ignore
+  if (interrupt_time - last_interrupt_time > 1000)
   {
-    digitalWrite(PIN_led, LOW);
-    confirm();
+    if (is_paired == 1)
+    {
+      Serial.print("pushbutton ISR");
+      digitalWrite(PIN_led, LOW);
+      confirm();
+    }
+    last_interrupt_time = interrupt_time;
   }
 }
+
 void setup()
 {
   // connect to the wifi with the credentials in eeprom
   // fall back to smartConfig upon faliure
   connectWiFi();
 
+  // http.begin(backend.c_str());
+  // http.addHeader("Content-Type", "text/plain");
+
+  // http.POST("connecting to MQTT server");
   // connect with AWS IoT core with certificate based authentication
   client = connectAWS();
 
   // temperature sensor trigger
-  pinMode(temperatureSensorTriggerPin, INPUT);
+  pinMode(PIN_LM35, INPUT);
   pinMode(PIN_push_button, INPUT);
-  attachInterrupt(0, temperatureSensor_ISR, CHANGE);
-  attachInterrupt(0, pushButton_ISR, CHANGE);
+  pinMode(PIN_led, OUTPUT);
 }
 
 void loop()
 {
   // put your main code here, to run repeatedly:
   client.loop();
+  // delay(520);
+  if (digitalRead(PIN_push_button))
+  {
+    handlePushButton();
+  }
 }

@@ -1,4 +1,6 @@
 #include "secrets.h"
+#include "temperatureSensorHandler.h"
+#include "mqttHandler.h"
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <WiFiClientSecure.h>
@@ -6,6 +8,7 @@
 extern const int PIN_led = 26;
 
 extern int is_paired;
+extern int take_tempertaure;
 WiFiClient net;
 PubSubClient client(net);
 
@@ -37,8 +40,16 @@ void controller(char *topic, char *message)
     if (strcmp(topic, topic_pair) == 0)
     {
         is_paired = parse(message);
-        Serial.println("paired");
+        Serial.print("paired:");
+        Serial.println(is_paired);
         digitalWrite(PIN_led, HIGH);
+    }
+    if (strcmp(topic, topic_get_temp) == 0)
+    {
+        take_tempertaure = parse(message);
+        Serial.print("take temperature:");
+        Serial.println(take_tempertaure);
+        publishMessage(getTemperature());
     }
 }
 
@@ -47,7 +58,7 @@ void callback(char *topic, byte *payload, unsigned int length)
     char *message = new char[length];
 
     Serial.print("Message arrived in topic: ");
-    Serial.println(topic);
+    Serial.println(F(topic));
     Serial.print("Message:");
 
     for (int i = 0; i < length; i++)
@@ -85,9 +96,9 @@ PubSubClient connectAWS()
         }
     }
     client.subscribe(topic_pair);
+    client.subscribe(topic_get_temp);
     Serial.print("subscribed to topic :");
-    Serial.println(topic_pair);
-    client.publish(topic_pair, "im in");
+    Serial.println(F(topic_pair));
 
     return client;
 }
@@ -95,9 +106,7 @@ PubSubClient connectAWS()
 void publishMessage(float temperature)
 {
     StaticJsonDocument<200> doc;
-    doc["time"] = millis();
     doc["temperature"] = temperature;
-    doc["id"] = deviceUUID;
     char jsonBuffer[512];
     serializeJson(doc, jsonBuffer);
 
@@ -106,12 +115,10 @@ void publishMessage(float temperature)
 
 void confirm()
 {
-    DynamicJsonDocument doc(1024);
+    StaticJsonDocument<200> doc;
     doc["state"] = 1;
-    char buffer[256];
-    serializeJson(doc, buffer);
+    char jsonBuffer[512];
+    serializeJson(doc, jsonBuffer);
 
-    // Publish an MQTT message on topic esp32/OutputControl
-    uint16_t packetIdPub1 = client.publish(topic_confirm, buffer);
-    Serial.printf("Publishing on topic %s at QoS 1, packetId: %i", topic_confirm, packetIdPub1);
+    client.publish(topic_confirm, jsonBuffer);
 }
