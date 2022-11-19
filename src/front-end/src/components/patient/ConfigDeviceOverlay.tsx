@@ -1,7 +1,6 @@
 import * as React from "react";
 import { setupMedicalDevice } from "../../model/configureDevice";
 import "../../Styles/ConfigDeviceOverlay.css";
-import Store from "../../store/Store"
 
 export interface ConfigDeviceOverlayProps {
   st: boolean;
@@ -9,21 +8,20 @@ export interface ConfigDeviceOverlayProps {
 }
 
 export interface ConfigDeviceOverlayState {
-  deviceID : string;
+  deviceID: string;
   settingUpDevice: boolean;
+  deviceConnectedStatus: boolean;
 }
-
 
 class ConfigDeviceOverlay extends React.Component<
   ConfigDeviceOverlayProps,
   ConfigDeviceOverlayState
 > {
-  
   state = {
-    deviceID : "",
-    settingUpDevice : false,
+    deviceID: "",
+    settingUpDevice: false,
+    deviceConnectedStatus: false,
   };
-
 
   handleDeviceIdChange = (e: React.FormEvent<HTMLInputElement>): void => {
     this.setState({
@@ -31,10 +29,21 @@ class ConfigDeviceOverlay extends React.Component<
     });
   };
 
-  render() {
+  handleSetupNowButtonClick = (): void => {
+    this.setState({
+      settingUpDevice: true,
+    });
+  };
 
-    const {deviceID, settingUpDevice} = this.state;
-    const deviceStatus = Store.getState().device.setupComplete;
+  handleDeviceConnectedStatus = (): void => {
+    this.setState({
+      deviceConnectedStatus: true,
+    });
+    setTimeout(() => this.props.closePopup(), 3000);
+  };
+
+  render() {
+    const { deviceID, settingUpDevice, deviceConnectedStatus } = this.state;
     return (
       this.props.st && (
         <div className="modl">
@@ -42,27 +51,58 @@ class ConfigDeviceOverlay extends React.Component<
           <div className="config-device">
             <label className="b4-u-continue">Before you continue...</label>
             <div className="text-message">
-              <p>
-                It seems like you haven't configured your device yet.{" "}
-              </p>
-              <div className = "device-id-setup">
+              <p>It seems like you haven't configured your device yet. </p>
+              <div className="device-id-setup">
                 <div id="device-id-float">
-                  Enter Device ID : <input id="device-id" type="text" onChange={this.handleDeviceIdChange} />
+                  Enter Device ID :{" "}
+                  <input
+                    id="device-id"
+                    type="text"
+                    onChange={this.handleDeviceIdChange}
+                    disabled={settingUpDevice}
+                  />
                 </div>
-                {settingUpDevice && !deviceStatus && <div className="device-id-float" id="loader"></div>}
+                {settingUpDevice && !deviceConnectedStatus && (
+                  <div className="device-id-float" id="loader"></div>
+                )}
+                {deviceConnectedStatus && (
+                  <div className="wrapper">
+                    <svg
+                      className="checkmark"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 52 52"
+                    >
+                      {" "}
+                      <circle
+                        className="checkmark__circle"
+                        cx="26"
+                        cy="26"
+                        r="25"
+                        fill="none"
+                      />{" "}
+                      <path
+                        className="checkmark__check"
+                        fill="none"
+                        d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                      />
+                    </svg>
+                  </div>
+                )}
               </div>
             </div>
 
             <div className="btns">
               <button
-                onClick = {
-                  () => {
-                    this.setState({settingUpDevice:true})
-                    setupMedicalDevice(deviceID)
-                  }
-                }
-                className="overlay-btns" 
+                onClick={() => {
+                  this.handleSetupNowButtonClick();
+                  setupMedicalDevice(
+                    deviceID,
+                    this.handleDeviceConnectedStatus
+                  );
+                }}
+                className="overlay-btns"
                 id="now"
+                disabled={settingUpDevice}
               >
                 Setup Now
               </button>{" "}
@@ -71,8 +111,11 @@ class ConfigDeviceOverlay extends React.Component<
                 onClick={this.props.closePopup}
                 className="overlay-btns"
                 id="later"
+                style={
+                  settingUpDevice ? { color: "red" } : { color: "#2671e9" }
+                }
               >
-                Maybe Later
+                {settingUpDevice ? "Cancel" : "Maybe Later"}
               </button>
             </div>
           </div>

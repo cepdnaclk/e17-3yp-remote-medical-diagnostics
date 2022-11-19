@@ -39,8 +39,8 @@ class PatientHome extends React.Component<PatientHomeProps, PatientHomeState> {
       <>
         <PatientHomeSearchDoctor />
         <ConfigDeviceOverlay
-          // st={this.state.modal}
-          st = {true}
+          st={this.state.modal}
+          // st={true}
           closePopup={this.closePopup}
         />
       </>
