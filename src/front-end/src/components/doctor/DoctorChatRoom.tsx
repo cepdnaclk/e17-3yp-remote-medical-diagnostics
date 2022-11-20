@@ -249,8 +249,7 @@ const DoctorChatRoom = () => {
           <div className="vid-remote-d">
             <Card style={{ width: "650px", height: "510px" }}>
               <Card.Title>Patient</Card.Title>
-              {<video id="callerVideo-d" ref={callerVideo} autoPlay />}
-
+              <video id="callerVideo-d" ref={callerVideo} autoPlay />
               <div className="vid-local-d">
                 <Card>
                   {/* <Card.Title style={{width:"50px"}}>You</Card.Title> */}
@@ -302,15 +301,15 @@ const DoctorChatRoom = () => {
             </Card>
           </div>
         )}
-        {callAccepted && !callEnded && (
-          <Card>
-            <TextField></TextField>
-            {/* TODO: send prescription*/}
-            <Button className="btn btn-primary">Send</Button>
-          </Card>
-        )}
-        {sockIdSet && !callAccepted && !sockIdUpdated && (
-          <Card>
+        <Card>
+          {callAccepted && !callEnded && (
+            <Card>
+              <TextField></TextField>
+              {/* TODO: send prescription*/}
+              <Button className="btn btn-primary">Send</Button>
+            </Card>
+          )}
+          {sockIdSet && !callAccepted && !sockIdUpdated && (
             <table className="table" style={{ width: "50", margin: 0 }}>
               <thead>
                 <tr>
@@ -343,45 +342,48 @@ const DoctorChatRoom = () => {
                 })}
               </tbody>
             </table>
+          )}
+          <div className="temp-audio">
+            {/* Temperature*/}
+            <table className="table" style={{ width: "50", margin: 0 }}>
+              <tbody>
+                <th>Temperature</th>
 
-            <div className="temp-audio">
-              {/* Temperature*/}
-              <table className="table" style={{ width: "50", margin: 0 }}>
-                <tbody>
-                  <th>Temperature</th>
+                <tr>
+                  <td>
+                    <Button
+                      className="btn btn-primary"
+                      onClick={() => getSocket().emit("temperature", {})}
+                    >
+                      Get Temperature
+                    </Button>
+                  </td>
+                </tr>
+                <tr id="thermometer-icon">
+                  <td>
+                    <Thermometer /> : {temperature || 0} °C
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-                  <tr>
-                    <td>
-                      <Button
-                        className="btn btn-primary"
-                        onClick={() => getSocket().emit("temperature", {})}
-                      >
-                        Get Temperature
-                      </Button>
-                    </td>
-                  </tr>
-                  <tr id="thermometer-icon">
-                    <td>
-                      <Thermometer /> : {temperature || 0} °C
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            {/* Audio Player */}
+            <table className="table" style={{ width: "50", margin: 0 }}>
+              <tbody>
+                <th>Chest Sound</th>
+                <tr>
+                  <td>
+                    <AudioPlayer
+                      autoPlay
+                      src="../../../audio/heart-sounds.mp3"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Card>
 
-              {/* Audio Player */}
-              <table className="table" style={{ width: "50", margin: 0 }}>
-                <tbody>
-                  <th>Chest Sound</th>
-                  <tr>
-                    <td>
-                      <AudioPlayer />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Card>
-        )}
         {callingUser && !callAccepted && (
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <h1>Calling patient ... </h1>
