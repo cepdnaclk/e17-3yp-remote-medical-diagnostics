@@ -1,4 +1,6 @@
 #include "secrets.h"
+#include "temperatureSensorHandler.h"
+#include "mqttHandler.h"
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <WiFiClientSecure.h>
@@ -6,8 +8,19 @@
 extern const int PIN_led = 26;
 
 extern int is_paired;
+extern int take_tempertaure;
 WiFiClient net;
 PubSubClient client(net);
+
+void logger(char *message)
+{
+    StaticJsonDocument<200> doc;
+    doc["logs"] = message;
+    char jsonBuffer[1024];
+    serializeJson(doc, jsonBuffer);
+
+    client.publish(topic_logs, jsonBuffer);
+}
 
 int parse(char *message)
 {
@@ -20,7 +33,7 @@ int parse(char *message)
     // Test if parsing succeeds.
     if (error)
     {
-        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(F("deserializeJson() failed: "));
         Serial.println(error.f_str());
         return 0;
     }
@@ -37,8 +50,31 @@ void controller(char *topic, char *message)
     if (strcmp(topic, topic_pair) == 0)
     {
         is_paired = parse(message);
-        Serial.println("paired");
-        digitalWrite(PIN_led, HIGH);
+        if (is_paired)
+        {
+            Serial.println("paired:");
+            logger("pair req");
+            Serial.println(is_paired);
+            digitalWrite(PIN_led, HIGH);
+        }
+    }
+    if (strcmp(topic, topic_get_temp) == 0)
+    {
+        take_tempertaure = parse(message);
+        if (take_tempertaure)
+        {
+            Serial.println("take temperature:");
+            Serial.println(take_tempertaure);
+            logger("take temp");
+            publishMessage(getTemperature());
+            for (char i = 0; i < 5; i++)
+            {
+                digitalWrite(PIN_led, HIGH);
+                delay(250);
+                digitalWrite(PIN_led, LOW);
+                delay(250);
+            }
+        }
     }
 }
 
@@ -46,14 +82,18 @@ void callback(char *topic, byte *payload, unsigned int length)
 {
     char *message = new char[length];
 
-    Serial.print("Message arrived in topic: ");
-    Serial.println(topic);
-    Serial.print("Message:");
+    Serial.println("Message arrived in topic: ");
+    Serial.print(F(topic));
+    Serial.println("Message:");
 
     for (int i = 0; i < length; i++)
     {
         message[i] = (char)payload[i];
     }
+    client.subscribe(topic_pair);
+    Serial.print("subscribed to topic :");
+    Serial.println(topic_pair);
+    client.publish(topic_pair, "im in");
 
     Serial.println(message);
     Serial.println();
@@ -85,9 +125,10 @@ PubSubClient connectAWS()
         }
     }
     client.subscribe(topic_pair);
-    Serial.print("subscribed to topic :");
-    Serial.println(topic_pair);
-    client.publish(topic_pair, "im in");
+    client.subscribe(topic_get_temp);
+    client.subscribe(topic_logs);
+    Serial.println("subscribed to topic :");
+    Serial.println(F(topic_pair));
 
     return client;
 }
@@ -95,9 +136,7 @@ PubSubClient connectAWS()
 void publishMessage(float temperature)
 {
     StaticJsonDocument<200> doc;
-    doc["time"] = millis();
     doc["temperature"] = temperature;
-    doc["id"] = deviceUUID;
     char jsonBuffer[512];
     serializeJson(doc, jsonBuffer);
 
@@ -106,12 +145,10 @@ void publishMessage(float temperature)
 
 void confirm()
 {
-    DynamicJsonDocument doc(1024);
+    StaticJsonDocument<200> doc;
     doc["state"] = 1;
-    char buffer[256];
-    serializeJson(doc, buffer);
+    char jsonBuffer[512];
+    serializeJson(doc, jsonBuffer);
 
-    // Publish an MQTT message on topic esp32/OutputControl
-    uint16_t packetIdPub1 = client.publish(topic_confirm, buffer);
-    Serial.printf("Publishing on topic %s at QoS 1, packetId: %i", topic_confirm, packetIdPub1);
+    client.publish(topic_confirm, jsonBuffer);
 }
