@@ -1,0 +1,20 @@
+{
+  "folders": [
+	{
+		"path": "../../.."
+	},
+	{
+		"name": "hardware-compenent",
+		"path": ".."
+	},
+	{
+		"name": "controller-node",
+		"path": "../../../../e17-co326-Smart-Building/Group_C/scripts/controller-node"
+	},
+	{
+		"name": "Testing",
+		"path": "C:/Users/kavin/OneDrive/Documents/PlatformIO/Projects/Testing"
+	}
+],
+  "settings": {}
+}
