@@ -3,6 +3,7 @@ import { Server } from "socket.io";
 import http from "http";
 import send_pair_to_device from "../mqtt/send_pair_to_device";
 import { add_listener } from "../mqtt/client";
+import mqtt_client from "../mqtt/client";
 
 let socketCredentials: { [key: string]: string } = {};
 const email_device_mapping: { [key: string]: string } = {};
@@ -84,8 +85,10 @@ export default function createSocketServer(server: http.Server) {
     // when doctor asks for the temperature
     socket.on("temperature", () => {
       console.log("doctor asking for temperature");
+      const buf = Buffer.from(JSON.stringify({ state: 1 }));
+      mqtt_client.publish(`medgenie/&Iv05T/getTemp`, buf);
 
-      add_listener("medgenie/1234/temperature", (msg) => {
+      add_listener("medgenie/&Iv05T/temperature", (msg) => {
         // emit to the browser, that pairing is successful
         console.log("new temperature from patient");
 

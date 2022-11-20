@@ -32,7 +32,7 @@ void connectWiFi()
     Serial.println("trying with the stored credentials");
 
     WiFi.begin(storedSsid.c_str(), storedPassword.c_str());
-    for (int i = 0; i < 150 && WiFi.status() != WL_CONNECTED && storedSsid.length() != 0; i++)
+    for (int i = 0; i < 10 && WiFi.status() != WL_CONNECTED && storedSsid.length() != 0; i++)
     {
         delay(500);
         Serial.print(".");
