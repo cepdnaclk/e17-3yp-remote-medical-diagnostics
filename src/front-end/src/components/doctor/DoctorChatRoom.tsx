@@ -344,40 +344,42 @@ const DoctorChatRoom = () => {
               </tbody>
             </table>
 
-            {/* Temperature*/}
-            <table className="table" style={{ width: "50", margin: 0 }}>
-              <tbody>
-                <th>Temperature</th>
+            <div className="temp-audio">
+              {/* Temperature*/}
+              <table className="table" style={{ width: "50", margin: 0 }}>
+                <tbody>
+                  <th>Temperature</th>
 
-                <tr>
-                  <td>
-                    <Button
-                      className="btn btn-primary"
-                      onClick={() => getSocket().emit("temperature", {})}
-                    >
-                      Get Temperature
-                    </Button>
-                  </td>
-                </tr>
-                <tr id="thermometer-icon">
-                  <td scope="col">
-                    <Thermometer /> : {temperature || 0} °C
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                  <tr>
+                    <td>
+                      <Button
+                        className="btn btn-primary"
+                        onClick={() => getSocket().emit("temperature", {})}
+                      >
+                        Get Temperature
+                      </Button>
+                    </td>
+                  </tr>
+                  <tr id="thermometer-icon">
+                    <td>
+                      <Thermometer /> : {temperature || 0} °C
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
-            {/* Audio Player */}
-            <table className="table" style={{ width: "50", margin: 0 }}>
-              <tbody>
-                <th>Captured Audio</th>
-                <tr>
-                  <td scope="col">
-                    <AudioPlayer />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              {/* Audio Player */}
+              <table className="table" style={{ width: "50", margin: 0 }}>
+                <tbody>
+                  <th>Chest Sound</th>
+                  <tr>
+                    <td>
+                      <AudioPlayer />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </Card>
         )}
         {callingUser && !callAccepted && (
