@@ -89,6 +89,7 @@ class AddDoctor extends React.Component<AddDoctorProps,AddDoctorState> {
     if (name.length < 200) {
         try {
           console.log(await addDoctor(userData));
+          alert("Created account successfully")
         } catch (error) {
           console.log(error);
         }

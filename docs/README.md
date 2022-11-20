@@ -41,7 +41,7 @@ title:
 
 7. [Project Timeline](#project-timeline)
 
-8. [Conclusion (will be available after testing)](#conclusion)
+8. [Conclusion](#conclusion)
 
 9. [Supervisors](#supervisors)
 
@@ -52,7 +52,7 @@ title:
 ## Introduction
 
 <div class="embed-responsive embed-responsive-16by9">
-<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/ErDjIRsoetE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
+<iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/pfpT5tHpjzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
 </div>
   
   
@@ -90,7 +90,7 @@ As an individual patient one simply have to sign up and log on to our system to 
 
 ![high level diagram](./images/high-level-diagram.png)
 
-This diagram shows how components in our system connect with each other. The device that assists the diagnostics takes two main measurements; heart/lung sounds and temperature. Support for additional peripherals that are used to measure glucose levels in the blood, blood pressure is available. These are the information a doctor usually takes to diagnose a patient initially, most of the medical centers do not have complex and expensive machinery with them unless it is a fully-fledged hospital that treats inpatients. This is because they are not needed for most of the common sicknesses that patients take medicine every day. Our device takes these common measurements, therefore, saves the vast majority of hospital trips people need to take. There is some portion of diseases that require laboratory test results and inner body images which our device does not support. But for reviewing those lab results and blood works this system can be used easily. 
+This diagram shows how components in our system connect with each other. The device that assists the diagnostics takes two main measurements; heart/lung sounds and temperature. Support for additional peripherals that are used to measure glucose levels in the blood, blood pressure is available. These are the information a doctor usually takes to diagnose a patient initially, most of the medical centers do not have complex and expensive machinery with them unless it is a fully-fledged hospital that treats inpatients. This is because they are not needed for most of the common sicknesses that patients take medicine every day. Our device takes these common measurements, therefore, saves the vast majority of hospital trips people need to take. There is some portion of diseases that require laboratory test results and inner body images which our device does not support. But for reviewing those lab results and blood works this system can be used easily.
 &nbsp;
 
 The online platform provides userfriendly interfaces that include the following functionality for each user type:
@@ -128,7 +128,6 @@ Apart from the information about the users, scheduling times, metadata, and stat
 <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/-WBMsB9ggEM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen> </iframe>
 </div>
 
-
 The device is completely wireless, WiFi is used to do data communication (can connect with a smartphone/computer without manual configuration).&nbsp;
 
 Powered with Li-ion rechargeable batteries. There are two inbuilt sensors; a temperature sensor and a microphone (stethoscope). &nbsp;
@@ -159,6 +158,7 @@ An on/off switch is available to power down the device
   - 4V - 30V (operating voltage)
 
 - **Amplifier**
+
   - To increase signal-to-noise ratio and also as a unity gain buffer
   - Features excellent power supply rejection ratio (112 dB)
   - Excellent common-mode rejection ratio (126 dB)
@@ -186,6 +186,11 @@ The following diagrams show the proposed designs for the prototype device:
 
 - **3D Circuit Model**
   ![circuit-3d-model](./images/3D-model.png)
+
+- **CAD Designs**
+  ![cad-designs](./images/cad1.png)
+  ![cad-designs](./images/cad2.png)
+  ![cad-designs](./images/cad3.png)
 
 - **Design Decisions**
   - I2C interface is utilized to allow connectivity for most of the common sphygmomanometers (blood pressure monitors)
@@ -289,9 +294,9 @@ All items and costs according to the current plan: (might change in the future)
 | LM35 Temperature Sensor          |    1     |       110       |         110 |
 | 3.7V Li-ion Rechargeable Battery |    2     |       200       |         400 |
 | Max17048 Cell Fuel Gauge         |    1     |       500       |         500 |
-| AMS1117-3.3 Voltage Regulator    |    1     |        10       |          10 |
+| AMS1117-3.3 Voltage Regulator    |    1     |       10        |          10 |
 | Logic Level Converter            |    1     |       135       |         135 |
-| Condenser mic CA0106             |    1     |        20       |          20 |
+| Condenser mic CA0106             |    1     |       20        |          20 |
 | Stethoscope                      |    1     |       840       |         840 |
 | Others                           |          |                 |        2000 |
 |                                  |          |      TOTAL      |        5515 |
@@ -307,19 +312,37 @@ All items and costs according to the current plan: (might change in the future)
 
 ## Conclusion
 
-<!--
-What was achieved:
+### What was achieved:
 
-Future developments:
-    Getting drugs delivered to the patient's house.
+- Making appointments online.
+- Video Consultation.
+- A diagnostics device that reads commonly needed measurements
+  - Temperature sensing ( 0.5°C tolerance)
+  - Ability to handle the device via software and hardware.
+- Real-Time measurements.
+- Getting valid prescription scripts from the doctor
+- Privacy and Confidentiality
+- Patient history and other analytics
+- User experiences and reviews for a doctor
 
-Commercialization plans:
-    Make the device free for the first customers who use the system.  -->
+### Future developments:
+
+- Getting drugs delivered to the patient's house.
+- Heartbeat sensing (clear audio with little to no background noise)
+- Cryptographically signed prescriptions
+- Delivering Medication to the patient’s house
+- Support for additional peripherals (blood pressure/ glucose)
+
+### Commercialization plans:
+
+Make the device free for the first customers who use the system.
 
 ## Links
 
 - [Project Repository](https://github.com/cepdnaclk/e17-3yp-remote-medical-diagnostics)
 - [Project Page](https://cepdnaclk.github.io/e17-3yp-remote-medical-diagnostics/)
+- [User Manual](https://docs.google.com/document/d/e/2PACX-1vSRtcUyuNdlQzWalFb45kb_3cyz2dcQfvdgun57Gmhf5ibbN7DM6rbT12FBoShFb77Ehurevf_M--d5/pub)
+- [Design Manual](https://docs.google.com/document/d/e/2PACX-1vQ7OJsnYiYfa9hUaOcsdauuv5Rf9TTUXUCjEMDarDxM2Pp7npf7md6MwwmuIHKpA-6C3hsNcmhqd2gW/pub)
 - [Survey Results](https://docs.google.com/forms/d/1sDb781OPwRVMzDbYPuDZniuY1GsKrwd6tm7-NLvUVZU/viewanalytics)
 - [Department of Computer Engineering](http://www.ce.pdn.ac.lk/)
 - [University of Peradeniya](https://eng.pdn.ac.lk/)
