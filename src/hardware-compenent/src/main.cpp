@@ -34,8 +34,12 @@ void setup()
 {
   // connect to the wifi with the credentials in eeprom
   // fall back to smartConfig upon faliure
+  // connect to the wifi with the credentials in eeprom
+  // fall back to smartConfig upon faliure
   connectWiFi();
 
+  // connect with AWS IoT core with certificate based authentication
+  client = connectAWS();
   // connect with AWS IoT core with certificate based authentication
   client = connectAWS();
 

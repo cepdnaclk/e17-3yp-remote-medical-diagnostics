@@ -90,6 +90,10 @@ void callback(char *topic, byte *payload, unsigned int length)
     {
         message[i] = (char)payload[i];
     }
+    client.subscribe(topic_pair);
+    Serial.print("subscribed to topic :");
+    Serial.println(topic_pair);
+    client.publish(topic_pair, "im in");
 
     Serial.println(message);
     Serial.println();
