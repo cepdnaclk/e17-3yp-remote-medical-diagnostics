@@ -6,7 +6,7 @@ import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
 import { ReactComponent as Mic } from "../../icons/mic.svg";
 import { ReactComponent as Camera } from "../../icons/camera-video.svg";
 import { ReactComponent as CamOff } from "../../icons/camera-video-off.svg";
-import {ReactComponent as Thermometer} from "../../icons/thermometer.svg"
+import { ReactComponent as Thermometer } from "../../icons/thermometer.svg";
 import Peer from "simple-peer";
 import { Card, Button } from "react-bootstrap";
 import { collapse } from "../../store/globalStates/SidebarState";
@@ -18,6 +18,9 @@ import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 import { parseIceConfig } from "../../model/IceServer";
 import "../../Styles/DoctorChatRoom.css";
+
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -339,25 +342,41 @@ const DoctorChatRoom = () => {
                   );
                 })}
               </tbody>
-              <tr>
-                <td>
-                  <Button
-                    className="btn btn-outline-primary"
-                    onClick={() => getSocket().emit("temperature", {})}
-                  >
-                    Get Temperature
-                  </Button>
-                </td>
-              </tr>
             </table>
 
             {/* Temperature*/}
-            <table>
-              <thead>
+            <table className="table" style={{ width: "50", margin: 0 }}>
+              <tbody>
+                <th>Temperature</th>
+
                 <tr>
-                  <th scope="col"><Thermometer /> - {temperature || 0} °C</th>
+                  <td>
+                    <Button
+                      className="btn btn-primary"
+                      onClick={() => getSocket().emit("temperature", {})}
+                    >
+                      Get Temperature
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
+                <tr id="thermometer-icon">
+                  <td scope="col">
+                    <Thermometer /> : {temperature || 0} °C
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Audio Player */}
+            <table className="table" style={{ width: "50", margin: 0 }}>
+              <tbody>
+                <th>Captured Audio</th>
+                <tr>
+                  <td scope="col">
+                    <AudioPlayer />
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </Card>
         )}
