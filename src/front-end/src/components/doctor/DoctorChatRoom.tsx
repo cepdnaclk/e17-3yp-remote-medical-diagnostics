@@ -6,7 +6,7 @@ import { ReactComponent as Mute } from "../../icons/mic-mute.svg";
 import { ReactComponent as Mic } from "../../icons/mic.svg";
 import { ReactComponent as Camera } from "../../icons/camera-video.svg";
 import { ReactComponent as CamOff } from "../../icons/camera-video-off.svg";
-import {ReactComponent as Thermometer} from "../../icons/thermometer.svg"
+import { ReactComponent as Thermometer } from "../../icons/thermometer.svg";
 import Peer from "simple-peer";
 import { Card, Button } from "react-bootstrap";
 import { collapse } from "../../store/globalStates/SidebarState";
@@ -18,6 +18,9 @@ import client from "../../httpClient";
 import { TextField } from "@material-ui/core";
 import { parseIceConfig } from "../../model/IceServer";
 import "../../Styles/DoctorChatRoom.css";
+
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 const DoctorChatRoom = () => {
   const dispatch = useDispatch();
@@ -246,8 +249,7 @@ const DoctorChatRoom = () => {
           <div className="vid-remote-d">
             <Card style={{ width: "650px", height: "510px" }}>
               <Card.Title>Patient</Card.Title>
-              {<video id="callerVideo-d" ref={callerVideo} autoPlay />}
-
+              <video id="callerVideo-d" ref={callerVideo} autoPlay />
               <div className="vid-local-d">
                 <Card>
                   {/* <Card.Title style={{width:"50px"}}>You</Card.Title> */}
@@ -299,15 +301,15 @@ const DoctorChatRoom = () => {
             </Card>
           </div>
         )}
-        {callAccepted && !callEnded && (
-          <Card>
-            <TextField></TextField>
-            {/* TODO: send prescription*/}
-            <Button className="btn btn-primary">Send</Button>
-          </Card>
-        )}
-        {sockIdSet && !callAccepted && !sockIdUpdated && (
-          <Card>
+        <Card>
+          {callAccepted && !callEnded && (
+            <Card>
+              <TextField></TextField>
+              {/* TODO: send prescription*/}
+              <Button className="btn btn-primary">Send</Button>
+            </Card>
+          )}
+          {sockIdSet && !callAccepted && !sockIdUpdated && (
             <table className="table" style={{ width: "50", margin: 0 }}>
               <thead>
                 <tr>
@@ -339,28 +341,49 @@ const DoctorChatRoom = () => {
                   );
                 })}
               </tbody>
-              <tr>
-                <td>
-                  <Button
-                    className="btn btn-outline-primary"
-                    onClick={() => getSocket().emit("temperature", {})}
-                  >
-                    Get Temperature
-                  </Button>
-                </td>
-              </tr>
+            </table>
+          )}
+          <div className="temp-audio">
+            {/* Temperature*/}
+            <table className="table" style={{ width: "50", margin: 0 }}>
+              <tbody>
+                <th>Temperature</th>
+
+                <tr>
+                  <td>
+                    <Button
+                      className="btn btn-primary"
+                      onClick={() => getSocket().emit("temperature", {})}
+                    >
+                      Get Temperature
+                    </Button>
+                  </td>
+                </tr>
+                <tr id="thermometer-icon">
+                  <td>
+                    <Thermometer /> : {temperature || 0} °C
+                  </td>
+                </tr>
+              </tbody>
             </table>
 
-            {/* Temperature*/}
-            <table>
-              <thead>
+            {/* Audio Player */}
+            <table className="table" style={{ width: "50", margin: 0 }}>
+              <tbody>
+                <th>Chest Sound</th>
                 <tr>
-                  <th scope="col"><Thermometer /> - {temperature || 0} °C</th>
+                  <td>
+                    <AudioPlayer
+                      autoPlay
+                      src="../../../audio/heart-sounds.mp3"
+                    />
+                  </td>
                 </tr>
-              </thead>
+              </tbody>
             </table>
-          </Card>
-        )}
+          </div>
+        </Card>
+
         {callingUser && !callAccepted && (
           <div style={{ display: "flex", justifyContent: "space-around" }}>
             <h1>Calling patient ... </h1>
